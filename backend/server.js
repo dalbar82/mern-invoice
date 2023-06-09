@@ -16,14 +16,14 @@ app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 
 app.get('/api/v1/test', (req, res) => {
-	res.json({ Hi: 'welcome to the invoice app' })
+	res.json({ Hi: 'welcome to the mern invoice app' })
 })
 
 const PORT = process.env.PORT || 1997
 
 app.listen(PORT, () => {
 	console.log(
-		`${chalk.green.bold('Success!!')} Server is running in ${chalk.yellow.bold(
+		`${chalk.green.bold('Success!!')} The server is running in ${chalk.yellow.bold(
 			process.env.NODE_ENV
 		)} mode on port ${chalk.blue.bold(PORT)}`
 	)
