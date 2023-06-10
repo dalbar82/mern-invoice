@@ -1,6 +1,6 @@
 const App = () => {
   return (
-    <div>App</div>
+    <div>Welcome to the Mern Invoice app!</div>
   )
 }
 
