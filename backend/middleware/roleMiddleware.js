@@ -20,7 +20,7 @@ const checkRole = (...allowedRoles) => {
 
 		if (!roleFound) {
 			res.status(401)
-			throw new Error('you are not authorised to use the platform')
+			throw new Error('you are not authorised to perform this request')
 		}
     next()
 	}

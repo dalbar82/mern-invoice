@@ -1,8 +1,8 @@
 import rateLimit from 'express-rate-limit'
-import { systemLogs } from '../utils/Logger.js'
+import { systemLogs } from '../utils/logger.js'
 
 export const apiLimiter = rateLimit({
-	window: 15 * 60 * 1000,
+	windowMs: 15 * 60 * 1000,
 	max: 100,
 	message: {
 		message:
@@ -19,7 +19,7 @@ export const apiLimiter = rateLimit({
 })
 
 export const loginLimiter = rateLimit({
-	window: 30 * 60 * 1000,
+	windowMs: 30 * 60 * 1000,
 	max: 20,
 	message: {
 		message:
