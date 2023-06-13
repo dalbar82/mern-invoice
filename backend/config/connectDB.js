@@ -5,7 +5,7 @@ import { systemLogs } from '../utils/logger.js'
 const connectionToDb = async () => {
 	try {
 		const connectionParams = {
-			dbname: process.env.DB_NAME,
+			dbName: process.env.DB_NAME,
 		}
 		const connect = await mongoose.connect(
 			process.env.MONGO_URI,
@@ -16,7 +16,6 @@ const connectionToDb = async () => {
 		)
 		systemLogs.info(`MongoDB Connected: ${connect.connection.host}`)
 	} catch (error) {
-		systemLogs.info(`MongoDB Error: ${error.message}`)
 		console.error(`${chalk.red.bold(`Error: ${error.message}`)}`)
 		process.exit(1)
 	}

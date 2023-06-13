@@ -7,6 +7,10 @@ const domainURL = process.env.DOMAIN
 
 const { randomBytes } = await import('crypto')
 
+// $-title   Register User and send email verification link
+// $-path    POST /api/v1/auth/register
+// $-auth    Public
+
 const registerUser = asyncHandler(async (req, res) => {
 	const { email, username, firstName, lastName, password, passwordConfirm } =
 		req.body
@@ -15,14 +19,16 @@ const registerUser = asyncHandler(async (req, res) => {
 		res.status(400)
 		throw new Error('An email address is required')
 	}
+
 	if (!username) {
 		res.status(400)
 		throw new Error('A username is required')
 	}
 	if (!firstName || !lastName) {
 		res.status(400)
-		throw new Error('First and last name required')
+		throw new Error('You must enter a full name with a first and last name')
 	}
+
 	if (!password) {
 		res.status(400)
 		throw new Error('You must enter a password')
@@ -37,7 +43,7 @@ const registerUser = asyncHandler(async (req, res) => {
 	if (userExists) {
 		res.status(400)
 		throw new Error(
-			'the email address you have entered is already associated with another account'
+			"The email address you've entered is already associated with another account"
 		)
 	}
 
@@ -81,7 +87,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
 		res.json({
 			success: true,
-			message: `A new user ${firstName} has been registered! A verification email has been sent to you account. Please verify within 15 minutes`,
+			message: `A new user ${registeredUser.firstName} has been registered! A Verification email has been sent to your account. Please verify within 15 minutes`,
 		})
 	}
 })
