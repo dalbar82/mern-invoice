@@ -3,9 +3,11 @@ import User from '../../models/userModel.js'
 import VerificationToken from '../../models/verifyResetTokenModel.js'
 import sendEmail from '../../utils/sendEmail.js'
 
-// $-title Verify user email
-// $-path Get /api/v1/auth/verify/:emailToken
-// $-auth Public
+const domainURL = process.env.DOMAIN
+
+// $-title   Verify User Email
+// $-path    GET /api/v1/auth/verify/:emailToken/:userId
+// $-auth    Public
 
 const verifyUserEmail = asyncHandler(async (req, res) => {
 	const user = await User.findOne({ _id: req.params.userId }).select(
@@ -35,7 +37,7 @@ const verifyUserEmail = asyncHandler(async (req, res) => {
 	await user.save()
 
 	if (user.isEmailVerified) {
-		const emailLink = `${domain}/login`
+		const emailLink = `${domainURL}/login`
 
 		const payload = {
 			name: user.firstName,

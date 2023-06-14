@@ -10,7 +10,7 @@ export const apiLimiter = rateLimit({
 	},
 	handler: (req, res, next, options) => {
 		systemLogs.error(
-			`Too many request: ${options.message.message}\t${req.method}\t${req.url}\t${req.headers.origin}`
+			`Too many requests: ${options.message.message}\t${req.method}\t${req.url}\t${req.headers.origin}`
 		)
 		res.status(options.statusCode).send(options.message)
 	},
@@ -27,7 +27,7 @@ export const loginLimiter = rateLimit({
 	},
 	handler: (req, res, next, options) => {
 		systemLogs.error(
-			`Too many request: ${options.message.message}\t${req.method}\t${req.url}\t${req.headers.origin}`
+			`Too many requests: ${options.message.message}\t${req.method}\t${req.url}\t${req.headers.origin}`
 		)
 		res.status(options.statusCode).send(options.message)
 	},
