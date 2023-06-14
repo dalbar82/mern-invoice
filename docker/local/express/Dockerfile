@@ -16,7 +16,7 @@ RUN addgroup --system invoice \
   && adduser --system --ingroup invoice invoice
 
 COPY package*.json ./
-RUN npm install 
+RUN npm install
 
 COPY --chown=invoice:invoice . ${APP_HOME}
 
@@ -24,4 +24,4 @@ RUN chown invoice:invoice ${APP_HOME}
 
 USER invoice
 
-CMD ["npm", "run", "dev"]
+CMD [ "npm","run","dev" ]

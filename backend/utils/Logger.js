@@ -26,7 +26,7 @@ export const systemLogs = createLogger({
 		}),
 	],
 	exceptionHandlers: [new transports.File({ filename: 'logs/exception.log' })],
-	rejectionHandlers: [new transports.File({ filename: 'logs/rejection.log' })],
+	rejectionHandlers: [new transports.File({ filename: 'logs/rejections.log' })],
 })
 
 export const morganMiddleware = morgan(
@@ -43,7 +43,7 @@ export const morganMiddleware = morgan(
 		stream: {
 			write: (message) => {
 				const data = JSON.parse(message)
-				systemLogs.http('incoming-request', data)
+				systemLogs.http(`incoming-request`, data)
 			},
 		},
 	}

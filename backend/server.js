@@ -3,17 +3,17 @@ import cookieParser from 'cookie-parser'
 import 'dotenv/config'
 import express from 'express'
 import morgan from 'morgan'
-import connectionToDb from './config/connectDB.js'
+import connectionToDB from './config/connectDB.js'
 import { morganMiddleware, systemLogs } from './utils/logger.js'
 import mongoSanitize from 'express-mongo-sanitize'
 import { errorHandler, notFound } from './middleware/errorMiddleware.js'
 import authRoutes from './routes/authRoutes.js'
 
-await connectionToDb()
+await connectionToDB()
 
 const app = express()
 
-if (process.env.NODE.ENV === 'development') {
+if (process.env.NODE_ENV === 'development') {
 	app.use(morgan('dev'))
 }
 
@@ -27,7 +27,7 @@ app.use(mongoSanitize())
 app.use(morganMiddleware)
 
 app.get('/api/v1/test', (req, res) => {
-	res.json({ Hi: 'welcome to the mern invoice app' })
+	res.json({ Hi: 'Welcome to the Invoice App' })
 })
 
 app.use('/api/v1/auth', authRoutes)
@@ -39,9 +39,7 @@ const PORT = process.env.PORT || 1997
 
 app.listen(PORT, () => {
 	console.log(
-		`${chalk.green.bold(
-			'Success!!'
-		)} The server is running in ${chalk.yellow.bold(
+		`${chalk.green.bold('✔')} 👍 Server running in ${chalk.yellow.bold(
 			process.env.NODE_ENV
 		)} mode on port ${chalk.blue.bold(PORT)}`
 	)

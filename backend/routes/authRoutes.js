@@ -1,6 +1,6 @@
-import express from "express";
-import registerUser from "../controllers/auth/registerController";
-import verifyUserEmail from "../controllers/auth/verifyEmailController";
+import express from 'express'
+import registerUser from '../controllers/auth/registerController'
+import verifyUserEmail from '../controllers/auth/verifyEmailController'
 
 const router = express.Router()
 

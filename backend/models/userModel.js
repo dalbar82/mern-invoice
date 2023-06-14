@@ -25,7 +25,7 @@ const userSchema = new Schema(
 					return /^[A-z][A-z0-9-_]{3,23}$/.test(value)
 				},
 				message:
-					'Username must be contain letters and numbers. No special characters allowed. Hyphens and underscores are allowed',
+					'username must be alphanumeric,without special characters.Hyphens and underscores allowed',
 			},
 		},
 		firstName: {
@@ -34,7 +34,7 @@ const userSchema = new Schema(
 			trim: true,
 			validate: [
 				validator.isAlphanumeric,
-				'First name con only have alphanumeric values. No special characters',
+				'First Name can only have Alphanumeric values. No special characters allowed',
 			],
 		},
 		lastName: {
@@ -43,7 +43,7 @@ const userSchema = new Schema(
 			trim: true,
 			validate: [
 				validator.isAlphanumeric,
-				'Last name con only have alphanumeric values. No special characters',
+				'Last Name can only have Alphanumeric values. No special characters allowed',
 			],
 		},
 		password: {
@@ -51,7 +51,7 @@ const userSchema = new Schema(
 			select: false,
 			validate: [
 				validator.isStrongPassword,
-				'Password must be at least 8 characters long, with at least 1 uppercase and lowercase letter and at least 1 symbol',
+				'Password must be at least 8 characters long, with at least 1 uppercase and lowercase letters and at least 1 symbol',
 			],
 		},
 		passwordConfirm: {
@@ -63,25 +63,21 @@ const userSchema = new Schema(
 				message: 'Passwords do not match',
 			},
 		},
-		isEmailVerified: {
-			type: Boolean,
-			required: true,
-			default: false,
-		},
+		isEmailVerified: { type: Boolean, required: true, default: false },
 		provider: {
 			type: String,
 			required: true,
-			default: email,
+			default: 'email',
 		},
-		googleId: String,
+		googleID: String,
 		avatar: String,
 		businessName: String,
 		phoneNumber: {
 			type: String,
-			default: '+610400111222',
+			default: '+254123456789',
 			validate: [
 				validator.isMobilePhone,
-				'Your mobile phone must begin with "+" followed by your country code, then you full mobile number',
+				"Your mobile phone number must begin with a '+', followed by your  country code then actual number e.g +254123456789",
 			],
 		},
 		address: String,
