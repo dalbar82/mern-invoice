@@ -8,8 +8,7 @@ const connectionToDb = async () => {
 			dbName: process.env.DB_NAME,
 		}
 		const connect = await mongoose.connect(
-			process.env.MONGO_URI ||
-				`mongodb+srv://${process.env.MONGO_ROOT_USERNAME}:${process.env.MONGO_ROOT_PASSWORD}@invoice.btacnj3.mongodb.net/`,
+			process.env.MONGO_URI,
 			connectionParams
 		)
 		console.log(

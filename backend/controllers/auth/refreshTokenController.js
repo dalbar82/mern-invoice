@@ -9,6 +9,7 @@ import User from '../../models/userModel.js'
 
 const newAccessToken = asyncHandler(async (req, res) => {
 	const cookies = req.cookies
+
 	if (!cookies?.jwt) {
 		return res.sendStatus(401)
 	}
