@@ -18,7 +18,6 @@ const verifyUserEmail = asyncHandler(async (req, res) => {
 		res.status(400)
 		throw new Error('We were unable to find a user for this token')
 	}
-
 	if (user.isEmailVerified) {
 		res.status(400).send('This user has already been verified. Please login')
 	}
@@ -43,12 +42,14 @@ const verifyUserEmail = asyncHandler(async (req, res) => {
 			name: user.firstName,
 			link: emailLink,
 		}
+
 		await sendEmail(
 			user.email,
 			'Welcome - Account Verified',
 			payload,
 			'./emails/template/welcome.handlebars'
 		)
+
 		res.redirect('/auth/verify')
 	}
 })
