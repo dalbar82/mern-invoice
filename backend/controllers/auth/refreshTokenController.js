@@ -9,12 +9,12 @@ import User from '../../models/userModel.js'
 
 const newAccessToken = asyncHandler(async (req, res) => {
 	const cookies = req.cookies
-
 	if (!cookies?.jwt) {
 		return res.sendStatus(401)
 	}
 
 	const refreshToken = cookies.jwt
+
 	const options = {
 		httpOnly: true,
 		maxAge: 24 * 60 * 60 * 1000,
@@ -22,6 +22,7 @@ const newAccessToken = asyncHandler(async (req, res) => {
 		sameSite: 'None',
 	}
 	res.clearCookie('jwt', options)
+
 	const existingUser = await User.findOne({ refreshToken }).exec()
 
 	if (!existingUser) {
@@ -32,7 +33,9 @@ const newAccessToken = asyncHandler(async (req, res) => {
 				if (err) {
 					return res.sendStatus(403)
 				}
-				const hackedUser = await User.findOne({ _id: decoded.id }).exec()
+				const hackedUser = await User.findOne({
+					_id: decoded.id,
+				}).exec()
 				hackedUser.refreshToken = []
 				await hackedUser.save()
 			}
@@ -52,6 +55,7 @@ const newAccessToken = asyncHandler(async (req, res) => {
 				existingUser.refreshToken = [...newRefreshTokenArray]
 				await existingUser.save()
 			}
+
 			if (err || existingUser._id.toString() !== decoded.id) {
 				return res.sendStatus(403)
 			}
@@ -62,7 +66,7 @@ const newAccessToken = asyncHandler(async (req, res) => {
 					roles: existingUser.roles,
 				},
 				process.env.JWT_ACCESS_SECRET_KEY,
-				{ expiresIn: '1h' }
+				{ expiresIn: '10m' }
 			)
 
 			const newRefreshToken = jwt.sign(
@@ -81,16 +85,19 @@ const newAccessToken = asyncHandler(async (req, res) => {
 				sameSite: 'None',
 			}
 
-      res.json({
-        success: true,
-        firstName: existingUser.firstName,
-        lastName: existingUser.lastName,
-        username: existingUser.username,
-        provider: existingUser.provider,
-        avatar: existingUser.avatar,
-        accessToken,
-      })
+			res.cookie('jwt', newRefreshToken, options)
+
+			res.json({
+				success: true,
+				firstName: existingUser.firstName,
+				lastName: existingUser.lastName,
+				username: existingUser.username,
+				provider: existingUser.provider,
+				avatar: existingUser.avatar,
+				accessToken,
+			})
 		}
 	)
 })
+
 export default newAccessToken

@@ -3,7 +3,7 @@ import registerUser from '../controllers/auth/registerController.js'
 import verifyUserEmail from '../controllers/auth/verifyEmailController.js'
 import loginUser from '../controllers/auth/loginController.js'
 import {loginLimiter} from '../middleware/apiLimiter.js'
-import newAccessToken from '../controllers/auth/refreshTokenControllers.js'
+import newAccessToken from '../controllers/auth/refreshTokenController.js'
 
 const router = express.Router()
 
