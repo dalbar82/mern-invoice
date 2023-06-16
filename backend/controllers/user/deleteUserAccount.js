@@ -1,19 +1,24 @@
 import asyncHandler from 'express-async-handler'
 import User from '../../models/userModel.js'
 
-// $-title   Update User Profile
-// $-path    PATCH /api/v1/user/profile
-// $-auth    Private
+// $-title   Delete User Account
+// $-path    DELETE /api/v1/user/:id
+// $-auth    Private/Admin
 
-const deleteMyAccount = asyncHandler(async (req, res) => {
-	const userId = req.user._id
+const deleteUserAccount = asyncHandler(async (req, res) => {
+	const user = await User.findById(req.params.id)
 
-  await User.findByIdAndDelete(userId)
+	if (user) {
+		const result = await user.deleteOne()
 
-  res.json({
-    success: true,
-    message: "Your user account has been deleted"
-  })
+		res.json({
+			success: true,
+			message: `User ${result.firstName} has been deleted successfully.`,
+		})
+	} else {
+		res.status(404)
+		throw new Error('user not found')
+	}
 })
 
-export default deleteMyAccount
+export default deleteUserAccount
