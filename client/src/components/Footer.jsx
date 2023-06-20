@@ -15,7 +15,9 @@ const Footer = () => {
     <Box sx={{
       position: 'fixed',
       bottom: 0,
-      width:'100%'
+      width:'100%',
+      bgcolor: '#000000',
+      marginTop: 'auto'
     }}>
       <CssBaseline/>
       <Box component='footer' sx={{
