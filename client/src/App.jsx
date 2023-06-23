@@ -8,17 +8,27 @@ import Footer from './components/Footer'
 import Layout from './components/Layout'
 import {customTheme} from './customTheme'
 import useTitle from './hooks/useTitle'
+import { useSelector } from 'react-redux'
+import Navbar from './components/Navbar/Index'
+
 import HomePage from './pages/HomePage'
+import RegisterPage from './features/auth/pages/RegisterPage'
+import VerifiedPage from './features/auth/pages/VerifiedPage'
+import LoginPage from './features/auth/pages/LoginPage'
 
 const App = () => {
   useTitle("Job Forge - Home")
+  const {user} = useSelector((state) => state.auth)
   return (
     <ThemeProvider theme={customTheme}>
       <CssBaseline/>
+      {user && <Navbar />}
       <Routes>
         <Route path='/' element={<Layout/>}>
           <Route index element={<HomePage/>}/>
-
+          <Route path='register' element={<RegisterPage/>} />
+          <Route path='auth/verify' element={<VerifiedPage/>}/>
+          <Route path='login' element={<LoginPage/>}/>
           {/* keep notFound as the bottom most route */}
           <Route path='*' element={<NotFound />}/>
         </Route>
