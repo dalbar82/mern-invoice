@@ -18,6 +18,12 @@ import LoginPage from './features/auth/pages/LoginPage'
 import ResendEmailTokenPage from './features/auth/pages/ResendEmailTokenPage'
 import PasswordResetPage from './features/auth/pages/PasswordResetPage'
 import PasswordResetRequestPage from './features/auth/pages/PasswordResetRequestPage'
+import {ROLES} from './config/roles'
+import UserListPage from './features/users/pages/UsersListPage'
+import DashboardPage from './pages/DashboardPage'
+import AuthRequired from './components/AuthRequired'
+
+
 const App = () => {
   useTitle("Job Forge - Home")
   const {user} = useSelector((state) => state.auth)
@@ -34,6 +40,15 @@ const App = () => {
           <Route path='resend' element={<ResendEmailTokenPage />} />
           <Route path='reset_password_request' element={<PasswordResetRequestPage/>} />
           <Route path='auth/reset_password' element={<PasswordResetPage/>} />
+          {/* Private routes - Users */}
+          <Route element={<AuthRequired allowedRoles={[ROLES.User]}/>}>
+            <Route path='dashboard' element={<DashboardPage />}/>
+          </Route>
+          {/* Private routes - Admin users only */}
+          <Route element={<AuthRequired allowedRoles={[ROLES.User]}/>}>
+            <Route path='users' element={<UserListPage />}/>
+          </Route>
+
           {/* keep notFound as the bottom most route */}
           <Route path='*' element={<NotFound />}/>
         </Route>
