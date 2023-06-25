@@ -14,7 +14,7 @@ import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
-import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
+import Payments from "@mui/icons-material/Payments";
 import useAuthUser from "../../hooks/useAuthUser";
 
 const StyledList = styled(List)({
@@ -40,8 +40,7 @@ const MenuList = () => {
 					<ListItemButton onClick={() => navigate("/profile")}>
 						<ListItemIcon>
 							<ManageAccountsIcon
-								sx={{ fontSize: 40 }}
-								color="green"
+								sx={{ fontSize: 30, color: "white" }}
 							/>
 						</ListItemIcon>
 						<ListItemText primary="Manage Profile" />
@@ -55,8 +54,7 @@ const MenuList = () => {
 					<ListItemButton onClick={() => navigate("/dashboard")}>
 						<ListItemIcon>
 							<BarChartIcon
-								sx={{ fontSize: 40 }}
-								color="indigo"
+								sx={{ fontSize: 30, color: "white" }}
 							/>
 						</ListItemIcon>
 						<ListItemText primary="Dashboard" />
@@ -69,9 +67,8 @@ const MenuList = () => {
 				<ListItem disablePadding>
 					<ListItemButton onClick={() => navigate("/documents")}>
 						<ListItemIcon>
-							<PointOfSaleIcon
-								sx={{ fontSize: 40 }}
-								color="orange"
+							<Payments
+								sx={{ fontSize: 30, color: "white" }}
 							/>
 						</ListItemIcon>
 						<ListItemText primary="Documents" />
@@ -84,10 +81,7 @@ const MenuList = () => {
 				<ListItem disablePadding>
 					<ListItemButton onClick={() => navigate("/customers")}>
 						<ListItemIcon>
-							<PeopleAltOutlinedIcon
-								sx={{ fontSize: 40 }}
-								color="blue"
-							/>
+							<PeopleAltOutlinedIcon sx={{ fontSize: 30, color: "white" }}/>
 						</ListItemIcon>
 						<ListItemText primary="Customers" />
 					</ListItemButton>
@@ -101,8 +95,7 @@ const MenuList = () => {
 						<ListItemButton onClick={() => navigate("/users")}>
 							<ListItemIcon>
 								<AdminPanelSettingsIcon
-									sx={{ fontSize: 40 }}
-									color="yellow"
+									sx={{ fontSize: 30, color: "white" }}
 								/>
 							</ListItemIcon>
 							<ListItemText primary="Admin Panel" />

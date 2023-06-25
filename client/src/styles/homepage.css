@@ -14,9 +14,7 @@
 .masthead {
 	box-sizing: border-box;
 	color: #212529;
-	font-family: Nunito, -apple-system, 'system-ui', 'Segoe UI', Roboto,
-		'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-		'Segoe UI Symbol', 'Noto Color Emoji';
+	font-family: 'Jost', sans-serif;
 	height: 100vh;
 	letter-spacing: 1px;
 	line-height: 24px;

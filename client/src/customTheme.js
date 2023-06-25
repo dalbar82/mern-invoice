@@ -1,9 +1,14 @@
 import { createTheme } from '@mui/material'
 
 export const customTheme = createTheme({
+	typography: {
+		fontFamily: [
+			'Jost'
+		]
+	},
 	palette: {
 		background: {
-			default: '#f8f9fa',
+			default: '#f5f6f8',
 		},
 		indigo: {
 			main: '#6610f2',
@@ -30,7 +35,7 @@ export const customTheme = createTheme({
 				// Name of the slot
 				paper: {
 					// Some CSS
-					backgroundColor: '#000000',
+					backgroundColor: '#202128',
 					color: '#fff',
 				},
 			},
@@ -38,7 +43,7 @@ export const customTheme = createTheme({
 		MuiAppBar: {
 			styleOverrides: {
 				root: {
-					backgroundColor: '#000000',
+					backgroundColor: '#202128',
 					color: '#fff',
 				},
 			},

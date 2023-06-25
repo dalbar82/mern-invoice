@@ -4,7 +4,7 @@ import { Route, Routes} from 'react-router-dom'
 import { ToastContainer} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.min.css'
 import NotFound from './components/NotFound'
-import Footer from './components/Footer'
+// import Footer from './components/Footer'
 import Layout from './components/Layout'
 import {customTheme} from './customTheme'
 import useTitle from './hooks/useTitle'
@@ -53,7 +53,7 @@ const App = () => {
           <Route path='*' element={<NotFound />}/>
         </Route>
       </Routes>
-      <Footer />
+      {/* <Footer /> */}
       <ToastContainer theme='dark' />
     </ThemeProvider>
 

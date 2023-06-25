@@ -7,7 +7,7 @@ const DashboardPage = () => {
       marginLeft: '250px',
       mt: 10
     }}>
-      <Typography variant='h3'>
+      <Typography variant='p'>
         This Dashboard page is only allowed to logged in user
       </Typography>
     </Box>

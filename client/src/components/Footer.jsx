@@ -16,7 +16,7 @@ const Footer = () => {
       position: 'fixed',
       bottom: 0,
       width:'100%',
-      bgcolor: '#000000',
+      bgcolor: '#202128',
       marginTop: 'auto'
     }}>
       <CssBaseline/>
@@ -24,7 +24,7 @@ const Footer = () => {
         py:1,
         px:1,
         mt:'auto',
-        bgColor:'#000000'
+        bgColor:'#202128'
       }}>
         <Typography variant='subtitle1' align='center' component='p' sx={{
           color: '#07f011'
