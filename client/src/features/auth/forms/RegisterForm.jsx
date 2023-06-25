@@ -33,7 +33,7 @@ import useTitle from "../../../hooks/useTitle";
 const USERNAME_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 
 const RegisterForm = () => {
-	useTitle("Sign Up - MERN Invoice");
+	useTitle("Sign Up - Job Forge");
 	const navigate = useNavigate();
 
 	const [level, setLevel] = useState();

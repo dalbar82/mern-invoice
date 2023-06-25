@@ -130,7 +130,7 @@ const AuthNav = () => {
 								...(open && { display: "none" }),
 							}}
 						>
-							<MenuIcon fontSize="large" />
+							<MenuIcon />
 						</IconButton>
 						<Logo />
 					</Toolbar>

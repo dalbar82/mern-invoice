@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import useTitle from "../../../hooks/useTitle";
 
 const VerifiedPage = () => {
-	useTitle("Verify User - MERN Invoice");
+	useTitle("Verify User - Job Forge");
 	return (
 		<Stack
 			direction="column"

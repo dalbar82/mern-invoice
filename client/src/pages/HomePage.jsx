@@ -3,7 +3,7 @@ import { Link as RouterLink, useNavigate } from "react-router-dom";
 import "../styles/homepage.css";
 
 const StyledTypography = styled(Typography)(({ theme }) => ({
-	fontSize: "12rem",
+	fontSize: "8rem",
 	[theme.breakpoints.down("sm")]: {
 		fontSize: "9rem",
 	},
@@ -27,14 +27,15 @@ const HomePage = () => {
 			<header className="masthead main-bg-image">
 				<Grid>
 					<Grid item md={12} lg={12} sm={6}>
-						<Box sx={{ display: "flex", flexDirection: "column" }}>
+						<Box sx={{ display: "flex", flexDirection: "column",  width:'80%', margin: 'auto'}}>
 							<StyledTypography
 								variant="h1"
 								align="center"
 								sx={{ textTransform: "uppercase", mt: "13rem" }}
 								className="homepage-header"
+								marginBottom='3rem'
 							>
-								MERN Invoice
+								Job Forge
 							</StyledTypography>
 							<Typography
 								align="center"
@@ -45,7 +46,7 @@ const HomePage = () => {
 							>
 								Whatever business you run, Creating
 								Invoices,Receipts and Quotations is made easy
-								with our app.
+								with our Job Forge.
 							</Typography>
 						</Box>
 						<Box

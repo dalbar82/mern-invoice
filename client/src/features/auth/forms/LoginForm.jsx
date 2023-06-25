@@ -26,7 +26,7 @@ import { useLoginUserMutation } from "../authApiSlice";
 import { logIn } from "../authSlice";
 
 const LoginForm = () => {
-	useTitle("Login - MERN Invoice");
+	useTitle("Login - Job Forge");
 
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
