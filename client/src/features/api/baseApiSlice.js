@@ -6,7 +6,7 @@ const baseQuery = fetchBaseQuery({
 	prepareHeaders: (headers, { getState }) => {
 		const token = getState().auth.user?.accessToken
 		if (token) {
-			headers.set('authorisation', `Bearer ${token}`)
+			headers.set('authorization', `Bearer ${token}`)
 		}
 		return headers
 	},
@@ -15,5 +15,6 @@ const baseQuery = fetchBaseQuery({
 export const baseApiSlice = createApi({
 	reducerPath: 'api',
 	baseQuery,
+	tagTypes: ['User', 'Customer', 'Document'],
 	endpoints: (builder) => ({}),
 })

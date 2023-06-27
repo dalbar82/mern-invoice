@@ -5,6 +5,7 @@ export const usersApiSlice = baseApiSlice.injectEndpoints({
 		getAllUsers: builder.query({
 			query: () => ({
 				url: '/user/all',
+				method: 'GET',
 				validateStatus: (response, result) => {
 					return response.status === 200 && !result.isError
 				},
@@ -23,4 +24,4 @@ export const usersApiSlice = baseApiSlice.injectEndpoints({
 	}),
 })
 
-export const {useGetAllUsersQuery} = usersApiSlice
+export const { useGetAllUsersQuery } = usersApiSlice
