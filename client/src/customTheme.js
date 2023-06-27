@@ -2,25 +2,23 @@ import { createTheme } from '@mui/material'
 
 export const customTheme = createTheme({
 	typography: {
-		fontFamily: [
-			'Jost'
-		]
+		fontFamily: ['Poppins'],
 	},
 	palette: {
 		background: {
 			default: '#f5f6f8',
 		},
-		indigo: {
+		textLabel: {
 			main: '#6610f2',
 		},
-		orange: {
-			main: '#f4511e',
+		textLight: {
+			main: '#4b6380',
 		},
-		green: {
-			main: '#07f011',
+		textTopNav: {
+			main: '#8b8a8a',
 		},
-		blue: {
-			main: '#34aadc',
+		iconsSideNav: {
+			main: '#9298a4',
 		},
 		yellow: {
 			main: '#f57c00',

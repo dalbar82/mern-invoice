@@ -113,7 +113,7 @@ const AuthNav = () => {
 	return (
 		<Box sx={{ flexGrow: 1 }}>
 			<CssBaseline />
-			<AppBar position="fixed" open={open}>
+			<AppBar position="fixed" open={open} sx={{color: '#c7cbd4'}}>
 				<Stack
 					direction="row"
 					alignItems="center"

@@ -9,12 +9,13 @@ const Logo = () => {
 				to="/"
 				sx={{ 
 					textDecoration: "none", 
-					color: "white", 
+					color: "#c7cbd4", 
 					cursor: "pointer", 
-					fontSize: '1.5rem'
+					fontSize: '1rem',
+					fontWeight: '500'
 				 }}
 			>
-				JOB FORGE
+				JobForge
 			</Link>
 		</>
 

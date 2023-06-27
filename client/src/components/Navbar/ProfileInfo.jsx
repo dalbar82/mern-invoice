@@ -14,12 +14,13 @@ import {
 	styled,
 	Typography,
 } from "@mui/material"
-import { deepOrange } from "@mui/material/colors"
+import { blueGrey, lightBlue } from "@mui/material/colors"
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
 import { useLogoutUserMutation } from "../../features/auth/authApiSlice"
 import useAuthUser from "../../hooks/useAuthUser"
+import MenuText from "../MenuText"
 
 const StyledMenuItem = styled(MenuItem)({
 	"&:hover": {
@@ -31,7 +32,7 @@ const StyledMenuItem = styled(MenuItem)({
 
 const StyledProfileDivider = styled(Divider)({
 	height: "2px",
-	borderColor: "#ffffff63",
+	borderColor: blueGrey[900],
 });
 
 const ProfileInfo = ({ user }) => {
@@ -94,7 +95,6 @@ const ProfileInfo = ({ user }) => {
 							src={user.avatar}
 							sx={{ width: 48, height: 48 }}
 						/>
-						<Typography variant="h6">{user.username}</Typography>
 					</Stack>
 				) : (
 					<Stack
@@ -103,10 +103,15 @@ const ProfileInfo = ({ user }) => {
 						alignItems="center"
 						sx={{ p: 0.5 }}
 					>
-						<Avatar sx={{ bgcolor: deepOrange[700] }}>
-							{user.username.charAt(0).toUpperCase()}
+						<Avatar sx={{ bgcolor: lightBlue[900], fontSize: '1rem',
+														fontWeight: '500' }}>
+							{user.firstName
+								.charAt(0)
+								.toUpperCase()}
+							{user.lastName
+								.charAt(0)
+								.toUpperCase()}
 						</Avatar>
-						<Typography variant="h6">{user.username}</Typography>
 					</Stack>
 				)}
 			</ButtonBase>
@@ -134,7 +139,7 @@ const ProfileInfo = ({ user }) => {
 						overflow: "visible",
 						filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
 						mt: 1.5,
-						bgcolor: "#000000",
+						bgcolor: "#202128",
 						color: "#ffffff",
 						borderRadius: "10px",
 
@@ -152,7 +157,7 @@ const ProfileInfo = ({ user }) => {
 							right: 14,
 							width: 10,
 							height: 10,
-							bgcolor: "#000000",
+							bgcolor: "#202128",
 							transform: "translateY(-50%) rotate(45deg)",
 							zIndex: 0,
 						},
@@ -164,8 +169,9 @@ const ProfileInfo = ({ user }) => {
 						container
 						justifyContent="space-between"
 						alignItems="center"
+						color="#c7cbd4"
 					>
-						<Stack>
+						<Stack >
 							{/* profile menu item */}
 							<StyledMenuItem
 								onClick={() => navigate("/profile")}
@@ -213,10 +219,15 @@ const ProfileInfo = ({ user }) => {
 												<Avatar
 													sx={{
 														bgcolor:
-															deepOrange[700],
+														blueGrey[700],
+														fontSize: '1rem',
+														fontWeight: '500'
 													}}
 												>
-													{user.username
+													{user.firstName
+														.charAt(0)
+														.toUpperCase()}
+													{user.lastName
 														.charAt(0)
 														.toUpperCase()}
 												</Avatar>
@@ -253,11 +264,11 @@ const ProfileInfo = ({ user }) => {
 									>
 										<ListItemIcon>
 											<SentimentSatisfiedAltTwoToneIcon
-												color="blue"
-												sx={{ fontSize: 45 }}
+												color="iconsSideNav"
+												sx={{ fontSize: 20 }}
 											/>
 										</ListItemIcon>
-										<Typography variant="h6">
+										<Typography variant="p">
 											View Profile
 										</Typography>
 									</Stack>
@@ -268,7 +279,7 @@ const ProfileInfo = ({ user }) => {
 							<StyledMenuItem
 								onClick={() => navigate("/dashboard")}
 							>
-								<Grid item>
+								<Grid item color="iconsSideNav">
 									<Stack
 										direction="row"
 										alignItems="center"
@@ -276,11 +287,11 @@ const ProfileInfo = ({ user }) => {
 									>
 										<ListItemIcon>
 											<SpeedTwoToneIcon
-												color="yellow"
-												sx={{ fontSize: 45 }}
+												color="iconsSideNav"
+												sx={{ fontSize: 20 }}
 											/>
 										</ListItemIcon>
-										<Typography variant="h6">
+										<Typography variant="p">
 											Dashboard
 										</Typography>
 									</Stack>
@@ -298,13 +309,11 @@ const ProfileInfo = ({ user }) => {
 									>
 										<ListItemIcon>
 											<Logout
-												color="green"
-												sx={{ fontSize: 45 }}
+												color="iconsSideNav"
+												sx={{ fontSize: 20 }}
 											/>
 										</ListItemIcon>
-										<Typography variant="h6">
-											Logout
-										</Typography>
+										<MenuText color='iconsSideNav' text='Logout'/>
 									</Stack>
 								</Grid>
 							</StyledMenuItem>

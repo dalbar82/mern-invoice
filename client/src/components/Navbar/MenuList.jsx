@@ -1,14 +1,12 @@
 import {
 	Box,
-	Divider,
 	List,
 	ListItem,
 	ListItemButton,
 	ListItemIcon,
-	ListItemText,
 	styled,
 } from "@mui/material";
-
+import MenuText from "../MenuText";
 import { useNavigate } from "react-router-dom";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import BarChartIcon from "@mui/icons-material/BarChart";
@@ -23,71 +21,62 @@ const StyledList = styled(List)({
 	},
 });
 
-const StyledSideMenuDivider = styled(Divider)({
-	height: "2px",
-	borderColor: "#ffffff63",
-});
-
 const MenuList = () => {
 	const navigate = useNavigate();
 
 	const { isAdmin } = useAuthUser();
 
 	return (
-		<Box>
+		<Box color="#c7cbd4">
 			<StyledList>
 				<ListItem disablePadding>
 					<ListItemButton onClick={() => navigate("/profile")}>
 						<ListItemIcon>
 							<ManageAccountsIcon
-								sx={{ fontSize: 30, color: "white" }}
+								sx={{ fontSize: 25, color: "#c7cbd4" }}
 							/>
 						</ListItemIcon>
-						<ListItemText primary="Manage Profile" />
+						<MenuText text="Manage Profile" />
 					</ListItemButton>
 				</ListItem>
 			</StyledList>
-			<StyledSideMenuDivider />
 
 			<StyledList>
 				<ListItem disablePadding>
 					<ListItemButton onClick={() => navigate("/dashboard")}>
 						<ListItemIcon>
 							<BarChartIcon
-								sx={{ fontSize: 30, color: "white" }}
+								sx={{ fontSize: 25, color: "#c7cbd4" }}
 							/>
 						</ListItemIcon>
-						<ListItemText primary="Dashboard" />
+						<MenuText text="Dashboard" />
 					</ListItemButton>
 				</ListItem>
 			</StyledList>
-			<StyledSideMenuDivider />
 
 			<StyledList>
 				<ListItem disablePadding>
 					<ListItemButton onClick={() => navigate("/documents")}>
 						<ListItemIcon>
 							<Payments
-								sx={{ fontSize: 30, color: "white" }}
+								sx={{ fontSize: 25, color: "#c7cbd4" }}
 							/>
 						</ListItemIcon>
-						<ListItemText primary="Documents" />
+						<MenuText text="Documents" />
 					</ListItemButton>
 				</ListItem>
 			</StyledList>
-			<StyledSideMenuDivider />
 
 			<StyledList>
 				<ListItem disablePadding>
 					<ListItemButton onClick={() => navigate("/customers")}>
 						<ListItemIcon>
-							<PeopleAltOutlinedIcon sx={{ fontSize: 30, color: "white" }}/>
+							<PeopleAltOutlinedIcon sx={{ fontSize: 25, color: "#c7cbd4" }}/>
 						</ListItemIcon>
-						<ListItemText primary="Customers" />
+						<MenuText text="Customers" />
 					</ListItemButton>
 				</ListItem>
 			</StyledList>
-			<StyledSideMenuDivider />
 
 			{isAdmin && (
 				<StyledList>
@@ -95,10 +84,10 @@ const MenuList = () => {
 						<ListItemButton onClick={() => navigate("/users")}>
 							<ListItemIcon>
 								<AdminPanelSettingsIcon
-									sx={{ fontSize: 30, color: "white" }}
+									sx={{ fontSize: 25, color: "#c7cbd4" }}
 								/>
 							</ListItemIcon>
-							<ListItemText primary="Admin Panel" />
+							<MenuText text="Admin Panel" />
 						</ListItemButton>
 					</ListItem>
 				</StyledList>
