@@ -1,11 +1,10 @@
 import asyncHandler from 'express-async-handler'
 import User from '../../models/userModel.js'
 
-// $-title   Update User Profile
-// $-path    get /api/v1/user/all
+// $-title   Get All Users
+// $-path    GET /api/v1/user/all
 // $-auth    Private/Admin
-
-const getAllUsers = asyncHandler(async (req, res) => {
+const getAllUserAccounts = asyncHandler(async (req, res) => {
 	const pageSize = 10
 
 	const page = Number(req.query.pageNumber) || 1
@@ -27,4 +26,4 @@ const getAllUsers = asyncHandler(async (req, res) => {
 	})
 })
 
-export default getAllUsers
+export default getAllUserAccounts
