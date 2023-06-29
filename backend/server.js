@@ -10,6 +10,8 @@ import { errorHandler, notFound } from './middleware/errorMiddleware.js'
 import authRoutes from './routes/authRoutes.js'
 import userRoutes from './routes/userRoutes.js'
 import { apiLimiter } from './middleware/apiLimiter.js'
+import passport from 'passport'
+import googleAuth from './config/passsportSetup.js'
 
 await connectionToDB()
 
@@ -21,6 +23,9 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
+
+app.use(passport.initialize())
+googleAuth()
 
 app.use(cookieParser())
 

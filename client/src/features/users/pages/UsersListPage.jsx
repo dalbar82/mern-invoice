@@ -13,8 +13,10 @@ import {
 	TablePagination,
 	TableRow,
 	Typography,
+	Checkbox,
 } from "@mui/material";
 import GroupIcon from "@mui/icons-material/Group";
+import ClearIcon from "@mui/icons-material/Clear";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { MdOutlineBadge } from "react-icons/md";
@@ -38,7 +40,7 @@ const UserListPage = () => {
 	const { data, isLoading, isSuccess, isError, error } = useGetAllUsersQuery(
 		"allUsersList",
 		{
-			pollingInterval: 60000,
+			pollingInterval: 600000,
 			refetchOnFocus: true,
 			refetchOnMountOrArgChange: true,
 		}
@@ -171,6 +173,33 @@ const UserListPage = () => {
 												)}
 											</StyledTableCell>
 											<StyledTableCell>
+												{/* <CustomTooltip title="Uncheck to deactivate user"> */}
+													<Checkbox
+														color="success"
+														checked={row?.active}
+														// onChange={() =>
+														// 	deactivateUserHandler(
+														// 		row._id
+														// 	)
+														// }
+													/>
+												{/* </CustomTooltip> */}
+											</StyledTableCell>
+											<StyledTableCell align="right">
+												{/* <Box>
+													<ClearIcon
+														color="error"
+														fontSize="medium"
+														sx={{
+															cursor: "pointer",
+														}}
+														onClick={() =>
+															deleteHandler(
+																row._id
+															)
+														}
+													/>
+												</Box> */}
 											</StyledTableCell>
 										</StyledTableRow>
 									))}
