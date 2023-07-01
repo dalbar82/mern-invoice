@@ -12,7 +12,7 @@ const updateDocument = asyncHandler(async (req, res) => {
 		res.status(404)
 		throw new Error('That document does not exist')
 	}
-	console.log(document.createdBy.toString(), req.user.id)
+
 	if (document.createdBy.toString() !== req.user.id) {
 		res.status(401)
 		throw new Error('This is not permitted')
