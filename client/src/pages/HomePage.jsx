@@ -3,20 +3,18 @@ import { Link as RouterLink, useNavigate } from "react-router-dom";
 import "../styles/homepage.css";
 
 const StyledTypography = styled(Typography)(({ theme }) => ({
-	fontSize: "8rem",
+	fontSize: "4rem",
 	[theme.breakpoints.down("sm")]: {
-		fontSize: "9rem",
+		fontSize: "2rem",
 	},
 }));
 
 const CreateAccountButton = styled(Button)({
-	borderColor: "#000000",
-	borderRadius: "25px",
-	border: "3px solid",
+	borderRadius: "5px",
+	backgroundColor: '#777fd7',
 	"&:hover": {
-		borderColor: "#07f011",
 		boxShadow: "none",
-		border: "2px solid",
+		backgroundColor: '#777fd7',
 	},
 });
 
@@ -26,27 +24,32 @@ const HomePage = () => {
 		<>
 			<header className="masthead main-bg-image">
 				<Grid>
-					<Grid item md={12} lg={12} sm={6}>
+					<Grid item md={12} lg={12} sm={6} sx={{
+						    backgroundColor: '#2b2b3a',
+								paddingBottom: '50px'
+					}}>
 						<Box sx={{ display: "flex", flexDirection: "column",  width:'80%', margin: 'auto'}}>
-							<StyledTypography
-								variant="h1"
+						<Typography
 								align="center"
-								sx={{ textTransform: "uppercase", mt: "13rem" }}
-								className="homepage-header"
-								marginBottom='3rem'
-							>
-								Job Forge
-							</StyledTypography>
-							<Typography
-								align="center"
-								variant="h4"
+								variant="span"
 								component="div"
 								gutterBottom
 								sx={{ color: "rgba(255,255,255,0.6)" }}
 							>
-								Whatever business you run, Creating
-								Invoices,Receipts and Quotations is made easy
-								with our Job Forge.
+								Whatever business you run, creating
+								Invoices, Receipts and Quotations is made easy
+								with Job Forge.
+							</Typography>
+							<Typography
+								align="center"
+								variant="span"
+								component="div"
+								gutterBottom
+								sx={{ color: "rgba(255,255,255,0.6)" }}
+							>
+								Whatever business you run, creating
+								Invoices, Receipts and Quotations is made easy
+								with Job Forge.
 							</Typography>
 						</Box>
 						<Box
@@ -59,9 +62,6 @@ const HomePage = () => {
 						>
 							<CreateAccountButton
 								variant="contained"
-								color="success"
-								size="large"
-								sx={{ fontSize: "1.5em", borderRadius: "25px" }}
 								onClick={() => navigate("/register")}
 							>
 								<Link
@@ -69,8 +69,7 @@ const HomePage = () => {
 									to="/register"
 									sx={{
 										textDecoration: "none",
-										color: "white",
-										fontSize: "2rem",
+										color: "white"
 									}}
 								>
 									Create Account

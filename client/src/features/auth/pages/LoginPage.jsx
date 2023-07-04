@@ -37,7 +37,7 @@ const LoginPage = () => {
 							}}
 						>
 							<FaSignInAlt className="auth-svg" />
-							<Typography variant="h1">Log In</Typography>
+							<Typography variant="h5">Log In</Typography>
 						</Box>
 						<StyledDivider />
 					</Grid>

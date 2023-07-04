@@ -20,6 +20,7 @@ import { ROLES } from "./config/roles";
 import UsersList from "./features/users/pages/UsersListPage";
 import DashboardPage from "./pages/DashboardPage";
 import AuthRequired from "./components/AuthRequired";
+import HomePageNav from "./components/HomePageNav";
 // import EditProfileForm from "./features/users/pages/EditProfileForm";
 // import ProfilePage from "./features/users/pages/ProfilePage";
 // import CustomerCreateForm from "./features/customers/pages/CustomerCreateForm";
@@ -37,6 +38,7 @@ const App = () => {
 	return (
 		<ThemeProvider theme={customTheme}>
 			<CssBaseline />
+			{!user && <HomePageNav />}
 			{user && <Navbar />}
 			<Routes>
 				<Route path="/" element={<Layout />}>

@@ -1,7 +1,7 @@
 import { Link } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 
-const Logo = () => {
+const Logo = (fontSize) => {
 	return (
 		<>
 			<Link
@@ -11,10 +11,19 @@ const Logo = () => {
 					textDecoration: "none", 
 					color: "#c7cbd4", 
 					cursor: "pointer", 
-					fontSize: '1rem',
-					fontWeight: '500'
+					fontSize: fontSize,
+					fontWeight: '500',
+					fontFamily: 'Rubik Dirt',
+					display:'flex',
+					flexDirection:'row'
 				 }}
 			>
+				<div style={{
+					transform:"rotate(90deg)",
+					marginRight:"5px",
+					height:"48px",
+					fontFamily: 'Londrina Sketch'
+				}}>[=]</div>
 				JobForge
 			</Link>
 		</>
