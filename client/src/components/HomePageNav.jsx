@@ -16,7 +16,7 @@ const HomePageNav = () => {
           justifyContent: 'space-between',
         }}>
           <Logo fontSize="2rem"/>
-          <Button color='inherit' sx={{textTransform: 'none', fontSize: '1.5rem'}} onClick={() => navigate("/login")}>Login</Button>
+          <Button color='inherit' sx={{textTransform: 'none', fontSize: '1.3rem'}} onClick={() => navigate("/login")}>Login</Button>
         </Toolbar>
       </AppBar>
     </Box>

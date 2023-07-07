@@ -1,0 +1,105 @@
+.modules {
+	color: rgb(0, 0, 0);
+	border-radius: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	box-shadow: 0px 0px 3px 1px #00000023;
+	background: radial-gradient(#fdfdfd16, #00000020);
+	margin: 10px 10px;
+	width: 100px;
+	height: 100px;
+	font-weight: 600;
+	font-size: 0.7rem;
+}
+.diagram-container {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.services-container {
+	display: flex;
+	flex-direction: row;
+}
+.industries-container {
+	display: flex;
+	flex-direction: row;
+}
+
+#job-forge {
+	width: 120px;
+	height: 120px;
+	background-color: #14b7f7;
+	color: white;
+	font-size: 1.3rem;
+	z-index: 1;
+}
+
+#split {
+	width: 275px;
+	border-bottom: 7px dotted rgb(52 183 240);
+	position: absolute;
+	height: 14px;
+}
+
+#inventory {
+	background-color: #22a699;
+	position: relative;
+	top: 75px;
+	left: 60px;
+}
+#suppliers {
+	background-color: #f2be22;
+	position: relative;
+	top: -15px;
+	left: 15px;
+}
+#production {
+	background-color: #f29727;
+	position: relative;
+	top: -50px;
+}
+#phone-app {
+	background-color: #f24c3d;
+	position: relative;
+	top: -15px;
+	right: 15px;
+}
+#analytics {
+	background-color: #7149c6;
+	position: relative;
+	top: 75px;
+	right: 60px;
+}
+
+#signage {
+	background-color: #fe6244;
+	position: relative;
+	bottom: 70px;
+	right: -60px;
+}
+#design {
+	background-color: #ffdeb9;
+	position: relative;
+	bottom: -15px;
+	left: 15px;
+}
+#print {
+	background-color: #fff80a;
+	position: relative;
+	bottom: -50px;
+}
+#film {
+	background-color: #ef5b0c;
+	position: relative;
+	bottom: -15px;
+	right: 10px;
+}
+#audio {
+	background-color: #3ccf4e;
+	position: relative;
+	bottom: 70px;
+	right: 60px;
+}
