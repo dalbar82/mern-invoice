@@ -132,7 +132,7 @@ const AuthNav = () => {
 						>
 							<MenuIcon />
 						</IconButton>
-						<Logo />
+						<Logo fontSize="1.5rem" />
 					</Toolbar>
 					<Box>
 						<ProfileInfo user={user} />

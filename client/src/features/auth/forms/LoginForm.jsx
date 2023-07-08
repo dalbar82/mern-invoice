@@ -14,7 +14,7 @@ import {
 	InputAdornment,
 	InputLabel,
 	Link,
-	OutlinedInput,
+	TextField,
 	Stack,
 	Typography,
 } from "@mui/material";
@@ -102,10 +102,11 @@ const LoginForm = () => {
 								{/* Email */}
 								<Grid item xs={12}>
 									<Stack spacing={1}>
-										<InputLabel htmlFor="email-signup">
-											Email Address*
+										<InputLabel htmlFor="email-signup" sx={{fontSize:'small'}}>
+											Email*
 										</InputLabel>
-										<OutlinedInput
+										<TextField
+											variant="filled"
 											id="email-signup"
 											value={values.email}
 											name="email"
@@ -131,10 +132,11 @@ const LoginForm = () => {
 								{/* password */}
 								<Grid item xs={12}>
 									<Stack spacing={1}>
-										<InputLabel htmlFor="password-signup">
-											Password
+										<InputLabel htmlFor="password-signup" sx={{fontSize:'small'}}>
+											Password*
 										</InputLabel>
-										<OutlinedInput
+										<TextField
+											variant="filled"
 											fullWidth
 											error={Boolean(
 												touched.password &&
@@ -152,27 +154,29 @@ const LoginForm = () => {
 											onChange={(e) => {
 												handleChange(e);
 											}}
-											endAdornment={
-												<InputAdornment position="end">
-													<IconButton
-														aria-label="toggle password visiblity"
-														onClick={
-															handleShowHidePassword
-														}
-														onMouseDown={
-															handleMouseDownPassword
-														}
-														edge="end"
-														size="large"
-													>
-														{showPassword ? (
-															<Visibility />
-														) : (
-															<VisibilityOff />
-														)}
-													</IconButton>
-												</InputAdornment>
-											}
+											InputProps={{
+												endAdornment:
+													<InputAdornment position="end">
+														<IconButton
+															aria-label="toggle password visiblity"
+															onClick={
+																handleShowHidePassword
+															}
+															onMouseDown={
+																handleMouseDownPassword
+															}
+															edge="end"
+															size="large"
+														>
+															{showPassword ? (
+																<Visibility />
+															) : (
+																<VisibilityOff />
+															)}
+														</IconButton>
+													</InputAdornment>
+												
+											}}
 											placeholder="******"
 											inputProps={{}}
 										/>
@@ -196,13 +200,13 @@ const LoginForm = () => {
 											alignItems: "center",
 										}}
 									>
-										<Typography variant="h6">
+										<Typography variant="p" sx={{ textDecoration: "none", fontSize:'small' }}>
 											Forgot Password?{" "}
 											<Link
-												variant="h6"
+												variant="p"
 												component={RouterLink}
 												to="/reset_password_request"
-												sx={{ textDecoration: "none" }}
+												sx={{ textDecoration: "none", fontSize:'small' }}
 											>
 												Click Here to Reset it
 											</Link>
@@ -219,7 +223,9 @@ const LoginForm = () => {
 											size="large"
 											type="submit"
 											variant="contained"
-											color="secondary"
+											sx={{
+												backgroundColor: 'rgb(25, 142, 189)'
+											}}
 										>
 											Login
 										</Button>

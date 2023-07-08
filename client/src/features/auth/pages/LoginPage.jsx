@@ -7,22 +7,20 @@ import {
 	Link,
 	Typography,
 } from "@mui/material";
-import { FaSignInAlt } from "react-icons/fa";
 import { Link as RouterLink } from "react-router-dom";
 import GoogleLogin from "../../../components/GoogleLogin";
-import StyledDivider from "../../../components/StyledDivider";
 import AuthWrapper from "../forms/AuthWrapper";
 import LoginForm from "../forms/LoginForm";
+import Logo from '../../../components/Navbar/Logo'
+import '../../../styles/loggingPages.css'
 
 const LoginPage = () => {
 	return (
 		<AuthWrapper>
 			<Container
 				component="main"
-				maxWidth="sm"
+				maxWidth="xs"
 				sx={{
-					border: "2px solid #e4e5e7",
-					borderRadius: "25px",
 					py: 2,
 				}}
 			>
@@ -31,15 +29,16 @@ const LoginPage = () => {
 						<Box
 							sx={{
 								display: "flex",
-								flexDirection: "row",
+								flexDirection: "column",
 								justifyContent: "center",
 								alignItems: "center",
+								paddingBottom: '20px'
 							}}
 						>
-							<FaSignInAlt className="auth-svg" />
-							<Typography variant="h5">Log In</Typography>
+							<Logo fontSize="2rem" />
+							<Typography variant="h6">Sign-In</Typography>
 						</Box>
-						<StyledDivider />
+						
 					</Grid>
 					{/* login form */}
 					<LoginForm />
@@ -56,23 +55,15 @@ const LoginPage = () => {
 								sx={{ flexGrow: 1 }}
 								orientation="horizontal"
 							/>
-							<Button
-								variant="outlined"
+							<Typography
+								// variant="outlined"
 								sx={{
-									cursor: "unset",
-									m: 1,
-									py: 0.5,
-									px: 7,
-									borderColor: "grey !important",
-									color: "grey !important",
-									fontWeight: 500,
-									borderRadius: "25px",
+									margin: '10px',
+									fontSize: 'small'
 								}}
-								disableRipple
-								disabled
 							>
-								OR LOG In WITH GOOGLE
-							</Button>
+								Or Sign-In with Google
+							</Typography>
 							<Divider
 								sx={{ flexGrow: 1 }}
 								orientation="horizontal"
@@ -83,57 +74,32 @@ const LoginPage = () => {
 								display: "flex",
 								alignItems: "center",
 								justifyContent: "center",
+								marginBottom: '20px',
+								marginTop: '10px'
 							}}
 						>
 							<GoogleLogin />
 						</Box>
 					</Grid>
-					<Divider
-						sx={{ flexGrow: 1, mb: 1, mt: 1 }}
-						orientation="horizontal"
-					/>
-					{/* forgot password */}
-					<Grid item xs={12}>
-						<Box
-							sx={{
-								justifyContent: "center",
-								display: "flex",
-								alignItems: "center",
-							}}
-						>
-							<Typography variant="h6">
-								Don't have an account?
-								<Link
-									variant="h6"
-									component={RouterLink}
-									to="/register"
-									sx={{ textDecoration: "none" }}
-								>
-									Sign Up Here
-								</Link>
-							</Typography>
-						</Box>
-					</Grid>
-					<Divider
-						sx={{ flexGrow: 1, mb: 1, mt: 1 }}
-						orientation="horizontal"
-					/>
+					
+					
 					{/* resend email verification button */}
 					<Grid item xs={12}>
 						<Box
 							sx={{
 								justifyContent: "center",
 								display: "flex",
-								alignItems: "center",
+								alignItems: "center"
 							}}
 						>
-							<Typography variant="h6">
+							<Typography variant="p" sx={{ fontSize: 'small' }}>
 								Didn't get the verification email?
 								<Link
-									variant="h6"
+									variant="p"
 									component={RouterLink}
 									to="/resend"
-									sx={{ textDecoration: "none" }}
+									sx={{ textDecoration: "none",
+									marginLeft: '5px' }}
 								>
 									Resend Email
 								</Link>
