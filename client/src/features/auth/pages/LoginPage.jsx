@@ -20,9 +20,6 @@ const LoginPage = () => {
 			<Container
 				component="main"
 				maxWidth="xs"
-				sx={{
-					py: 2,
-				}}
 			>
 				<Grid>
 					<Grid item xs={12}>
@@ -32,11 +29,10 @@ const LoginPage = () => {
 								flexDirection: "column",
 								justifyContent: "center",
 								alignItems: "center",
-								paddingBottom: '20px'
 							}}
 						>
 							<Logo fontSize="2rem" />
-							<Typography variant="h6">Sign-In</Typography>
+							<Typography variant="h6" sx={{fontWeight: 600, marginBottom: '20px', fontFamily: 'Quicksand'}}>Sign-In</Typography>
 						</Box>
 						
 					</Grid>

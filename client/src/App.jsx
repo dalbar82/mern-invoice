@@ -21,6 +21,7 @@ import UsersList from "./features/users/pages/UsersListPage";
 import DashboardPage from "./pages/DashboardPage";
 import AuthRequired from "./components/AuthRequired";
 import HomePageNav from "./components/HomePageNav";
+import './styles/loggingPages.css'
 // import EditProfileForm from "./features/users/pages/EditProfileForm";
 // import ProfilePage from "./features/users/pages/ProfilePage";
 // import CustomerCreateForm from "./features/customers/pages/CustomerCreateForm";

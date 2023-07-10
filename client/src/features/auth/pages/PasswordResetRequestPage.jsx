@@ -6,18 +6,17 @@ import {
 	FormHelperText,
 	Grid,
 	InputLabel,
-	OutlinedInput,
+	TextField,
 	Stack,
 	Typography,
 } from "@mui/material";
 import { Formik } from "formik";
 import { useEffect } from "react";
-import { GoMailRead } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
+import Logo from "../../../components/Navbar/Logo";
 import Spinner from "../../../components/Spinner";
-import StyledDivider from "../../../components/StyledDivider";
 import useTitle from "../../../hooks/useTitle";
 import AuthWrapper from "../forms/AuthWrapper";
 import { usePasswordResetRequestMutation } from "../authApiSlice";
@@ -74,10 +73,8 @@ const PasswordResetRequestPage = () => {
 					<AuthWrapper>
 						<Container
 							component="main"
-							maxWidth="sm"
+							maxWidth="xs"
 							sx={{
-								border: "2px solid  #e4e5e7",
-								borderRadius: "25px",
 								py: 2,
 							}}
 						>
@@ -91,36 +88,19 @@ const PasswordResetRequestPage = () => {
 										<Box
 											sx={{
 												display: "flex",
-												flexDirection: "row",
+												flexDirection: "column",
 												justifyContent: "center",
 												alignItems: "center",
 											}}
 										>
+											
 											{" "}
-											<GoMailRead className="auth-svg" />
-											<Typography variant="h2">
-												Enter Your Email
+											<Logo fontSize='2rem' />
+											<Typography variant="h6" sx={{marginBottom: '20px', fontFamily: 'Quicksand'}}>
+												Password Reset
 											</Typography>
 										</Box>
-										<StyledDivider />
 									</Grid>
-									<Box
-										sx={{
-											display: "flex",
-											flexDirection: "row",
-											justifyContent: "center",
-											alignItems: "center",
-											marginBottom: "20px",
-										}}
-									>
-										<Typography
-											variant="body1"
-											component="div"
-										>
-											Are you sure you want to reset your
-											password?
-										</Typography>
-									</Box>
 								</Grid>
 								{isLoading ? (
 									<Spinner />
@@ -129,10 +109,11 @@ const PasswordResetRequestPage = () => {
 										{/* email */}
 										<Grid item xs={12}>
 											<Stack spacing={1}>
-												<InputLabel htmlFor="email-signup">
-													Email Address*
+												<InputLabel htmlFor="email-signup" sx={{fontSize: 'small'}}>
+													Email*
 												</InputLabel>
-												<OutlinedInput
+												<TextField
+													variant='filled'
 													fullWidth
 													error={Boolean(
 														touched.email &&
@@ -159,13 +140,12 @@ const PasswordResetRequestPage = () => {
 											</Stack>
 										</Grid>
 										{/* button */}
-										<Grid item xs={12}>
+										<Grid item xs={12} sx={{marginTop: '10px'}}>
 											<Button
-												sx={{ mt: 3, mb: 2 }}
+												sx={{ mt: 3, mb: 2, backgroundColor: 'rgb(25, 142, 189)' }}
 												type="submit"
 												fullWidth
 												variant="contained"
-												color="success"
 												size="large"
 												endIcon={<SendIcon />}
 												disabled={!values.email}
@@ -177,8 +157,9 @@ const PasswordResetRequestPage = () => {
 										<Grid item xs={12}>
 											<Button
 												variant="contained"
-												color="warning"
-												size="medium"
+												color="primary"
+												size="large"
+												fullWidth
 												onClick={goBack}
 											>
 												Go Back

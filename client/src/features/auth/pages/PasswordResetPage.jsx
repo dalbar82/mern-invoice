@@ -11,18 +11,16 @@ import {
 	IconButton,
 	InputAdornment,
 	InputLabel,
-	OutlinedInput,
+	TextField,
 	Stack,
 	Typography,
 } from "@mui/material";
 import { Formik } from "formik";
 import { useEffect, useState } from "react";
-import { GrPowerReset } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 import Spinner from "../../../components/Spinner";
-import StyledDivider from "../../../components/StyledDivider";
 import useTitle from "../../../hooks/useTitle";
 import {
 	strengthColor,
@@ -30,6 +28,7 @@ import {
 } from "../../../utils/password-strength";
 import { useResetPasswordMutation } from "../authApiSlice";
 import AuthWrapper from "../forms/AuthWrapper";
+import Logo from "../../../components/Navbar/Logo";
 
 const PasswordResetPage = () => {
 	useTitle("Request Reset Password");
@@ -112,10 +111,8 @@ const PasswordResetPage = () => {
 					<AuthWrapper>
 						<Container
 							component="main"
-							maxWidth="sm"
+							maxWidth="xs"
 							sx={{
-								border: "2px solid  #e4e5e7",
-								borderRadius: "25px",
 								py: 2,
 							}}
 						>
@@ -129,36 +126,19 @@ const PasswordResetPage = () => {
 										<Box
 											sx={{
 												display: "flex",
-												flexDirection: "row",
+												flexDirection: "column",
 												justifyContent: "center",
 												alignItems: "center",
+												marginBottom: '20px'
 											}}
 										>
 											{" "}
-											<GrPowerReset className="auth-svg" />
-											<Typography variant="h2">
+											<Logo fontSize='2rem'/>
+											<Typography variant="h6" sx={{fontFamily: 'quicksand', fontWeight: '600'}}>
 												Reset Password?
 											</Typography>
 										</Box>
-										<StyledDivider />
 									</Grid>
-									<Box
-										sx={{
-											display: "flex",
-											flexDirection: "row",
-											justifyContent: "center",
-											alignItems: "center",
-											marginBottom: "20px",
-										}}
-									>
-										<Typography
-											variant="body1"
-											component="div"
-										>
-											Enter your new password to finish
-											the reset process
-										</Typography>
-									</Box>
 								</Grid>
 								{isLoading ? (
 									<Spinner />
@@ -167,10 +147,11 @@ const PasswordResetPage = () => {
 										{/* password */}
 										<Grid item xs={12}>
 											<Stack spacing={1}>
-												<InputLabel htmlFor="password-signup">
+												<InputLabel htmlFor="password-signup" sx={{fontSize: 'small'}}>
 													Password
 												</InputLabel>
-												<OutlinedInput
+												<TextField
+													variant='filled'
 													fullWidth
 													error={Boolean(
 														touched.password &&
@@ -228,7 +209,7 @@ const PasswordResetPage = () => {
 											{/* password strength indicator */}
 											<FormControl
 												fullWidth
-												sx={{ mt: 2 }}
+												sx={{ mt: '10px', mb: '20px' }}
 											>
 												<Grid
 													container
@@ -262,10 +243,11 @@ const PasswordResetPage = () => {
 										{/* passwordConfirm */}
 										<Grid item xs={12}>
 											<Stack spacing={1}>
-												<InputLabel htmlFor="passwordConfirm-signup">
+												<InputLabel htmlFor="passwordConfirm-signup" sx={{fontSize: 'small'}}>
 													Confirm Password
 												</InputLabel>
-												<OutlinedInput
+												<TextField
+													variant='filled'
 													fullWidth
 													error={Boolean(
 														touched.passwordConfirm &&
@@ -329,7 +311,7 @@ const PasswordResetPage = () => {
 												type="submit"
 												fullWidth
 												variant="contained"
-												color="success"
+												color="primary"
 												size="large"
 												endIcon={<SendIcon />}
 												disabled={
