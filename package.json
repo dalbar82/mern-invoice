@@ -43,6 +43,8 @@
     "winston-daily-rotate-file": "^4.7.1"
   },
   "devDependencies": {
+    "eslint": "^8.44.0",
+    "eslint-plugin-react": "^7.32.2",
     "nodemon": "^2.0.22"
   }
 }

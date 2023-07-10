@@ -1,4 +1,4 @@
-import { Box, Button, Container, Grid, Link, styled, Typography } from "@mui/material";
+import { Box, Button, Grid, Link, styled } from "@mui/material";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import JobForgeModularDiagram from "../components/JobForgeModularDiagram";
 import "../styles/homepage.css";
