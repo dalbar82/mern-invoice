@@ -1,4 +1,4 @@
-import SendIcon from "@mui/icons-material/Send";
+import SendIcon from '@mui/icons-material/Send'
 import {
 	Box,
 	Button,
@@ -9,59 +9,58 @@ import {
 	Stack,
 	TextField,
 	Typography,
-} from "@mui/material";
-import { Formik } from "formik";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import Spinner from "../../../components/Spinner";
-import useTitle from "../../../hooks/useTitle";
-import { useResendVerifyEmailMutation } from "../authApiSlice";
-import AuthWrapper from "../forms/AuthWrapper";
-import Logo from "../../../components/Navbar/Logo";
+} from '@mui/material'
+import { Formik } from 'formik'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import * as Yup from 'yup'
+import Spinner from '../../../components/Spinner'
+import useTitle from '../../../hooks/useTitle'
+import { useResendVerifyEmailMutation } from '../authApiSlice'
+import AuthWrapper from '../forms/AuthWrapper'
+import Logo from '../../../components/Navbar/Logo'
 
 const ResendEmailTokenPage = () => {
-	useTitle("Resend Verification Email");
+	useTitle('Resend Verification Email')
 
-	const navigate = useNavigate();
-	const goBack = () => navigate(-1);
+	const navigate = useNavigate()
+	const goBack = () => navigate(-1)
 
 	const [resendVerifyEmail, { data, isLoading, isSuccess }] =
-		useResendVerifyEmailMutation();
+		useResendVerifyEmailMutation()
 
 	useEffect(() => {
 		if (isSuccess) {
-			navigate("/");
-			const message = data.message;
-			toast.success(message);
+			navigate('/')
+			const message = data.message
+			toast.success(message)
 		}
-	}, [data, isSuccess, navigate]);
+	}, [data, isSuccess, navigate])
 
 	return (
 		<>
 			<Formik
-				initialValues={{ email: "" }}
+				initialValues={{ email: '' }}
 				validationSchema={Yup.object().shape({
 					email: Yup.string()
-						.email("Must be a valid email")
+						.email('Must be a valid email')
 						.max(255)
-						.required("Email is required"),
+						.required('Email is required'),
 				})}
 				onSubmit={async (values, { setStatus, setSubmitting }) => {
 					try {
-						await resendVerifyEmail(values).unwrap();
+						await resendVerifyEmail(values).unwrap()
 
-						setStatus({ success: true });
-						setSubmitting(false);
+						setStatus({ success: true })
+						setSubmitting(false)
 					} catch (err) {
-						const message = err.data.message;
-						toast.error(message);
-						setStatus({ success: false });
-						setSubmitting(false);
+						const message = err.data.message
+						toast.error(message)
+						setStatus({ success: false })
+						setSubmitting(false)
 					}
-				}}
-			>
+				}}>
 				{({
 					errors,
 					handleBlur,
@@ -73,31 +72,32 @@ const ResendEmailTokenPage = () => {
 				}) => (
 					<AuthWrapper>
 						<Container
-							component="main"
-							maxWidth="xs"
+							component='main'
+							maxWidth='xs'
 							sx={{
 								py: 2,
-							}}
-						>
+							}}>
 							<form
 								noValidate
-								autoComplete="off"
-								onSubmit={handleSubmit}
-							>
+								autoComplete='off'
+								onSubmit={handleSubmit}>
 								<Grid>
-									<Grid item xs={12}>
+									<Grid
+										item
+										xs={12}>
 										<Box
 											sx={{
-												display: "flex",
-												flexDirection: "column",
-												justifyContent: "center",
-												alignItems: "center",
-												mb: '20px'
-											}}
-										>
-											{" "}
-											<Logo fontSize='2rem'/>
-											<Typography variant="h6" sx={{fontFamily: 'quicksand', fontWeight: '600'}}>
+												display: 'flex',
+												flexDirection: 'column',
+												justifyContent: 'center',
+												alignItems: 'center',
+												mb: '20px',
+											}}>
+											{' '}
+											<Logo fontSize='2rem' />
+											<Typography
+												variant='h6'
+												sx={{ fontFamily: 'quicksand', fontWeight: '600' }}>
 												Resend Verification
 											</Typography>
 										</Box>
@@ -107,62 +107,64 @@ const ResendEmailTokenPage = () => {
 									<Spinner />
 								) : (
 									<Grid container>
-										<Grid item xs={12}>
+										<Grid
+											item
+											xs={12}>
 											<Stack spacing={1}>
-												<InputLabel htmlFor="email-signup" sx={{fontSize: 'small'}}>
+												<InputLabel
+													htmlFor='email-signup'
+													sx={{ fontSize: 'small' }}>
 													Email*
 												</InputLabel>
 												<TextField
 													variant='filled'
 													fullWidth
-													error={Boolean(
-														touched.email &&
-															errors.email
-													)}
-													id="email-signup"
-													type="email"
+													error={Boolean(touched.email && errors.email)}
+													id='email-signup'
+													type='email'
 													value={values.email}
-													name="email"
+													name='email'
 													onBlur={handleBlur}
 													onChange={handleChange}
-													placeholder="email@example.com"
+													placeholder='email@example.com'
 													inputProps={{}}
 												/>
-												{touched.email &&
-													errors.email && (
-														<FormHelperText
-															error
-															id="helper-text-email-signup"
-														>
-															{errors.email}
-														</FormHelperText>
-													)}
+												{touched.email && errors.email && (
+													<FormHelperText
+														error
+														id='helper-text-email-signup'>
+														{errors.email}
+													</FormHelperText>
+												)}
 											</Stack>
 										</Grid>
 										{/* button */}
-										<Grid item xs={12} sx={{marginTop: '10px'}}>
+										<Grid
+											item
+											xs={12}
+											sx={{ marginTop: '10px' }}>
 											<Button
 												sx={{ mt: 3, mb: 2, backgroundColor: 'rgb(25, 142, 189)' }}
-												type="submit"
+												type='submit'
 												fullWidth
-												variant="contained"
-												color="primary"
-												size="large"
+												variant='contained'
+												color='primary'
+												size='large'
 												endIcon={<SendIcon />}
-												disabled={!values.email}
-											>
+												disabled={!values.email}>
 												Resend Verification Email
 											</Button>
 										</Grid>
 										{/* go back button */}
-										<Grid item xs={12}>
+										<Grid
+											item
+											xs={12}>
 											<Button
-												variant="contained"
-												color="primary"
-												size="large"
+												variant='contained'
+												color='primary'
+												size='large'
 												fullWidth
-												onClick={goBack}
-											>
+												onClick={goBack}>
 												Go Back
 											</Button>
 										</Grid>
@@ -174,7 +176,7 @@ const ResendEmailTokenPage = () => {
 				)}
 			</Formik>
 		</>
-	);
-};
+	)
+}
 
-export default ResendEmailTokenPage;
+export default ResendEmailTokenPage

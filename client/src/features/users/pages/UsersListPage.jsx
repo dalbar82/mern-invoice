@@ -14,118 +14,107 @@ import {
 	TableRow,
 	Typography,
 	Checkbox,
-} from "@mui/material";
-import GroupIcon from "@mui/icons-material/Group";
-import moment from "moment";
-import { useEffect, useState } from "react";
-import { MdOutlineBadge } from "react-icons/md";
-import { toast } from "react-toastify";
-import Spinner from "../../../components/Spinner";
-import StyledDivider from "../../../components/StyledDivider";
-import StyledTableCell from "../../../components/StyledTableCell";
-import StyledTableRow from "../../../components/StyledTableRow";
-import TablePaginationActions from "../../../components/TablePaginationActions";
-import useTitle from "../../../hooks/useTitle";
-import {
-	useGetAllUsersQuery,
-} from "../usersApiSlice";
+} from '@mui/material'
+import GroupIcon from '@mui/icons-material/Group'
+import moment from 'moment'
+import { useEffect, useState } from 'react'
+import { MdOutlineBadge } from 'react-icons/md'
+import { toast } from 'react-toastify'
+import Spinner from '../../../components/Spinner'
+import StyledDivider from '../../../components/StyledDivider'
+import StyledTableCell from '../../../components/StyledTableCell'
+import StyledTableRow from '../../../components/StyledTableRow'
+import TablePaginationActions from '../../../components/TablePaginationActions'
+import useTitle from '../../../hooks/useTitle'
+import { useGetAllUsersQuery } from '../usersApiSlice'
 
 const UserListPage = () => {
-	useTitle("Users");
+	useTitle('Users')
 
-	const [page, setPage] = useState(0);
-	const [rowsPerPage, setRowsPerPage] = useState(5);
+	const [page, setPage] = useState(0)
+	const [rowsPerPage, setRowsPerPage] = useState(5)
 
 	const { data, isLoading, isSuccess, isError, error } = useGetAllUsersQuery(
-		"allUsersList",
+		'allUsersList',
 		{
 			pollingInterval: 600000,
 			refetchOnFocus: true,
 			refetchOnMountOrArgChange: true,
 		}
 	)
-	
-	const rows = data?.users;
+
+	const rows = data?.users
 
 	const emptyRows =
-		page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows?.length) : 0;
+		page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows?.length) : 0
 
 	const handleChangePage = (event, newPage) => {
-		setPage(newPage);
-	};
+		setPage(newPage)
+	}
 
 	const handleChangeRowsPerPage = (event) => {
-		setRowsPerPage(parseInt(event.target.value, 10));
-		setPage(0);
-	};
+		setRowsPerPage(parseInt(event.target.value, 10))
+		setPage(0)
+	}
 
 	useEffect(() => {
 		if (isError) {
-			const message = error.data.message;
-			toast.error(message);
+			const message = error.data.message
+			toast.error(message)
 		}
-	}, [error, isError]);
+	}, [error, isError])
 
 	return (
-		<Container component="main" maxWidth="lg" sx={{ mt: 10 }}>
+		<Container
+			component='main'
+			maxWidth='lg'
+			sx={{ mt: 10 }}>
 			<CssBaseline />
 
 			<Box
 				sx={{
-					display: "flex",
-					flexDirection: "row",
-					justifyContent: "center",
-					alignItems: "center",
-				}}
-			>
-				<MdOutlineBadge className="auth-svg" />
-				<Typography variant="h1"> Users</Typography>
+					display: 'flex',
+					flexDirection: 'row',
+					justifyContent: 'center',
+					alignItems: 'center',
+				}}>
+				<MdOutlineBadge className='auth-svg' />
+				<Typography variant='h1'> Users</Typography>
 			</Box>
 			<StyledDivider />
 			<Box
 				sx={{
-					display: "flex",
-					flexDirection: "row",
-				}}
-			>
-				<Typography variant="h4"> Total: </Typography>
+					display: 'flex',
+					flexDirection: 'row',
+				}}>
+				<Typography variant='h4'> Total: </Typography>
 				<Badge
 					badgeContent={data?.count}
-					color="primary"
-					sx={{ marginTop: "3px", marginLeft: "5px" }}
-				>
-					<GroupIcon color="action" fontSize="large" />
+					color='primary'
+					sx={{ marginTop: '3px', marginLeft: '5px' }}>
+					<GroupIcon
+						color='action'
+						fontSize='large'
+					/>
 				</Badge>
 			</Box>
 			{isLoading ? (
 				<Spinner />
 			) : (
 				<TableContainer component={Paper}>
-					<Table sx={{ minWidth: 650 }} aria-label="user table">
+					<Table
+						sx={{ minWidth: 650 }}
+						aria-label='user table'>
 						<TableHead>
 							<TableRow>
 								<StyledTableCell>Email</StyledTableCell>
-								<StyledTableCell align="right">
-									Username
-								</StyledTableCell>
-								<StyledTableCell align="right">
-									Provider
-								</StyledTableCell>
-								<StyledTableCell align="right">
-									isEmailVerified
-								</StyledTableCell>
-								<StyledTableCell align="right">
-									Roles
-								</StyledTableCell>
-								<StyledTableCell align="right">
-									Joined
-								</StyledTableCell>
-								<StyledTableCell align="right">
-									Active Users
-								</StyledTableCell>
-								<StyledTableCell align="right">
-									Delete
-								</StyledTableCell>
+								<StyledTableCell align='right'>Username</StyledTableCell>
+								<StyledTableCell align='right'>Provider</StyledTableCell>
+								<StyledTableCell align='right'>isEmailVerified</StyledTableCell>
+								<StyledTableCell align='right'>Roles</StyledTableCell>
+								<StyledTableCell align='right'>Joined</StyledTableCell>
+								<StyledTableCell align='right'>Active Users</StyledTableCell>
+								<StyledTableCell align='right'>Delete</StyledTableCell>
 							</TableRow>
 						</TableHead>
 
@@ -133,58 +122,44 @@ const UserListPage = () => {
 							{isSuccess && (
 								<>
 									{(rowsPerPage > 0
-										? rows.slice(
-												page * rowsPerPage,
-												page * rowsPerPage + rowsPerPage
-										  )
+										? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 										: rows
 									).map((row, index) => (
 										<StyledTableRow
 											key={row._id}
 											sx={{
-												"&:last-chid td, &:last-child th":
-													{ border: 0 },
-											}}
-										>
+												'&:last-chid td, &:last-child th': { border: 0 },
+											}}>
 											<StyledTableCell
-												component="th"
-												scope="row"
-											>
+												component='th'
+												scope='row'>
 												{row.email}
 											</StyledTableCell>
-											<StyledTableCell align="right">
-												{row.username}
-											</StyledTableCell>
-											<StyledTableCell align="right">
-												{row.provider}
-											</StyledTableCell>
-											<StyledTableCell align="right">
+											<StyledTableCell align='right'>{row.username}</StyledTableCell>
+											<StyledTableCell align='right'>{row.provider}</StyledTableCell>
+											<StyledTableCell align='right'>
 												{row.isEmailVerified.toString()}
 											</StyledTableCell>
-											<StyledTableCell align="right">
-												{row.roles
-													.toString()
-													.replace(",", ", ")}
+											<StyledTableCell align='right'>
+												{row.roles.toString().replace(',', ', ')}
 											</StyledTableCell>
-											<StyledTableCell align="right">
-												{moment(row?.dueDate).format(
-													"DD-MM-YYYY"
-												)}
+											<StyledTableCell align='right'>
+												{moment(row?.dueDate).format('DD-MM-YYYY')}
 											</StyledTableCell>
 											<StyledTableCell>
 												{/* <CustomTooltip title="Uncheck to deactivate user"> */}
-													<Checkbox
-														color="success"
-														checked={row?.active}
-														// onChange={() =>
-														// 	deactivateUserHandler(
-														// 		row._id
-														// 	)
-														// }
-													/>
+												<Checkbox
+													color='success'
+													checked={row?.active}
+													// onChange={() =>
+													// 	deactivateUserHandler(
+													// 		row._id
+													// 	)
+													// }
+												/>
 												{/* </CustomTooltip> */}
 											</StyledTableCell>
-											<StyledTableCell align="right">
+											<StyledTableCell align='right'>
 												{/* <Box>
 													<ClearIcon
 														color="error"
@@ -215,26 +190,19 @@ const UserListPage = () => {
 						<TableFooter>
 							<TableRow>
 								<TablePagination
-									rowsPerPageOptions={[
-										5,
-										10,
-										25,
-										{ label: "All", value: -1 },
-									]}
+									rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
 									colSpan={9}
-									count={rows?.length || 0} 
+									count={rows?.length || 0}
 									rowsPerPage={rowsPerPage}
 									page={page}
 									SelectProps={{
 										inputProps: {
-											"aria-label": "rows per page",
+											'aria-label': 'rows per page',
 										},
 										native: true,
 									}}
 									onPageChange={handleChangePage}
-									onRowsPerPageChange={
-										handleChangeRowsPerPage
-									}
+									onRowsPerPageChange={handleChangeRowsPerPage}
 									ActionsComponent={TablePaginationActions}
 								/>
 							</TableRow>
@@ -243,7 +211,7 @@ const UserListPage = () => {
 				</TableContainer>
 			)}
 		</Container>
-	);
-};
+	)
+}
 
-export default UserListPage;
+export default UserListPage

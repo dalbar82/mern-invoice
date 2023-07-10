@@ -1,12 +1,15 @@
 import { decodeToken } from 'react-jwt'
 import { useSelector } from 'react-redux'
-import { selectCurrentUserToken, selectCurrentUserGoogleToken } from '../features/auth/authSlice'
+import {
+	selectCurrentUserToken,
+	selectCurrentUserGoogleToken,
+} from '../features/auth/authSlice'
 
 const useAuthUser = () => {
-	const token = useSelector(selectCurrentUserToken);
-	const googleToken = useSelector(selectCurrentUserGoogleToken);
-	
-	let isAdmin = false;
+	const token = useSelector(selectCurrentUserToken)
+	const googleToken = useSelector(selectCurrentUserGoogleToken)
+
+	let isAdmin = false
 
 	let accessRight = 'User'
 

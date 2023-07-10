@@ -1,4 +1,4 @@
-import SendIcon from "@mui/icons-material/Send";
+import SendIcon from '@mui/icons-material/Send'
 import {
 	Box,
 	Button,
@@ -9,58 +9,57 @@ import {
 	TextField,
 	Stack,
 	Typography,
-} from "@mui/material";
-import { Formik } from "formik";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import Logo from "../../../components/Navbar/Logo";
-import Spinner from "../../../components/Spinner";
-import useTitle from "../../../hooks/useTitle";
-import AuthWrapper from "../forms/AuthWrapper";
-import { usePasswordResetRequestMutation } from "../authApiSlice";
+} from '@mui/material'
+import { Formik } from 'formik'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import * as Yup from 'yup'
+import Logo from '../../../components/Navbar/Logo'
+import Spinner from '../../../components/Spinner'
+import useTitle from '../../../hooks/useTitle'
+import AuthWrapper from '../forms/AuthWrapper'
+import { usePasswordResetRequestMutation } from '../authApiSlice'
 
 const PasswordResetRequestPage = () => {
-	useTitle("Request Reset Password");
-	const navigate = useNavigate();
+	useTitle('Request Reset Password')
+	const navigate = useNavigate()
 	// -1 means go back to the previous page where you came from
-	const goBack = () => navigate(-1);
+	const goBack = () => navigate(-1)
 
 	const [passwordResetRequest, { data, isLoading, isSuccess }] =
-		usePasswordResetRequestMutation();
+		usePasswordResetRequestMutation()
 
 	useEffect(() => {
 		if (isSuccess) {
-			navigate("/login");
-			const message = data.message;
-			toast.success(message);
+			navigate('/login')
+			const message = data.message
+			toast.success(message)
 		}
-	}, [data, isSuccess, navigate]);
+	}, [data, isSuccess, navigate])
 
 	return (
 		<>
 			<Formik
-				initialValues={{ email: "" }}
+				initialValues={{ email: '' }}
 				validationSchema={Yup.object().shape({
 					email: Yup.string()
-						.email("Must be a valid email")
+						.email('Must be a valid email')
 						.max(255)
-						.required("Email is required"),
+						.required('Email is required'),
 				})}
 				onSubmit={async (values, { setStatus, setSubmitting }) => {
 					try {
-						await passwordResetRequest(values).unwrap();
-						setStatus({ success: true });
-						setSubmitting(false);
+						await passwordResetRequest(values).unwrap()
+						setStatus({ success: true })
+						setSubmitting(false)
 					} catch (err) {
-						const message = err.data.message;
-						toast.error(message);
-						setStatus({ success: false });
-						setSubmitting(false);
+						const message = err.data.message
+						toast.error(message)
+						setStatus({ success: false })
+						setSubmitting(false)
 					}
-				}}
-			>
+				}}>
 				{({
 					errors,
 					handleBlur,
@@ -72,31 +71,31 @@ const PasswordResetRequestPage = () => {
 				}) => (
 					<AuthWrapper>
 						<Container
-							component="main"
-							maxWidth="xs"
+							component='main'
+							maxWidth='xs'
 							sx={{
 								py: 2,
-							}}
-						>
+							}}>
 							<form
 								noValidate
-								autoComplete="off"
-								onSubmit={handleSubmit}
-							>
+								autoComplete='off'
+								onSubmit={handleSubmit}>
 								<Grid>
-									<Grid item xs={12}>
+									<Grid
+										item
+										xs={12}>
 										<Box
 											sx={{
-												display: "flex",
-												flexDirection: "column",
-												justifyContent: "center",
-												alignItems: "center",
-											}}
-										>
-											
-											{" "}
+												display: 'flex',
+												flexDirection: 'column',
+												justifyContent: 'center',
+												alignItems: 'center',
+											}}>
+											{' '}
 											<Logo fontSize='2rem' />
-											<Typography variant="h6" sx={{marginBottom: '20px', fontFamily: 'Quicksand'}}>
+											<Typography
+												variant='h6'
+												sx={{ marginBottom: '20px', fontFamily: 'Quicksand' }}>
 												Password Reset
 											</Typography>
 										</Box>
@@ -107,61 +106,63 @@ const PasswordResetRequestPage = () => {
 								) : (
 									<Grid container>
 										{/* email */}
-										<Grid item xs={12}>
+										<Grid
+											item
+											xs={12}>
 											<Stack spacing={1}>
-												<InputLabel htmlFor="email-signup" sx={{fontSize: 'small'}}>
+												<InputLabel
+													htmlFor='email-signup'
+													sx={{ fontSize: 'small' }}>
 													Email*
 												</InputLabel>
 												<TextField
 													variant='filled'
 													fullWidth
-													error={Boolean(
-														touched.email &&
-															errors.email
-													)}
-													id="email-signup"
-													type="email"
+													error={Boolean(touched.email && errors.email)}
+													id='email-signup'
+													type='email'
 													value={values.email}
-													name="email"
+													name='email'
 													onBlur={handleBlur}
 													onChange={handleChange}
-													placeholder="email@example.com"
+													placeholder='email@example.com'
 													inputProps={{}}
 												/>
-												{touched.email &&
-													errors.email && (
-														<FormHelperText
-															error
-															id="helper-text-email-signup"
-														>
-															{errors.email}
-														</FormHelperText>
-													)}
+												{touched.email && errors.email && (
+													<FormHelperText
+														error
+														id='helper-text-email-signup'>
+														{errors.email}
+													</FormHelperText>
+												)}
 											</Stack>
 										</Grid>
 										{/* button */}
-										<Grid item xs={12} sx={{marginTop: '10px'}}>
+										<Grid
+											item
+											xs={12}
+											sx={{ marginTop: '10px' }}>
 											<Button
 												sx={{ mt: 3, mb: 2, backgroundColor: 'rgb(25, 142, 189)' }}
-												type="submit"
+												type='submit'
 												fullWidth
-												variant="contained"
-												size="large"
+												variant='contained'
+												size='large'
 												endIcon={<SendIcon />}
-												disabled={!values.email}
-											>
+												disabled={!values.email}>
 												Send Password Reset Email
 											</Button>
 										</Grid>
 										{/* Go back button */}
-										<Grid item xs={12}>
+										<Grid
+											item
+											xs={12}>
 											<Button
-												variant="contained"
-												color="primary"
-												size="large"
+												variant='contained'
+												color='primary'
+												size='large'
 												fullWidth
-												onClick={goBack}
-											>
+												onClick={goBack}>
 												Go Back
 											</Button>
 										</Grid>
@@ -173,7 +174,7 @@ const PasswordResetRequestPage = () => {
 				)}
 			</Formik>
 		</>
-	);
-};
+	)
+}
 
-export default PasswordResetRequestPage;
+export default PasswordResetRequestPage

@@ -5,75 +5,69 @@ import {
 	ListItemButton,
 	ListItemIcon,
 	styled,
-} from "@mui/material";
-import MenuText from "../MenuText";
-import { useNavigate } from "react-router-dom";
-import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
-import BarChartIcon from "@mui/icons-material/BarChart";
-import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
-import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
-import Payments from "@mui/icons-material/Payments";
-import useAuthUser from "../../hooks/useAuthUser";
+} from '@mui/material'
+import MenuText from '../MenuText'
+import { useNavigate } from 'react-router-dom'
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'
+import BarChartIcon from '@mui/icons-material/BarChart'
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
+import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined'
+import Payments from '@mui/icons-material/Payments'
+import useAuthUser from '../../hooks/useAuthUser'
 
 const StyledList = styled(List)({
-	"&:hover": {
-		backgroundColor: "#555a64",
+	'&:hover': {
+		backgroundColor: '#555a64',
 	},
-});
+})
 
 const MenuList = () => {
-	const navigate = useNavigate();
+	const navigate = useNavigate()
 
-	const { isAdmin } = useAuthUser();
+	const { isAdmin } = useAuthUser()
 
 	return (
-		<Box color="#c7cbd4">
+		<Box color='#c7cbd4'>
 			<StyledList>
 				<ListItem disablePadding>
-					<ListItemButton onClick={() => navigate("/profile")}>
+					<ListItemButton onClick={() => navigate('/profile')}>
 						<ListItemIcon>
-							<ManageAccountsIcon
-								sx={{ fontSize: 25, color: "#c7cbd4" }}
-							/>
+							<ManageAccountsIcon sx={{ fontSize: 25, color: '#c7cbd4' }} />
 						</ListItemIcon>
-						<MenuText text="Manage Profile" />
+						<MenuText text='Manage Profile' />
 					</ListItemButton>
 				</ListItem>
 			</StyledList>
 
 			<StyledList>
 				<ListItem disablePadding>
-					<ListItemButton onClick={() => navigate("/dashboard")}>
+					<ListItemButton onClick={() => navigate('/dashboard')}>
 						<ListItemIcon>
-							<BarChartIcon
-								sx={{ fontSize: 25, color: "#c7cbd4" }}
-							/>
+							<BarChartIcon sx={{ fontSize: 25, color: '#c7cbd4' }} />
 						</ListItemIcon>
-						<MenuText text="Dashboard" />
+						<MenuText text='Dashboard' />
 					</ListItemButton>
 				</ListItem>
 			</StyledList>
 
 			<StyledList>
 				<ListItem disablePadding>
-					<ListItemButton onClick={() => navigate("/documents")}>
+					<ListItemButton onClick={() => navigate('/documents')}>
 						<ListItemIcon>
-							<Payments
-								sx={{ fontSize: 25, color: "#c7cbd4" }}
-							/>
+							<Payments sx={{ fontSize: 25, color: '#c7cbd4' }} />
 						</ListItemIcon>
-						<MenuText text="Documents" />
+						<MenuText text='Documents' />
 					</ListItemButton>
 				</ListItem>
 			</StyledList>
 
 			<StyledList>
 				<ListItem disablePadding>
-					<ListItemButton onClick={() => navigate("/customers")}>
+					<ListItemButton onClick={() => navigate('/customers')}>
 						<ListItemIcon>
-							<PeopleAltOutlinedIcon sx={{ fontSize: 25, color: "#c7cbd4" }}/>
+							<PeopleAltOutlinedIcon sx={{ fontSize: 25, color: '#c7cbd4' }} />
 						</ListItemIcon>
-						<MenuText text="Customers" />
+						<MenuText text='Customers' />
 					</ListItemButton>
 				</ListItem>
 			</StyledList>
@@ -81,19 +75,17 @@ const MenuList = () => {
 			{isAdmin && (
 				<StyledList>
 					<ListItem disablePadding>
-						<ListItemButton onClick={() => navigate("/users")}>
+						<ListItemButton onClick={() => navigate('/users')}>
 							<ListItemIcon>
-								<AdminPanelSettingsIcon
-									sx={{ fontSize: 25, color: "#c7cbd4" }}
-								/>
+								<AdminPanelSettingsIcon sx={{ fontSize: 25, color: '#c7cbd4' }} />
 							</ListItemIcon>
-							<MenuText text="Admin Panel" />
+							<MenuText text='Admin Panel' />
 						</ListItemButton>
 					</ListItem>
 				</StyledList>
 			)}
 		</Box>
-	);
-};
+	)
+}
 
-export default MenuList;
+export default MenuList

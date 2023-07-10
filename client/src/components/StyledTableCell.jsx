@@ -1,4 +1,4 @@
-import { styled, TableCell, tableCellClasses } from "@mui/material";
+import { styled, TableCell, tableCellClasses } from '@mui/material'
 
 const TableCellStyled = styled(TableCell)(({ theme }) => ({
 	[`&.${tableCellClasses.head}`]: {
@@ -11,7 +11,7 @@ const TableCellStyled = styled(TableCell)(({ theme }) => ({
 }))
 
 const StyledTableCell = ({ children }) => {
-	return <TableCellStyled>{children}</TableCellStyled>;
-};
+	return <TableCellStyled>{children}</TableCellStyled>
+}
 
-export default StyledTableCell;
+export default StyledTableCell
