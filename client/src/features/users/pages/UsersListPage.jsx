@@ -2,7 +2,6 @@ import {
 	Box,
 	Badge,
 	Container,
-	CssBaseline,
 	Paper,
 	Table,
 	TableBody,
@@ -15,13 +14,10 @@ import {
 	Typography,
 	Checkbox,
 } from '@mui/material'
-import GroupIcon from '@mui/icons-material/Group'
 import moment from 'moment'
 import { useEffect, useState } from 'react'
-import { MdOutlineBadge } from 'react-icons/md'
 import { toast } from 'react-toastify'
 import Spinner from '../../../components/Spinner'
-import StyledDivider from '../../../components/StyledDivider'
 import StyledTableCell from '../../../components/StyledTableCell'
 import StyledTableRow from '../../../components/StyledTableRow'
 import TablePaginationActions from '../../../components/TablePaginationActions'
@@ -32,7 +28,7 @@ const UserListPage = () => {
 	useTitle('Users')
 
 	const [page, setPage] = useState(0)
-	const [rowsPerPage, setRowsPerPage] = useState(5)
+	const [rowsPerPage, setRowsPerPage] = useState(10)
 
 	const { data, isLoading, isSuccess, isError, error } = useGetAllUsersQuery(
 		'allUsersList',
@@ -67,50 +63,40 @@ const UserListPage = () => {
 	return (
 		<Container
 			component='main'
-			maxWidth='lg'
-			sx={{ mt: 10 }}>
-			<CssBaseline />
-
+			maxWidth='xl'
+			sx={{ mt: 14, ml: 15, width: '90%' }}>
+				
 			<Box
 				sx={{
 					display: 'flex',
 					flexDirection: 'row',
-					justifyContent: 'center',
+					justifyContent: 'start',
 					alignItems: 'center',
+					borderBottom: '1px solid #e1e1e1',
+					paddingBottom: '20px',
+					marginBottom: '20px',
+					// width: '90%'
 				}}>
-				<MdOutlineBadge className='auth-svg' />
-				<Typography variant='h1'> Users</Typography>
-			</Box>
-			<StyledDivider />
-			<Box
-				sx={{
-					display: 'flex',
-					flexDirection: 'row',
-				}}>
-				<Typography variant='h4'> Total: </Typography>
-				<Badge
+				<Typography variant='h6'>Users</Typography>
+				{/* <Badge
 					badgeContent={data?.count}
 					color='primary'
-					sx={{ marginTop: '3px', marginLeft: '5px' }}>
-					<GroupIcon
-						color='action'
-						fontSize='large'
-					/>
-				</Badge>
+					sx={{ marginLeft: '12px', marginBottom: '10px' }}></Badge> */}
 			</Box>
+
 			{isLoading ? (
 				<Spinner />
 			) : (
 				<TableContainer component={Paper}>
 					<Table
-						sx={{ minWidth: 650 }}
+						sx={{ minWidth: 650, width: '90%' }}
 						aria-label='user table'>
 						<TableHead>
 							<TableRow>
-								<StyledTableCell>Email</StyledTableCell>
+								<TableCell>Email</TableCell>
 								<StyledTableCell align='right'>Username</StyledTableCell>
-								<StyledTableCell align='right'>Provider</StyledTableCell>
-								<StyledTableCell align='right'>isEmailVerified</StyledTableCell>
+								{/* <StyledTableCell align='right'>Provider</StyledTableCell> */}
+								{/* <StyledTableCell align='right'>isEmailVerified</StyledTableCell> */}
 								<StyledTableCell align='right'>Roles</StyledTableCell>
 								<StyledTableCell align='right'>Joined</StyledTableCell>
 								<StyledTableCell align='right'>Active Users</StyledTableCell>
@@ -136,15 +122,15 @@ const UserListPage = () => {
 												{row.email}
 											</StyledTableCell>
 											<StyledTableCell align='right'>{row.username}</StyledTableCell>
-											<StyledTableCell align='right'>{row.provider}</StyledTableCell>
+											{/* <StyledTableCell align='right'>{row.provider}</StyledTableCell>
 											<StyledTableCell align='right'>
 												{row.isEmailVerified.toString()}
-											</StyledTableCell>
+											</StyledTableCell> */}
 											<StyledTableCell align='right'>
 												{row.roles.toString().replace(',', ', ')}
 											</StyledTableCell>
 											<StyledTableCell align='right'>
-												{moment(row?.dueDate).format('DD-MM-YYYY')}
+												{moment(row?.createdAt).format('DD-MM-YYYY')}
 											</StyledTableCell>
 											<StyledTableCell>
 												{/* <CustomTooltip title="Uncheck to deactivate user"> */}
