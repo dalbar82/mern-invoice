@@ -1,6 +1,5 @@
 import {
 	Box,
-	Badge,
 	Container,
 	Paper,
 	Table,
@@ -75,13 +74,8 @@ const UserListPage = () => {
 					borderBottom: '1px solid #e1e1e1',
 					paddingBottom: '20px',
 					marginBottom: '20px',
-					// width: '90%'
 				}}>
 				<Typography variant='h6'>Users</Typography>
-				{/* <Badge
-					badgeContent={data?.count}
-					color='primary'
-					sx={{ marginLeft: '12px', marginBottom: '10px' }}></Badge> */}
 			</Box>
 
 			{isLoading ? (
@@ -89,7 +83,7 @@ const UserListPage = () => {
 			) : (
 				<TableContainer component={Paper}>
 					<Table
-						sx={{ minWidth: 650, width: '90%' }}
+						sx={{ minWidth: 650}}
 						aria-label='user table'>
 						<TableHead>
 							<TableRow>

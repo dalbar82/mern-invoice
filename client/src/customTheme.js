@@ -3,6 +3,7 @@ import { createTheme } from '@mui/material'
 export const customTheme = createTheme({
 	typography: {
 		fontFamily: ['Poppins'],
+		color: 'rgb(31, 31, 31)'
 	},
 	palette: {
 		background: {
@@ -49,7 +50,7 @@ export const customTheme = createTheme({
 		MuiListItemText: {
 			styleOverrides: {
 				primary: {
-					fontSize: '1.3rem',
+					fontSize: 'small',
 				},
 			},
 		},

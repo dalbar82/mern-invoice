@@ -22,8 +22,8 @@ import DashboardPage from './pages/DashboardPage'
 import AuthRequired from './components/AuthRequired'
 import HomePageNav from './components/HomePageNav'
 import './styles/loggingPages.css'
-// import EditProfileForm from "./features/users/pages/EditProfileForm";
-// import ProfilePage from "./features/users/pages/ProfilePage";
+import EditProfileForm from './features/users/pages/EditProfileForm'
+import ProfilePage from './features/users/pages/ProfilePage'
 // import CustomerCreateForm from "./features/customers/pages/CustomerCreateForm";
 // import CustomerEditForm from "./features/customers/pages/CustomerEditForm";
 // import CustomersPage from "./features/customers/pages/CustomersPage";
@@ -78,6 +78,14 @@ const App = () => {
 						<Route
 							path='dashboard'
 							element={<DashboardPage />}
+						/>
+						<Route
+							path='profile'
+							element={<ProfilePage />}
+						/>
+						<Route
+							path='edit-profile'
+							element={<EditProfileForm />}
 						/>
 					</Route>
 
