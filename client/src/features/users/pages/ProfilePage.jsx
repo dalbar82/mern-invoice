@@ -14,6 +14,7 @@ import {
 	Stack,
 	Typography,
 } from '@mui/material'
+import Tooltip from '@mui/material/Tooltip'
 import ListItemWrapper from '../../../components/ListItemWrapper'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
@@ -58,7 +59,7 @@ const ProfilePage = () => {
 		try {
 			await deleteMyAccount().unwrap()
 			dispatch(logOut())
-			toast.success('Your account has been deleted. Sad to see you go 😢')
+			toast.success('Your account has been deleted.')
 		} catch (err) {
 			const message = err.data.message
 			toast.error(message)
@@ -101,27 +102,49 @@ const ProfilePage = () => {
 					<Box
 						sx={{
 							width: '100%',
-							display: 'flex',
-							flexDirection: 'row',
-							justifyContent: 'left',
+
 							padding: '20px',
 							backgroundColor: 'white',
 							borderRadius: '5px',
+							display: 'flex',
+							flexDirection: 'row',
+							justifyContent: 'space-between',
+							alignItems: 'center',
 						}}>
-						{data.userProfile?.avatar ? (
-							<Avatar
-								src={data.userProfile.avatar}
-								sx={{ width: '60px', height: '60px', marginRight: '20px' }}
-							/>
-						) : (
-							<AccountCircleIcon
-								sx={{ fontSize: '6rem' }}
-								color='info'
-							/>
-						)}
-						<Box>
-							<Typography variant='h6'>{`${data.userProfile.firstName} ${data.userProfile.lastName}`}</Typography>
-							<Typography variant='p'>{`${data.userProfile.email}`}</Typography>
+						<Box
+							sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'left' }}>
+							{data.userProfile?.avatar ? (
+								<Avatar
+									src={data.userProfile.avatar}
+									sx={{ width: '60px', height: '60px', marginRight: '20px' }}
+								/>
+							) : (
+								<AccountCircleIcon
+									sx={{ fontSize: '6rem' }}
+									color='info'
+								/>
+							)}
+							<Box>
+								<Typography variant='h6'>{`${data.userProfile.firstName} ${data.userProfile.lastName}`}</Typography>
+								<Typography variant='p'>{`${data.userProfile.email}`}</Typography>
+							</Box>
+						</Box>
+
+						<Box sx={{}}>
+							<Tooltip title='Edit Profile'>
+								<Button
+									sx={{ p: '15px 0px 15px 10px', color: '#a6aeb3' }}
+									variant='text'
+									startIcon={<EditIcon />}
+									onClick={() => navigate('/edit-profile')}></Button>
+							</Tooltip>
+							<Tooltip title='Delete Profile'>
+								<Button
+									sx={{ p: '15px 0px 15px 10px', color: '#a6aeb3' }}
+									variant='text'
+									startIcon={<PersonRemoveAlt1Icon />}
+									onClick={handleOpen}></Button>
+							</Tooltip>
 						</Box>
 					</Box>
 
@@ -144,7 +167,7 @@ const ProfilePage = () => {
 											width: '100%',
 											fontSize: 'small',
 											marginTop: '10px',
-                      
+											paddingBottom: '0',
 										}}>
 										{/* email */}
 										<ListItemWrapper
@@ -166,7 +189,9 @@ const ProfilePage = () => {
 											label={'Address'}
 											text={
 												data.userProfile.address
-													? `${data.userProfile.address}, ${data.userProfile?.city} ${data.userProfile?.country}`
+													? `${data.userProfile.address || ''} ${
+															data.userProfile?.city || ''
+													  } ${data.userProfile?.country || ''}`
 													: ''
 											}
 										/>
@@ -179,45 +204,14 @@ const ProfilePage = () => {
 													: ''
 											}
 										/>
+                    {/* roles */}
+										<ListItemWrapper
+											label={'Roles'}
+											text={data.userProfile.roles}
+										/>
 									</List>
 								</Stack>
 							</Stack>
-						</Grid>
-					</Grid>
-					<Grid
-						container
-						spacing={2}>
-						<Grid
-							item
-							md={6}>
-							<Button
-								sx={{ mt: 3, mb: 2, borderRadius: '25px' }}
-								fullWidth
-								variant='contained'
-								color='success'
-								size='large'
-								endIcon={<EditIcon />}
-								onClick={() => navigate('/edit-profile')}>
-								<Typography variant='h5'>Edit Profile</Typography>
-							</Button>
-						</Grid>
-						<Grid
-							item
-							md={6}>
-							<Button
-								sx={{ mt: 3, mb: 2, borderRadius: '25px' }}
-								fullWidth
-								variant='contained'
-								color='error'
-								size='large'
-								startIcon={<PersonRemoveAlt1Icon sx={{ color: 'white' }} />}
-								onClick={handleOpen}>
-								<Typography
-									variant='h5'
-									sx={{ color: 'white' }}>
-									Delete Account?
-								</Typography>
-							</Button>
 						</Grid>
 					</Grid>
 
