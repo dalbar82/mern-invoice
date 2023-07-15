@@ -3,6 +3,7 @@ import EditIcon from '@mui/icons-material/Edit'
 import PersonRemoveAlt1Icon from '@mui/icons-material/PersonRemoveAlt1'
 import CloseIcon from '@mui/icons-material/Close'
 import DoneIcon from '@mui/icons-material/Done'
+import WarningAmberRoundedIcon from '@mui/icons-material/WarningAmberRounded'
 import {
 	Avatar,
 	Box,
@@ -37,10 +38,8 @@ const modalStyle = {
 	transform: 'translate(-50%, -50%)',
 	width: 400,
 	bgcolor: 'background.paper',
-	// border: '2px solid #000',
-	borderRadius: '5px',
 	boxShadow: 24,
-	p: 5,
+	p: 4,
 }
 
 const ProfilePage = () => {
@@ -225,47 +224,66 @@ const ProfilePage = () => {
 						aria-labelledby='modal-modal-title'
 						aria-describedby='modal-modal-description'>
 						<Box sx={modalStyle}>
-							<Typography
-								id='modal-modal-title'
-								variant='h6'
-								pb='20px'
-								sx={{ fontSize: 'medium' }}>
-								Delete Account?
-							</Typography>
-							<Typography
-								variant='p'
-								pb='20px'
-								sx={{ fontSize: 'small' }}>
-								Please note you can't undo this action.
-							</Typography>
 							<Box
 								sx={{
 									display: 'flex',
-									width: '50%',
+									flexDirection: 'row',
 									justifyContent: 'space-between',
+									alignItems: 'center',
+									borderBottom: '1px solid #e1e1e1',
+									paddingBottom: '20px',
+									marginBottom: '20px',
+									width: '100%',
 								}}>
-								<Tooltip title='Cancel'>
-									<Button
-										id='modal-modal-description'
-										sx={{ mt: 2 }}
-										variant='text'
-										color='error'
-										size='large'
-										onClick={handleClose}>
-										<CloseIcon />
-									</Button>
-								</Tooltip>
-								<Tooltip title='Delete'>
-									<Button
-										id='modal-modal-description'
-										sx={{ mt: 2 }}
-										variant='text'
-										color='success'
-										size='large'
-										onClick={deleteHandler}>
-										<DoneIcon />
-									</Button>
-								</Tooltip>
+								<Typography
+									id='modal-modal-title'
+									variant='h6'
+									sx={{ fontSize: 'medium' }}>
+									Delete Account?
+								</Typography>
+								<Box>
+									<Tooltip title='Yes'>
+										<Button
+											sx={{
+												color: '#a6aeb3',
+											}}
+											id='modal-modal-description'
+											variant='text'
+											size='large'
+											onClick={deleteHandler}>
+											<DoneIcon />
+										</Button>
+									</Tooltip>
+									<Tooltip title='No'>
+										<Button
+											sx={{
+												color: '#a6aeb3',
+											}}
+											id='modal-modal-description'
+											variant='text'
+											size='large'
+											onClick={handleClose}>
+											<CloseIcon />
+										</Button>
+									</Tooltip>
+								</Box>
+							</Box>
+							<Box
+								sx={{
+									display: 'flex',
+									alignItems: 'center',
+									width: '100%',
+									marginTop: '10px',
+									backgroundColor: '#ff000066',
+									padding: '10px',
+									borderRadius: '5px'
+								}}>
+								<WarningAmberRoundedIcon sx={{ marginRight: '10px', color: 'red'}}/>
+								<Typography
+									variant='p'
+									sx={{ fontSize: 'small', color: 'white' }}>
+									Please note you can't undo this action!
+								</Typography>
 							</Box>
 						</Box>
 					</Modal>

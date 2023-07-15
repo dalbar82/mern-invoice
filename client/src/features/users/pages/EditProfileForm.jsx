@@ -1,7 +1,6 @@
 import ClearIcon from '@mui/icons-material/Clear'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
-import CheckIcon from '@mui/icons-material/Check'
-import PhotoCamera from '@mui/icons-material/PhotoCamera'
+import DoneIcon from '@mui/icons-material/Done'
 import {
 	Avatar,
 	Box,
@@ -132,49 +131,11 @@ const EditProfileForm = () => {
 					mt: 14,
 					ml: 15,
 				}}>
-				<Box
-					sx={{
-						display: 'flex',
-						flexDirection: 'row',
-						justifyContent: 'space-between',
-						alignItems: 'center',
-						borderBottom: '1px solid #e1e1e1',
-						paddingBottom: '20px',
-						marginBottom: '20px',
-					}}>
-					<Typography variant='h6'>Edit</Typography>
-					<Box
-						sx={{
-							display: 'flex',
-							flexDirection: 'row',
-							justifyContent: 'left',
-						}}>
-						{avatar ? (
-							<Avatar
-								src={avatar}
-								sx={{ width: '60px', height: '60px' }}
-							/>
-						) : (
-							<AccountCircleIcon
-								sx={{ fontSize: '6rem' }}
-								color='info'
-							/>
-						)}
-					</Box>
-					<Tooltip title='Cancel'>
-						<Button
-							sx={{ p: '15px 0px 15px 10px', color: '#a6aeb3' }}
-							variant='text'
-							startIcon={<ClearIcon />}
-							onClick={goBack}></Button>
-					</Tooltip>
-				</Box>
 				{isLoading ? (
 					<Spinner />
 				) : (
 					<Box
 						sx={{
-							mt: '1rem',
 							display: 'flex',
 							flexDirection: 'column',
 							alignItems: 'center',
@@ -183,6 +144,37 @@ const EditProfileForm = () => {
 						noValidate
 						autoComplete='off'
 						onSubmit={updateHandler}>
+						<Box
+							sx={{
+								display: 'flex',
+								flexDirection: 'row',
+								justifyContent: 'space-between',
+								alignItems: 'center',
+								borderBottom: '1px solid #e1e1e1',
+								paddingBottom: '20px',
+								marginBottom: '20px',
+								width: '100%',
+							}}>
+							<Typography variant='h6'>Edit</Typography>
+
+							<Box>
+								<Tooltip title='Submit'>
+									<Button
+										color='success'
+										sx={{ p: '15px 0px 15px 10px', color: '#a6aeb3' }}
+										variant='text'
+										startIcon={<DoneIcon />}
+										type='submit'></Button>
+								</Tooltip>
+								<Tooltip title='Cancel'>
+									<Button
+										sx={{ p: '15px 0px 15px 10px', color: '#a6aeb3' }}
+										variant='text'
+										startIcon={<ClearIcon />}
+										onClick={goBack}></Button>
+								</Tooltip>
+							</Box>
+						</Box>
 						<Grid
 							container
 							spacing={2}>
@@ -318,49 +310,84 @@ const EditProfileForm = () => {
 							</Grid>
 						</Grid>
 						{/* avatar logo */}
-						<TextField
-							variant='filled'
-							fullWidth
-							id='avatar'
-							name='avatar'
-							label='Avatar'
-							margin='normal'
-							value={avatar || ''}
-							onChange={(e) => setAvatar(e.target.value)}
-						/>
-						<label
-							htmlFor='logo'
-							style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
-							<Input
-								accept='image/*'
-								id='logo'
-								name='logo'
-								type='file'
-								onChange={uploadFileHandler}
-							/>
-							{!uploading ? (
-								<Button
-									sx={{ mt: '5px' }}
+						<Box
+							sx={{
+								display: 'flex',
+								flexDirection: 'row',
+								justifyContent: 'space-between',
+								width: '100%',
+								alignItems: 'center',
+								marginBottom: '40px',
+							}}>
+							<Box sx={{ width: '73%' }}>
+								<TextField
+									sx={{
+										marginTop: '20px',
+										marginBottom: '10px',
+									}}
+									variant='filled'
 									fullWidth
-									size='large'
-									variant='contained'
-									component='span'>
-									Choose Your Logo
-								</Button>
-							) : (
-								<CircularProgress size={60} sx={{margin: 'auto'}}/>
-							)}
-						</label>
-
-						<Button
-							sx={{ mt: 3, mb: 5, backgroundColor: 'rgb(25, 142, 189)' }}
-							type='submit'
-							fullWidth
-							variant='contained'
-							color='primary'
-							size='large'>
-							Update
-						</Button>
+									id='avatar'
+									name='avatar'
+									label='Avatar'
+									value={avatar || ''}
+									onChange={(e) => setAvatar(e.target.value)}
+								/>
+								<label
+									htmlFor='logo'
+									style={{
+										width: '100%',
+										display: 'flex',
+										flexDirection: 'column',
+									}}>
+									<Input
+										accept='image/*'
+										id='logo'
+										name='logo'
+										type='file'
+										onChange={uploadFileHandler}
+									/>
+									{!uploading ? (
+										<Button
+											sx={{ mt: '5px' }}
+											fullWidth
+											size='large'
+											variant='contained'
+											component='span'>
+											Upload/paste avatar
+										</Button>
+									) : (
+										<CircularProgress
+											size={60}
+											sx={{ margin: 'auto' }}
+										/>
+									)}
+								</label>
+							</Box>
+							<Box
+								borderRadius={1}
+								sx={{
+									display: 'flex',
+									alignContent: 'center',
+									justifyContent: 'center',
+									backgroundColor: 'rgba(0, 0, 0, 0.06)',
+									width: '23%',
+									height: '100%',
+									marginTop: '20px',
+								}}>
+								{avatar ? (
+									<Avatar
+										src={avatar}
+										sx={{ width: '90px', height: '90px', margin: '12px ' }}
+									/>
+								) : (
+									<AccountCircleIcon
+										sx={{ fontSize: '6rem' }}
+										color='info'
+									/>
+								)}
+							</Box>
+						</Box>
 					</Box>
 				)}
 			</Container>
