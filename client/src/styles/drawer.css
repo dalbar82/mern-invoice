@@ -1,0 +1,18 @@
+.drawer {
+	background-color: rgba(0, 0, 0, 0.5);
+	height: 100vh; 
+	position: relative;
+	z-index: 100;
+  width: 100%;
+}
+.drawer-page {
+	position: absolute;
+	top: 43%;
+	left: 45%;
+	transform: translate(-50%, -50%);
+	height: fit-content;
+	width: 50% !important;
+	background-color: white;
+	/* left: 20%; */
+	padding-top: 28px;
+}
