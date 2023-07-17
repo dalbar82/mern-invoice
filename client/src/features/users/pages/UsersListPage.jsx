@@ -12,7 +12,11 @@ import {
 	TableRow,
 	Typography,
 	Checkbox,
+	Tooltip,
+	styled,
+	toolbarClasses,
 } from '@mui/material'
+import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
 import moment from 'moment'
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
@@ -21,7 +25,11 @@ import StyledTableCell from '../../../components/StyledTableCell'
 import StyledTableRow from '../../../components/StyledTableRow'
 import TablePaginationActions from '../../../components/TablePaginationActions'
 import useTitle from '../../../hooks/useTitle'
-import { useGetAllUsersQuery } from '../usersApiSlice'
+import {
+	useGetAllUsersQuery,
+	useDeactivateUserMutation,
+	useDeleteUserMutation,
+} from '../usersApiSlice'
 
 const UserListPage = () => {
 	useTitle('Users')
@@ -37,7 +45,8 @@ const UserListPage = () => {
 			refetchOnMountOrArgChange: true,
 		}
 	)
-
+	const [deleteUser] = useDeleteUserMutation()
+	const [deactivateUser] = useDeactivateUserMutation()
 	const rows = data?.users
 
 	const emptyRows =
@@ -52,6 +61,26 @@ const UserListPage = () => {
 		setPage(0)
 	}
 
+	const deactivateUserHandler = async (id) => {
+		try {
+			await deactivateUser(id).unwrap()
+			toast.success('User deactivated')
+		} catch (err) {
+			const message = err.data.message
+			toast.error(message)
+		}
+	}
+	//TODO: add delete modal
+	const deleteHandler = async (id) => {
+		try {
+			await deleteUser(id).unwrap()
+			toast.success('User deleted')
+		} catch (err) {
+			const message = err.data.message
+			toast.error(message)
+		}
+	}
+
 	useEffect(() => {
 		if (isError) {
 			const message = error.data.message
@@ -64,7 +93,6 @@ const UserListPage = () => {
 			component='main'
 			maxWidth='xl'
 			sx={{ mt: 14, ml: 15, width: '90%' }}>
-				
 			<Box
 				sx={{
 					display: 'flex',
@@ -83,7 +111,7 @@ const UserListPage = () => {
 			) : (
 				<TableContainer component={Paper}>
 					<Table
-						sx={{ minWidth: 650}}
+						sx={{ minWidth: 650 }}
 						aria-label='user table'>
 						<TableHead>
 							<TableRow>
@@ -126,22 +154,19 @@ const UserListPage = () => {
 											<StyledTableCell align='right'>
 												{moment(row?.createdAt).format('DD-MM-YYYY')}
 											</StyledTableCell>
-											<StyledTableCell>
-												{/* <CustomTooltip title="Uncheck to deactivate user"> */}
-												<Checkbox
-													color='success'
-													checked={row?.active}
-													// onChange={() =>
-													// 	deactivateUserHandler(
-													// 		row._id
-													// 	)
-													// }
-												/>
-												{/* </CustomTooltip> */}
+											<StyledTableCell align='left'>
+												<Tooltip title='Uncheck to deactivate user'>
+													<Checkbox
+														color='success'
+														checked={row?.active}
+														onChange={() => deactivateUserHandler(row._id)}
+													/>
+												</Tooltip>
 											</StyledTableCell>
 											<StyledTableCell align='right'>
-												{/* <Box>
-													<ClearIcon
+												<Box>
+													<ClearRoundedIcon
+													// TODO: add delete confirm modal
 														color="error"
 														fontSize="medium"
 														sx={{
@@ -153,7 +178,7 @@ const UserListPage = () => {
 															)
 														}
 													/>
-												</Box> */}
+												</Box>
 											</StyledTableCell>
 										</StyledTableRow>
 									))}

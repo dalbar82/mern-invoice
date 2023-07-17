@@ -4,7 +4,7 @@ const TableCellStyled = styled(TableCell)(({ theme }) => ({
 	[`&.${tableCellClasses.head}`]: {
 		backgroundColor: theme.palette.common.white,
 		color: '#222222de',
-		height: '75px' 
+		height: '75px'
 	},
 	[`&.${tableCellClasses.body}`]: {
 		fontSize: 15,
