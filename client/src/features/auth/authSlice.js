@@ -9,6 +9,7 @@ const decodedToken = googleToken ? decodeToken(googleToken) : null
 const initialState = {
 	user: user ? user : decodedToken,
 	googleToken: googleToken ? googleToken : null,
+	users: []
 }
 
 const authSlice = createSlice({
@@ -18,12 +19,14 @@ const authSlice = createSlice({
 		logIn: (state, action) => {
 			state.user = action.payload
 			localStorage.setItem('user', JSON.stringify(action.payload))
+			localStorage.setItem('users', [])
 		},
 		logOut: (state, action) => {
 			state.user = null
 			state.googleToken = null
 			localStorage.removeItem('user')
 			localStorage.removeItem('googleToken')
+			localStorage.removeItem('users')
 		},
 	},
 })

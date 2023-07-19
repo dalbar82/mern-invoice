@@ -83,7 +83,12 @@ const CustomerListPage = () => {
 		setRowsPerPage(parseInt(event.target.value, 10))
 		setPage(0)
 	}
-
+	
+	const userName =  (id) => {
+		const users =  JSON.parse(localStorage.getItem('users')) || []
+		const name = users.find((user) => user._id === id) 
+		return name.username || ''
+	}
 	//TODO: add delete modal
 	const deleteHandler = async (id) => {
 		try {
@@ -169,7 +174,7 @@ const CustomerListPage = () => {
 											{/* Contact Email */}
 											<StyledTableCell align='left'>{row.email}</StyledTableCell>
 											{/* Account Manager */}
-											<StyledTableCell align='left'>{row.createdBy}</StyledTableCell>
+											<StyledTableCell align='left'>{userName(row.createdBy)}</StyledTableCell>
 											{/* City */}
 											<StyledTableCell align='left'>{row.city}</StyledTableCell>
 											{/* view */}

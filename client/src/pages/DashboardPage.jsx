@@ -1,6 +1,10 @@
 import { Box, Typography } from '@mui/material'
+import { useGetAllUsersQuery } from '../features/users/usersApiSlice'
 
 const DashboardPage = () => {
+	const { data: userData } = useGetAllUsersQuery()
+	if (userData) localStorage.setItem('users', JSON.stringify(userData.users))
+
 	return (
 		<Box
 			sx={{
