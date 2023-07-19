@@ -117,8 +117,6 @@ const UserListPage = () => {
 							<TableRow>
 								<TableCell>Email</TableCell>
 								<StyledTableCell align='right'>Username</StyledTableCell>
-								{/* <StyledTableCell align='right'>Provider</StyledTableCell> */}
-								{/* <StyledTableCell align='right'>isEmailVerified</StyledTableCell> */}
 								<StyledTableCell align='right'>Roles</StyledTableCell>
 								<StyledTableCell align='right'>Joined</StyledTableCell>
 								<StyledTableCell align='right'>Active Users</StyledTableCell>
@@ -144,10 +142,6 @@ const UserListPage = () => {
 												{row.email}
 											</StyledTableCell>
 											<StyledTableCell align='right'>{row.username}</StyledTableCell>
-											{/* <StyledTableCell align='right'>{row.provider}</StyledTableCell>
-											<StyledTableCell align='right'>
-												{row.isEmailVerified.toString()}
-											</StyledTableCell> */}
 											<StyledTableCell align='right'>
 												{row.roles.toString().replace(',', ', ')}
 											</StyledTableCell>

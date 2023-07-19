@@ -10,7 +10,7 @@ const TableCellStyled = styled(TableCell)(({ theme }) => ({
 		fontSize: 15,
 		color: '#222222de',
 		borderBottom: '1px solid #efefef',
-		height: '50px',
+		height: '65px',
 		padding: '12px 16px'
 	},
 }))

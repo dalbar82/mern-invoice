@@ -24,10 +24,10 @@ import HomePageNav from './components/HomePageNav'
 import './styles/loggingPages.css'
 import EditProfileForm from './features/users/pages/EditProfileForm'
 import ProfilePage from './features/users/pages/ProfilePage'
-// import CustomerCreateForm from "./features/customers/pages/CustomerCreateForm";
-// import CustomerEditForm from "./features/customers/pages/CustomerEditForm";
-// import CustomersPage from "./features/customers/pages/CustomersPage";
-// import SingleCustomerPage from "./features/customers/pages/SingleCustomerPage";
+import CustomerListPage from './features/customers/pages/CustomersListPage'
+import CustomerCreateForm from './features/customers/pages/CustomerCreateForm'
+import CustomerEditForm from './features/customers/pages/CustomerEditForm'
+import SingleCustomerPage from './features/customers/pages/SingleCustomerPage'
 // import DocCreateEditForm from "./features/documents/pages/DocCreateEditForm";
 // import DocumentsPage from "./features/documents/pages/DocumentsPage";
 
@@ -87,6 +87,26 @@ const App = () => {
 							path='edit-profile'
 							element={<EditProfileForm />}
 						/>
+						<Route
+							path='customers'
+							element={<CustomerListPage />}
+						/>
+						<Route
+							path='create-customer'
+							element={<CustomerCreateForm />}
+						/>
+						<Route
+							path='edit-customer/:custId'
+							element={<CustomerEditForm />}
+						/>
+						<Route
+							path='single-customer/:custId'
+							element={<SingleCustomerPage />}
+						/>
+						<Route
+							path='*'
+							element={<NotFound />}
+						/>
 					</Route>
 
 					{/* Private Routes - Admin Users only */}
@@ -96,11 +116,6 @@ const App = () => {
 							element={<UsersList />}
 						/>
 					</Route>
-
-					<Route
-						path='*'
-						element={<NotFound />}
-					/>
 				</Route>
 			</Routes>
 			<ToastContainer theme='dark' />
