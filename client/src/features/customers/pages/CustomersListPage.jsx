@@ -52,7 +52,6 @@ const modalStyle = {
 
 const CustomerListPage = () => {
 	const { data: userData } = useGetAllUsersQuery()
-	console.log(userData);
 	if (userData) localStorage.setItem('users', JSON.stringify(userData.users))
 	useTitle('Customers')
 	const navigate = useNavigate()
@@ -62,19 +61,7 @@ const CustomerListPage = () => {
 
 	const { data, isLoading } = useGetAllCustomersQuery(page)
 
-	const [deleteCustomer] = useDeleteCustomerMutation()
 	const rows = data?.myCustomers
-
-	// state to handle opening and closing of modal
-	const [open, setOpen] = useState(false)
-	// state to be used and passed onto the modal instance
-	const [selectedCustomer, setSelectedCustomer] = useState('')
-	const handleOpen = (customer) => {
-		setSelectedCustomer(customer)
-		setOpen(true)
-	}
-
-	const handleClose = () => setOpen(false)
 
 	const emptyRows =
 		page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows?.length) : 0
@@ -87,21 +74,11 @@ const CustomerListPage = () => {
 		setRowsPerPage(parseInt(event.target.value, 10))
 		setPage(0)
 	}
-	
-	const userName =  (id) => {
-		const users =  JSON.parse(localStorage.getItem('users')) || []
+
+	const userName = (id) => {
+		const users = JSON.parse(localStorage.getItem('users')) || []
 		const name = users.find((user) => user._id === id) || []
 		return name.username || ''
-	}
-	//TODO: add delete modal
-	const deleteHandler = async (id) => {
-		try {
-			await deleteCustomer(id).unwrap()
-			toast.success('Customer deleted')
-		} catch (err) {
-			const message = err.data.message
-			toast.error(message)
-		}
 	}
 
 	return (
@@ -147,7 +124,6 @@ const CustomerListPage = () => {
 								<StyledTableCell>Account Manager</StyledTableCell>
 								<StyledTableCell>City</StyledTableCell>
 								<StyledTableCell>View</StyledTableCell>
-								<StyledTableCell>Delete</StyledTableCell>
 							</TableRow>
 						</TableHead>
 
@@ -174,11 +150,13 @@ const CustomerListPage = () => {
 											{/* active since */}
 											<StyledTableCell align='right'>
 												{moment(row?.createdAt).format('DD-MM-YYYY')}
-											</StyledTableCell >
+											</StyledTableCell>
 											{/* Contact Email */}
 											<StyledTableCell align='left'>{row.email}</StyledTableCell>
 											{/* Account Manager */}
-											<StyledTableCell align='left'>{userName(row.createdBy)}</StyledTableCell>
+											<StyledTableCell align='left'>
+												{userName(row.createdBy)}
+											</StyledTableCell>
 											{/* City */}
 											<StyledTableCell align='left'>{row.city}</StyledTableCell>
 											{/* view */}
@@ -194,98 +172,8 @@ const CustomerListPage = () => {
 													/>
 												</Box>
 											</StyledTableCell>
-											{/* delete */}
-											<StyledTableCell>
-												<Box>
-													<ClearRoundedIcon
-														// TODO: add delete confirm modal
-														color='error'
-														fontSize='medium'
-														sx={{
-															cursor: 'pointer',
-														}}
-														onClick={() => handleOpen(row)}
-													/>
-												</Box>
-											</StyledTableCell>
 										</StyledTableRow>
 									))}
-									{open && (
-										<Modal
-											open={open}
-											onClose={handleClose}
-											aria-labelledby='modal-modal-title'
-											aria-describedby='modal-modal-description'>
-											<Box sx={modalStyle}>
-												<Box
-													sx={{
-														display: 'flex',
-														flexDirection: 'row',
-														justifyContent: 'space-between',
-														alignItems: 'center',
-														borderBottom: '1px solid #e1e1e1',
-														paddingBottom: '20px',
-														marginBottom: '20px',
-														width: '100%',
-													}}>
-													<Typography
-														id='modal-modal-title'
-														variant='h6'
-														sx={{ fontSize: 'medium' }}>
-														{`Delete ${selectedCustomer.name}`}
-													</Typography>
-													<Box>
-														<Tooltip title='Yes'>
-															<Button
-																sx={{
-																	color: '#a6aeb3',
-																}}
-																id='modal-modal-description'
-																variant='text'
-																size='large'
-																onClick={() => {
-																	deleteHandler(selectedCustomer._id)
-																	handleClose()
-																}}>
-																<DoneIcon />
-															</Button>
-														</Tooltip>
-														<Tooltip title='No'>
-															<Button
-																sx={{
-																	color: '#a6aeb3',
-																}}
-																id='modal-modal-description'
-																variant='text'
-																size='large'
-																onClick={handleClose}>
-																<CloseIcon />
-															</Button>
-														</Tooltip>
-													</Box>
-												</Box>
-												<Box
-													sx={{
-														display: 'flex',
-														alignItems: 'center',
-														width: '100%',
-														marginTop: '10px',
-														backgroundColor: '#ff000066',
-														padding: '10px',
-														borderRadius: '5px',
-													}}>
-													<WarningAmberRoundedIcon
-														sx={{ marginRight: '10px', color: 'red' }}
-													/>
-													<Typography
-														variant='p'
-														sx={{ fontSize: 'small', color: 'white' }}>
-														Please note you can't undo this action!
-													</Typography>
-												</Box>
-											</Box>
-										</Modal>
-									)}
 								</>
 							)}
 							{/* control how emptyRows are displayed */}

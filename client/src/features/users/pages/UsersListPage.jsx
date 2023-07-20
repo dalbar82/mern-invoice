@@ -16,7 +16,7 @@ import {
 	styled,
 	toolbarClasses,
 } from '@mui/material'
-import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
+import ClearRoundedIcon from '@mui/icons-material/ClearRounded'
 import moment from 'moment'
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
@@ -100,7 +100,8 @@ const UserListPage = () => {
 					justifyContent: 'start',
 					alignItems: 'center',
 					borderBottom: '1px solid #e1e1e1',
-					paddingBottom: '20px',
+					paddingTop: '10px',
+					paddingBottom: '30px',
 					marginBottom: '20px',
 				}}>
 				<Typography variant='h6'>Users</Typography>
@@ -119,8 +120,7 @@ const UserListPage = () => {
 								<StyledTableCell align='right'>Username</StyledTableCell>
 								<StyledTableCell align='right'>Roles</StyledTableCell>
 								<StyledTableCell align='right'>Joined</StyledTableCell>
-								<StyledTableCell align='right'>Active Users</StyledTableCell>
-								<StyledTableCell align='right'>Delete</StyledTableCell>
+								<StyledTableCell align='right'>Active</StyledTableCell>
 							</TableRow>
 						</TableHead>
 
@@ -156,23 +156,6 @@ const UserListPage = () => {
 														onChange={() => deactivateUserHandler(row._id)}
 													/>
 												</Tooltip>
-											</StyledTableCell>
-											<StyledTableCell align='right'>
-												<Box>
-													<ClearRoundedIcon
-													// TODO: add delete confirm modal
-														color="error"
-														fontSize="medium"
-														sx={{
-															cursor: "pointer",
-														}}
-														onClick={() =>
-															deleteHandler(
-																row._id
-															)
-														}
-													/>
-												</Box>
 											</StyledTableCell>
 										</StyledTableRow>
 									))}

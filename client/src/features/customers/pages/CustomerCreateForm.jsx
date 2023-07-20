@@ -1,6 +1,6 @@
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1'
-import SaveAsIcon from '@mui/icons-material/SaveAs'
-
+import ClearIcon from '@mui/icons-material/Clear'
+import DoneIcon from '@mui/icons-material/Done'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import * as Yup from 'yup'
@@ -9,10 +9,10 @@ import {
 	Container,
 	FormHelperText,
 	Grid,
-	InputLabel,
-	OutlinedInput,
-	Stack,
+	TextField,
 	Typography,
+	Box,
+	Tooltip,
 } from '@mui/material'
 import { useEffect } from 'react'
 import { Formik } from 'formik'
@@ -84,56 +84,70 @@ const CustomerCreateForm = () => {
 					values,
 				}) => (
 					<>
-						<Container
-							component='main'
-							maxWidth='sm'
-							sx={{
-								border: '2px solid  #e4e5e7',
-								borderRadius: '25px',
-								py: 2,
-								mt: 10,
-							}}>
-							<form
-								noValidate
-								autoComplete='off'
-								onSubmit={handleSubmit}>
-								<Grid>
-									<Grid
-										item
-										xs={12}>
-										<Stack
-											direction='row'
-											justifyContent='center'
-											alignItems='center'>
-											<Stack
-												direction='row'
-												alignItems='center'>
-												<SaveAsIcon sx={{ fontSize: 60 }} />
-												<Typography variant='h3'>Create Customer</Typography>
-											</Stack>
-											<Button
-												variant='contained'
-												color='warning'
-												size='small'
-												sx={{
-													fontSize: '1rem',
-													ml: '10px',
-												}}
-												onClick={goBack}>
-												Go Back
-											</Button>
-										</Stack>
-									</Grid>
-									{isLoading ? (
-										<Spinner />
-									) : (
-										<Grid container>
+						<div className='drawer'>
+							<Container
+								className='drawer-page'
+								component='main'
+								sx={{
+									mt: 14,
+									ml: 15,
+									pb: 3
+								}}>
+								<form
+									noValidate
+									autoComplete='off'
+									onSubmit={handleSubmit}>
+									<Grid>
+										<Box
+											sx={{
+												display: 'flex',
+												flexDirection: 'row',
+												justifyContent: 'space-between',
+												alignItems: 'center',
+												borderBottom: '1px solid #e1e1e1',
+												paddingBottom: '20px',
+												marginBottom: '20px',
+												width: '100%',
+											}}>
+											<Typography variant='h6'>New Customer</Typography>
+
+											<Box>
+												<Tooltip
+													title={
+														!values.email || !values.phoneNumber || !values.name
+															? 'Fill in all required'
+															: 'Submit'
+													}>
+													<Button
+														color='success'
+														sx={{ p: '15px 0px 15px 10px', color: '#a6aeb3' }}
+														variant='text'
+														startIcon={<DoneIcon />}
+														type='submit'></Button>
+												</Tooltip>
+												<Tooltip title='Cancel'>
+													<Button
+														sx={{ p: '15px 0px 15px 10px', color: '#a6aeb3' }}
+														variant='text'
+														startIcon={<ClearIcon />}
+														onClick={goBack}></Button>
+												</Tooltip>
+											</Box>
+										</Box>
+										{isLoading ? (
+											<Spinner />
+										) : (
 											<Grid
-												item
-												xs={12}>
-												<Stack spacing={1}>
-													<InputLabel htmlFor='customer-name'>Customer name*</InputLabel>
-													<OutlinedInput
+												container
+												spacing={2}>
+												<Grid
+													item
+													md={12}>
+													{/* Name */}
+													<TextField
+														variant='filled'
+														label='Customer Name*'
+														margin='normal'
 														fullWidth
 														error={Boolean(touched.name && errors.name)}
 														id='customer-name'
@@ -153,8 +167,10 @@ const CustomerCreateForm = () => {
 														</FormHelperText>
 													)}
 													{/* email address */}
-													<InputLabel htmlFor='email-signup'>Email Address*</InputLabel>
-													<OutlinedInput
+													<TextField
+														label='Email*'
+														variant='filled'
+														margin='normal'
 														fullWidth
 														error={Boolean(touched.email && errors.email)}
 														id='email-signup'
@@ -174,10 +190,10 @@ const CustomerCreateForm = () => {
 														</FormHelperText>
 													)}
 													{/* phone number */}
-													<InputLabel htmlFor='customer-phoneNumber'>
-														Mobile Phone Number*
-													</InputLabel>
-													<OutlinedInput
+													<TextField
+														variant='filled'
+														label='Phone*'
+														margin='normal'
 														fullWidth
 														error={Boolean(touched.phoneNumber && errors.phoneNumber)}
 														id='customer-phoneNumber'
@@ -197,8 +213,10 @@ const CustomerCreateForm = () => {
 														</FormHelperText>
 													)}
 													{/* VatTinNo */}
-													<InputLabel htmlFor='customer-vatTin'>VAT/TIN No*</InputLabel>
-													<OutlinedInput
+													<TextField
+														variant='filled'
+														label='VAT'
+														margin='normal'
 														fullWidth
 														error={Boolean(touched.vatTinNo && errors.vatTinNo)}
 														id='customer-vatTin'
@@ -219,8 +237,10 @@ const CustomerCreateForm = () => {
 													)}
 
 													{/* Address */}
-													<InputLabel htmlFor='customer-address'>Address</InputLabel>
-													<OutlinedInput
+													<TextField
+														variant='filled'
+														label='Address'
+														margin='normal'
 														fullWidth
 														error={Boolean(touched.address && errors.address)}
 														id='customer-address'
@@ -240,8 +260,10 @@ const CustomerCreateForm = () => {
 														</FormHelperText>
 													)}
 													{/* City */}
-													<InputLabel htmlFor='customer-city'>City</InputLabel>
-													<OutlinedInput
+													<TextField
+														variant='filled'
+														label='City'
+														margin='normal'
 														fullWidth
 														error={Boolean(touched.city && errors.city)}
 														id='customer-city'
@@ -261,8 +283,10 @@ const CustomerCreateForm = () => {
 														</FormHelperText>
 													)}
 													{/* Country */}
-													<InputLabel htmlFor='customer-country'>Country</InputLabel>
-													<OutlinedInput
+													<TextField
+														variant='filled'
+														label='Country'
+														margin='normal'
 														fullWidth
 														error={Boolean(touched.country && errors.country)}
 														id='customer-country'
@@ -281,32 +305,13 @@ const CustomerCreateForm = () => {
 															{errors.country}
 														</FormHelperText>
 													)}
-													{/* button */}
-													<Grid
-														item
-														xs={12}>
-														<Button
-															sx={{
-																mt: 3,
-																mb: 2,
-															}}
-															type='submit'
-															fullWidth
-															variant='contained'
-															color='success'
-															size='large'
-															endIcon={<PersonAddAlt1Icon fontSize='large' />}
-															disabled={!values.email || !values.phoneNumber || !values.name}>
-															Create Customer
-														</Button>
-													</Grid>
-												</Stack>
+												</Grid>
 											</Grid>
-										</Grid>
-									)}
-								</Grid>
-							</form>
-						</Container>
+										)}
+									</Grid>
+								</form>
+							</Container>
+						</div>
 					</>
 				)}
 			</Formik>

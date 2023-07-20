@@ -113,19 +113,13 @@ const SingleCustomerPage = () => {
 										{/* VAT */}
 										<ListItemWrapper
 											label={'VAT #'}
-											text={
-												data?.customer.vatTinNo
-													? `${data?.customer.vatTinNo}`
-													: ''
-											}
+											text={data?.customer.vatTinNo ? `${data?.customer.vatTinNo}` : ''}
 										/>
 										{/* phone */}
 										<ListItemWrapper
 											label={'Phone'}
 											text={
-												data?.customer.phoneNumber
-													? `${data?.customer?.phoneNumber}`
-													: ''
+												data?.customer.phoneNumber ? `${data?.customer?.phoneNumber}` : ''
 											}
 										/>
 										{/* Address */}

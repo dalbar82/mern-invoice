@@ -11,7 +11,7 @@ const TableCellStyled = styled(TableCell)(({ theme }) => ({
 		color: '#222222de',
 		borderBottom: '1px solid #efefef',
 		height: '65px',
-		padding: '12px 16px'
+		padding: '11px 16px'
 	},
 }))
 

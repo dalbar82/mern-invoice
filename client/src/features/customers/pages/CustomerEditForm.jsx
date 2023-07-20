@@ -1,20 +1,18 @@
-import CheckIcon from '@mui/icons-material/Check'
+import ClearIcon from '@mui/icons-material/Clear'
+import DoneIcon from '@mui/icons-material/Done'
 import {
 	Box,
 	Button,
 	Container,
-	CssBaseline,
+	Tooltip,
 	Grid,
-	Stack,
 	TextField,
 	Typography,
 } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { GrDocumentUpdate } from 'react-icons/gr'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import Spinner from '../../../components/Spinner'
-import StyledDivider from '../../../components/StyledDivider'
 import {
 	useGetSingleCustomerQuery,
 	useUpdateCustomerInfoMutation,
@@ -81,50 +79,16 @@ const CustomerEditForm = () => {
 	}
 
 	return (
-		<Container
-			component='main'
-			maxWidth='sm'
-			sx={{
-				border: '2px solid  #e4e5e7',
-				borderRadius: '25px',
-				py: 2,
-				mt: 10,
-			}}>
-			<CssBaseline />
-
-			<Grid
-				item
-				xs={12}>
-				<Stack
-					direction='row'
-					justifyContent='center'
-					alignItems='center'>
-					<Stack
-						direction='row'
-						alignItems='center'>
-						<GrDocumentUpdate fontSize='40px' />
-						<Typography variant='h3'>Edit Customer Info</Typography>
-					</Stack>
-					<Button
-						variant='contained'
-						color='warning'
-						size='small'
-						sx={{
-							fontSize: '1rem',
-							ml: '10px',
-						}}
-						onClick={goBack}>
-						Go Back
-					</Button>
-				</Stack>
-				<StyledDivider />
-			</Grid>
-			{isLoading ? (
-				<Spinner />
-			) : (
+		<div className='drawer'>
+			<Container
+				className='drawer-page'
+				component='main'
+				sx={{
+					mt: 14,
+					ml: 15,
+				}}>
 				<Box
 					sx={{
-						mt: '1rem',
 						display: 'flex',
 						flexDirection: 'column',
 						alignItems: 'center',
@@ -133,120 +97,160 @@ const CustomerEditForm = () => {
 					noValidate
 					autoComplete='off'
 					onSubmit={updateHandler}>
+					<Box
+						sx={{
+							display: 'flex',
+							flexDirection: 'row',
+							justifyContent: 'space-between',
+							alignItems: 'center',
+							borderBottom: '1px solid #e1e1e1',
+							paddingBottom: '20px',
+							marginBottom: '20px',
+							width: '100%',
+						}}>
+						<Typography variant='h6'>Edit Customer</Typography>
+
+						<Box>
+							<Tooltip title='Submit'>
+								<Button
+									color='success'
+									sx={{ p: '15px 0px 15px 10px', color: '#a6aeb3' }}
+									variant='text'
+									startIcon={<DoneIcon />}
+									type='submit'></Button>
+							</Tooltip>
+							<Tooltip title='Cancel'>
+								<Button
+									sx={{ p: '15px 0px 15px 10px', color: '#a6aeb3' }}
+									variant='text'
+									startIcon={<ClearIcon />}
+									onClick={goBack}></Button>
+							</Tooltip>
+						</Box>
+					</Box>
 					<Grid
-						container
-						spacing={2}>
-						<Grid
-							item
-							md={6}>
-							{/* customer name */}
+						item
+						xs={12}></Grid>
+					{isLoading ? (
+						<Spinner />
+					) : (
+						<Box
+							sx={{
+								pb: '40px',
+							}}>
+							<Grid
+								container
+								spacing={2}>
+								<Grid
+									item
+									md={6}>
+									{/* customer name */}
+									<TextField
+										variant='filled'
+										required
+										fullWidth
+										id='name'
+										label='Customer Full Name'
+										name='name'
+										margin='normal'
+										value={name}
+										onChange={(e) => setName(e.target.value)}
+									/>
+								</Grid>
+								<Grid
+									item
+									md={6}>
+									{/* customer Email */}
+									<TextField
+										variant='filled'
+										required
+										fullWidth
+										id='email'
+										label='Email Address'
+										name='email'
+										margin='normal'
+										value={email}
+										onChange={(e) => setEmail(e.target.value)}
+									/>
+								</Grid>
+								<Grid
+									item
+									md={6}>
+									{/* Phone Number */}
+									<TextField
+										variant='filled'
+										required
+										fullWidth
+										id='phoneNumber'
+										label='Phone Number'
+										name='phoneNumber'
+										margin='normal'
+										value={phoneNumber}
+										onChange={(e) => setPhoneNumber(e.target.value)}
+									/>
+								</Grid>
+								<Grid
+									item
+									md={6}>
+									{/* VAT/TIN Number */}
+									<TextField
+										variant='filled'
+										fullWidth
+										id='vatTinNo'
+										label='VAT/TIN Number'
+										name='vatTinNo'
+										margin='normal'
+										value={vatTinNo}
+										onChange={(e) => setVatTinNo(e.target.value)}
+									/>
+								</Grid>
+								<Grid
+									item
+									md={6}>
+									{/* Address */}
+									<TextField
+										variant='filled'
+										fullWidth
+										id='address'
+										label='Address'
+										name='address'
+										margin='normal'
+										value={address}
+										onChange={(e) => setAddress(e.target.value)}
+									/>
+								</Grid>
+								<Grid
+									item
+									md={6}>
+									{/* City */}
+									<TextField
+										variant='filled'
+										fullWidth
+										id='city'
+										label='City'
+										name='city'
+										margin='normal'
+										value={city}
+										onChange={(e) => setCity(e.target.value)}
+									/>
+								</Grid>
+							</Grid>
+							{/* Country */}
 							<TextField
-								required
+								variant='filled'
 								fullWidth
-								id='name'
-								label='Customer Full Name'
-								name='name'
+								id='country'
+								label='Country'
+								name='country'
 								margin='normal'
-								value={name}
-								onChange={(e) => setName(e.target.value)}
+								value={country}
+								onChange={(e) => setCountry(e.target.value)}
 							/>
-						</Grid>
-						<Grid
-							item
-							md={6}>
-							{/* customer Email */}
-							<TextField
-								required
-								fullWidth
-								id='email'
-								label='Email Address'
-								name='email'
-								margin='normal'
-								value={email}
-								onChange={(e) => setEmail(e.target.value)}
-							/>
-						</Grid>
-						<Grid
-							item
-							md={6}>
-							{/* Phone Number */}
-							<TextField
-								required
-								fullWidth
-								id='phoneNumber'
-								label='Phone Number'
-								name='phoneNumber'
-								margin='normal'
-								value={phoneNumber}
-								onChange={(e) => setPhoneNumber(e.target.value)}
-							/>
-						</Grid>
-						<Grid
-							item
-							md={6}>
-							{/* VAT/TIN Number */}
-							<TextField
-								fullWidth
-								id='vatTinNo'
-								label='VAT/TIN Number'
-								name='vatTinNo'
-								margin='normal'
-								value={vatTinNo}
-								onChange={(e) => setVatTinNo(e.target.value)}
-							/>
-						</Grid>
-						<Grid
-							item
-							md={6}>
-							{/* Address */}
-							<TextField
-								fullWidth
-								id='address'
-								label='Address'
-								name='address'
-								margin='normal'
-								value={address}
-								onChange={(e) => setAddress(e.target.value)}
-							/>
-						</Grid>
-						<Grid
-							item
-							md={6}>
-							{/* City */}
-							<TextField
-								fullWidth
-								id='city'
-								label='City'
-								name='city'
-								margin='normal'
-								value={city}
-								onChange={(e) => setCity(e.target.value)}
-							/>
-						</Grid>
-					</Grid>
-					{/* Country */}
-					<TextField
-						fullWidth
-						id='country'
-						label='Country'
-						name='country'
-						margin='normal'
-						value={country}
-						onChange={(e) => setCountry(e.target.value)}
-					/>
-					<Button
-						sx={{ mt: 3, mb: 15 }}
-						type='submit'
-						fullWidth
-						variant='contained'
-						color='success'
-						size='large'
-						endIcon={<CheckIcon />}>
-						<Typography variant='h5'>Update Customer</Typography>
-					</Button>
+						</Box>
+					)}
 				</Box>
-			)}
-		</Container>
+			</Container>
+		</div>
 	)
 }
 
