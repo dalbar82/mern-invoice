@@ -1,29 +1,18 @@
-import AttachEmailIcon from '@mui/icons-material/AttachEmail'
-import BadgeIcon from '@mui/icons-material/Badge'
-import CottageTwoToneIcon from '@mui/icons-material/CottageTwoTone'
-import EditTwoToneIcon from '@mui/icons-material/EditTwoTone'
-import NumbersTwoToneIcon from '@mui/icons-material/NumbersTwoTone'
-import PermPhoneMsgTwoToneIcon from '@mui/icons-material/PermPhoneMsgTwoTone'
-import PushPinTwoToneIcon from '@mui/icons-material/PushPinTwoTone'
-import RequestQuoteTwoToneIcon from '@mui/icons-material/RequestQuoteTwoTone'
-import VpnLockTwoToneIcon from '@mui/icons-material/VpnLockTwoTone'
+import EditIcon from '@mui/icons-material/Edit'
+import ClearIcon from '@mui/icons-material/Clear'
+import ListItemWrapper from '../../../components/ListItemWrapper'
 import {
 	Box,
 	Container,
 	Button,
 	List,
-	CssBaseline,
-	ListItem,
-	ListItemIcon,
-	ListItemText,
+	Grid,
 	Stack,
 	Typography,
+	Tooltip,
 } from '@mui/material'
-
-import { GrUser } from 'react-icons/gr'
 import { useNavigate, useParams } from 'react-router-dom'
 import Spinner from '../../../components/Spinner'
-import StyledDivider from '../../../components/StyledDivider'
 import { useGetSingleCustomerQuery } from '../customersApiSlice'
 
 function capitalizeFirstLetter(string) {
@@ -42,36 +31,39 @@ const SingleCustomerPage = () => {
 	return (
 		<Container
 			component='main'
-			maxWidth='md'
-			sx={{
-				border: '2px solid  #e4e5e7',
-				borderRadius: '25px',
-				py: 2,
-				mt: 10,
-			}}>
-			<CssBaseline />
+			maxWidth='xl'
+			sx={{ mt: 14, ml: 15, width: '90%' }}>
 			<Box
 				sx={{
 					display: 'flex',
 					flexDirection: 'row',
-					justifyContent: 'center',
+					justifyContent: 'space-between',
 					alignItems: 'center',
+					borderBottom: '1px solid #e1e1e1',
+					paddingBottom: '20px',
+					marginBottom: '20px',
 				}}>
-				<GrUser fontSize='40px' />
-				<Typography variant='h3'>
-					{data?.customer.name.split(' ')[0]}'s Info
-				</Typography>
-
-				<Button
-					variant='contained'
-					color='warning'
-					size='small'
-					sx={{ fontSize: '1rem', ml: '10px' }}
-					onClick={goBack}>
-					Go Back
-				</Button>
+				<Typography variant='h6'>{data?.customer.name}</Typography>
+				<Box sx={{}}>
+					<Tooltip title='Edit Profile'>
+						<Button
+							sx={{ p: '15px 0px 15px 10px', color: '#a6aeb3' }}
+							variant='text'
+							startIcon={<EditIcon />}
+							onClick={() =>
+								navigate(`/edit-customer/${data?.customer._id}`)
+							}></Button>
+					</Tooltip>
+					<Tooltip title='Back'>
+						<Button
+							sx={{ p: '15px 0px 15px 10px', color: '#a6aeb3' }}
+							variant='text'
+							startIcon={<ClearIcon />}
+							onClick={goBack}></Button>
+					</Tooltip>
+				</Box>
 			</Box>
-			<StyledDivider />
+
 			{isLoading ? (
 				<Spinner />
 			) : (
@@ -81,124 +73,75 @@ const SingleCustomerPage = () => {
 						flexDirection: 'column',
 						alignItems: 'center',
 					}}>
-					<Box
-						sx={{
-							display: 'flex',
-							flexDirection: 'row',
-						}}>
-						<List sx={{ width: '50%' }}>
-							{/* name` */}
-							<ListItem>
-								<ListItemIcon>
-									<BadgeIcon fontSize='large' />
-								</ListItemIcon>
-								<ListItemText
-									primary={`${capitalizeFirstLetter(data?.customer.name)}`}
-								/>
-							</ListItem>
-							{/* email` */}
-							<ListItem>
-								<ListItemIcon>
-									<AttachEmailIcon fontSize='large' />
-								</ListItemIcon>
-								<ListItemText primary={data?.customer.email} />
-							</ListItem>
-							{/* account No` */}
-							<ListItem>
-								<ListItemIcon>
-									<NumbersTwoToneIcon fontSize='large' />
-								</ListItemIcon>
-								<ListItemText primary={`No : ${data?.customer.accountNo}`} />
-							</ListItem>
-							{/* VAT/TIN No` */}
-							<ListItem>
-								<ListItemIcon>
-									<RequestQuoteTwoToneIcon fontSize='large' />
-								</ListItemIcon>
-								<ListItemText
-									primary={
-										data?.customer.vatTinNo
-											? `VAT/TIN : ${data?.customer.vatTinNo}`
-											: 'VAT/TIN : ....................'
-									}
-								/>
-							</ListItem>
-						</List>
-
-						{/* second list */}
-						<List sx={{ width: '50%' }}>
-							{/*address */}
-							<ListItem>
-								<ListItemIcon>
-									<CottageTwoToneIcon fontSize='large' />
-								</ListItemIcon>
-								<ListItemText
-									primary={
-										data?.customer.address
-											? `Address : ${data?.customer?.address}`
-											: 'Address : ....................'
-									}
-								/>
-							</ListItem>
-
-							{/*city */}
-							<ListItem>
-								<ListItemIcon>
-									<PushPinTwoToneIcon fontSize='large' />
-								</ListItemIcon>
-								<ListItemText
-									primary={
-										data?.customer.city
-											? `City : ${data?.customer.city}`
-											: 'City : ....................'
-									}
-								/>
-							</ListItem>
-
-							{/*country */}
-							<ListItem>
-								<ListItemIcon>
-									<VpnLockTwoToneIcon fontSize='large' />
-								</ListItemIcon>
-								<ListItemText
-									primary={
-										data?.customer.country
-											? `Country : ${data?.customer.country}`
-											: 'Country : ....................'
-									}
-								/>
-							</ListItem>
-
-							{/*phone */}
-							<ListItem>
-								<ListItemIcon>
-									<PermPhoneMsgTwoToneIcon fontSize='large' />
-								</ListItemIcon>
-								<ListItemText
-									primary={
-										data?.customer.phoneNumber
-											? `Phone : ${data?.customer?.phoneNumber}`
-											: 'Phone : ....................'
-									}
-								/>
-							</ListItem>
-						</List>
-					</Box>
-
-					<Stack
-						direction='row'
-						justifyContent='center'>
-						<Button
-							sx={{ mt: 3, mb: 2 }}
-							fullWidth
-							variant='contained'
-							color='primary'
-							size='large'
-							endIcon={<EditTwoToneIcon />}
-							onClick={() => navigate(`/edit-customer/${data?.customer._id}`)}>
-							<Typography variant='h5'>Edit Customer Info</Typography>
-						</Button>
-					</Stack>
+					<Grid
+						container
+						width='100%'>
+						<Grid
+							item
+							sm={12}>
+							<Stack direction='column'>
+								<Stack>
+									<Typography
+										variant='span'
+										mt={'10px'}
+										mb={2}>
+										Information
+									</Typography>
+									<List
+										sx={{
+											backgroundColor: 'white',
+											width: '100%',
+											fontSize: 'small',
+											marginTop: '10px',
+											paddingBottom: '0',
+										}}>
+										{/* name */}
+										<ListItemWrapper
+											label={'Name'}
+											text={`${capitalizeFirstLetter(data?.customer.name)}`}
+										/>
+										{/* email */}
+										<ListItemWrapper
+											label={'Contact Email'}
+											text={data?.customer.email}
+										/>
+										{/* account# */}
+										<ListItemWrapper
+											label={'Account #'}
+											text={data?.customer.accountNo}
+										/>
+										{/* VAT */}
+										<ListItemWrapper
+											label={'VAT #'}
+											text={
+												data?.customer.vatTinNo
+													? `${data?.customer.vatTinNo}`
+													: ''
+											}
+										/>
+										{/* phone */}
+										<ListItemWrapper
+											label={'Phone'}
+											text={
+												data?.customer.phoneNumber
+													? `${data?.customer?.phoneNumber}`
+													: ''
+											}
+										/>
+										{/* Address */}
+										<ListItemWrapper
+											label={'Address'}
+											text={
+												data?.customer.address && data?.customer.city
+													? `${data?.customer?.address}, ${data?.customer.city}`
+													: ''
+											}
+										/>
+									</List>
+								</Stack>
+							</Stack>
+						</Grid>
+					</Grid>
 				</Box>
 			)}
 		</Container>

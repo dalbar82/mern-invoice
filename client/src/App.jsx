@@ -50,10 +50,6 @@ const App = () => {
 						element={<HomePage />}
 					/>
 					<Route
-						path='register'
-						element={<RegisterPage />}
-					/>
-					<Route
 						path='auth/verify'
 						element={<VerifiedPage />}
 					/>
@@ -83,10 +79,7 @@ const App = () => {
 							path='profile'
 							element={<ProfilePage />}
 						/>
-						<Route
-							path='edit-profile'
-							element={<EditProfileForm />}
-						/>
+
 						<Route
 							path='customers'
 							element={<CustomerListPage />}
@@ -108,12 +101,19 @@ const App = () => {
 							element={<NotFound />}
 						/>
 					</Route>
-
+					<Route
+						path='users'
+						element={<UsersList />}
+					/>
 					{/* Private Routes - Admin Users only */}
 					<Route element={<AuthRequired allowedRoles={[ROLES.Admin]} />}>
 						<Route
-							path='users'
-							element={<UsersList />}
+							path='edit-profile'
+							element={<EditProfileForm />}
+						/>
+						<Route
+							path='register'
+							element={<RegisterPage />}
 						/>
 					</Route>
 				</Route>

@@ -34,6 +34,7 @@ import {
 	useGetAllCustomersQuery,
 	useDeleteCustomerMutation,
 } from '../customersApiSlice'
+import { useGetAllUsersQuery } from '../../users/usersApiSlice'
 
 const modalStyle = {
 	position: 'absolute',
@@ -50,6 +51,9 @@ const modalStyle = {
 }
 
 const CustomerListPage = () => {
+	const { data: userData } = useGetAllUsersQuery()
+	console.log(userData);
+	if (userData) localStorage.setItem('users', JSON.stringify(userData.users))
 	useTitle('Customers')
 	const navigate = useNavigate()
 
@@ -86,7 +90,7 @@ const CustomerListPage = () => {
 	
 	const userName =  (id) => {
 		const users =  JSON.parse(localStorage.getItem('users')) || []
-		const name = users.find((user) => user._id === id) 
+		const name = users.find((user) => user._id === id) || []
 		return name.username || ''
 	}
 	//TODO: add delete modal

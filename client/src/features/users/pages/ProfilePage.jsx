@@ -160,7 +160,8 @@ const ProfilePage = () => {
 								<Stack>
 									<Typography
 										variant='span'
-										mt={'20px'}>
+										mt={'20px'}
+										mb={2}>
 										Information
 									</Typography>
 									<List
@@ -276,9 +277,9 @@ const ProfilePage = () => {
 									marginTop: '10px',
 									backgroundColor: '#ff000066',
 									padding: '10px',
-									borderRadius: '5px'
+									borderRadius: '5px',
 								}}>
-								<WarningAmberRoundedIcon sx={{ marginRight: '10px', color: 'red'}}/>
+								<WarningAmberRoundedIcon sx={{ marginRight: '10px', color: 'red' }} />
 								<Typography
 									variant='p'
 									sx={{ fontSize: 'small', color: 'white' }}>
