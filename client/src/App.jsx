@@ -28,8 +28,8 @@ import CustomerListPage from './features/customers/pages/CustomersListPage'
 import CustomerCreateForm from './features/customers/pages/CustomerCreateForm'
 import CustomerEditForm from './features/customers/pages/CustomerEditForm'
 import SingleCustomerPage from './features/customers/pages/SingleCustomerPage'
-// import DocCreateEditForm from "./features/documents/pages/DocCreateEditForm";
-// import DocumentsPage from "./features/documents/pages/DocumentsPage";
+import DocCreateEditForm from './features/documents/pages/DocCreateEditForm'
+import DocumentsPage from './features/documents/pages/DocumentsPage'
 
 // import SingleDocumentPage from "./features/documents/pages/SingleDocumentPage";
 
@@ -104,6 +104,14 @@ const App = () => {
 					<Route
 						path='users'
 						element={<UsersList />}
+					/>
+					<Route
+						path='documents'
+						element={<DocumentsPage />}
+					/>
+					<Route
+						path='create-doc'
+						element={<DocCreateEditForm />}
 					/>
 					{/* Private Routes - Admin Users only */}
 					<Route element={<AuthRequired allowedRoles={[ROLES.Admin]} />}>

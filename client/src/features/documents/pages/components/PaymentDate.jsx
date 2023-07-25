@@ -11,16 +11,19 @@ const PaymentDate = ({ datePaid, setDatePaid }) => {
 		<LocalizationProvider dateAdapter={AdapterDateFns}>
 			<DesktopDatePicker
 				label='Date Paid'
-				inputFormat='MM/dd/yyyy'
+				inputFormat='dd/mm/yyyy'
 				value={datePaid}
 				onChange={handleChange}
-				renderInput={(params) => (
-					<TextField
-						sx={{ width: '100%' }}
-						variant='standard'
-						{...params}
-					/>
-				)}
+        slots={{
+          textField: params =>  <TextField {...params} sx={{ width: '100%'}} variant='standard'/>
+        }}
+				// textField={(params) => (
+				// 	<TextField
+				// 		sx={{ width: '100%' }}
+				// 		variant='standard'
+				// 		{...params}
+				// 	/>
+				// )}
 			/>
 		</LocalizationProvider>
 	)
