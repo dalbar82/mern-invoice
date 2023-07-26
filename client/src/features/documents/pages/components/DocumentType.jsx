@@ -31,8 +31,8 @@ const DocumentType = ({ documentType, setDocumentType }) => {
 					<MenuItem value='Order'>Order</MenuItem>
 					<MenuItem value='Quotation'>Quotation</MenuItem>
 				</StyledSelect>
-				<FormHelperText>
-					Select a Document to generate, defaults to Invoice
+				<FormHelperText sx={{marginLeft: '0'}}>
+					Select a Document to generate, defaults to Quotation
 				</FormHelperText>
 			</FormControl>
 		</Box>

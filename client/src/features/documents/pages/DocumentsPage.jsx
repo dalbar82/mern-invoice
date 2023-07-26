@@ -17,7 +17,7 @@ import {
 } from '@mui/material'
 import moment from 'moment'
 import { useState } from 'react'
-import { FaEye } from 'react-icons/fa'
+import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded'
 import { useNavigate } from 'react-router-dom'
 import Spinner from '../../../components/Spinner'
 import GroupAddRoundedIcon from '@mui/icons-material/GroupAddRounded'
@@ -30,7 +30,7 @@ const DocumentsPage = () => {
 	const navigate = useNavigate()
 
 	const [page, setPage] = useState(0)
-	const [rowsPerPage, setRowsPerPage] = useState(5)
+	const [rowsPerPage, setRowsPerPage] = useState(10)
 
 	const { data, isLoading } = useGetAllMyDocsQuery(page)
 
@@ -128,9 +128,7 @@ const DocumentsPage = () => {
 													? 'success'
 													: 'secondary'
 											}
-											label={row?.documentType}>
-											{row?.documentType}
-										</Chip>
+											label={row?.documentType}></Chip>
 									</StyledTableCell>
 
 									<StyledTableCell
@@ -158,13 +156,11 @@ const DocumentsPage = () => {
 											label={row?.status}
 											color={
 												row?.status === 'Paid'
-													? 'primary'
+													? 'success'
 													: row?.status === 'Not Fully Paid'
 													? 'warning'
 													: 'error'
-											}>
-											{row?.status}
-										</Chip>
+											}></Chip>
 									</StyledTableCell>
 
 									<StyledTableCell align='center'>
@@ -174,8 +170,8 @@ const DocumentsPage = () => {
 													cursor: 'pointer',
 												},
 											}}>
-											<FaEye
-												color='error'
+											<VisibilityRoundedIcon
+												color='success'
 												fontSize='medium'
 												onClick={() => navigate(`/document/${row._id}`)}
 											/>
