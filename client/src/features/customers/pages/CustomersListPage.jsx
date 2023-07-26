@@ -13,42 +13,19 @@ import {
 	Typography,
 	Button,
 	Tooltip,
-	Modal,
 } from '@mui/material'
-import ClearRoundedIcon from '@mui/icons-material/ClearRounded'
 import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded'
 import GroupAddRoundedIcon from '@mui/icons-material/GroupAddRounded'
-import WarningAmberRoundedIcon from '@mui/icons-material/WarningAmberRounded'
-import CloseIcon from '@mui/icons-material/Close'
-import DoneIcon from '@mui/icons-material/Done'
 import { useNavigate } from 'react-router-dom'
 import moment from 'moment'
 import { useState } from 'react'
-import { toast } from 'react-toastify'
 import Spinner from '../../../components/Spinner'
 import StyledTableRow from '../../../components/StyledTableRow'
 import StyledTableCell from '../../../components/StyledTableCell'
 import TablePaginationActions from '../../../components/TablePaginationActions'
 import useTitle from '../../../hooks/useTitle'
-import {
-	useGetAllCustomersQuery,
-	useDeleteCustomerMutation,
-} from '../customersApiSlice'
+import { useGetAllCustomersQuery } from '../customersApiSlice'
 import { useGetAllUsersQuery } from '../../users/usersApiSlice'
-
-const modalStyle = {
-	position: 'absolute',
-	display: 'flex',
-	flexDirection: 'column',
-	alignItems: 'center',
-	top: '50%',
-	left: '50%',
-	transform: 'translate(-50%, -50%)',
-	width: 400,
-	bgcolor: 'background.paper',
-	boxShadow: 24,
-	p: 4,
-}
 
 const CustomerListPage = () => {
 	const { data: userData } = useGetAllUsersQuery()

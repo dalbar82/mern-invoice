@@ -124,7 +124,7 @@ const DocCreateEditForm = () => {
 	}, [doc])
 
 	useEffect(() => {
-		documentType === 'Receipt' ? setStatus('Paid') : setStatus('Not Paid')
+		documentType === 'Order' ? setStatus('Paid') : setStatus('Not Paid')
 	}, [documentType])
 
 	const handleAddBillingItemsRow = (e) => {
@@ -268,7 +268,7 @@ const DocCreateEditForm = () => {
 								/>
 							</Grid>
 						</Grid>
-						
+
 						<Grid
 							container
 							justifyContent='space-between'
@@ -338,7 +338,6 @@ const DocCreateEditForm = () => {
 													label='Select a customer'
 												/>
 											)}
-                      
 											value={customers?.myCustomers?.name}
 											onChange={(event, value) => {
 												setCustomer(value)
@@ -378,10 +377,10 @@ const DocCreateEditForm = () => {
 								<Typography
 									variant='h5'
 									style={{
-										color: documentType === 'Receipt' ? 'green' : 'red',
+										color: documentType === 'Order' ? 'green' : 'red',
 									}}
 									gutterBottom>
-									{documentType === 'Receipt' ? 'Paid' : 'Not Paid'}
+									{documentType === 'Order' ? 'Paid' : 'Not Paid'}
 								</Typography>
 
 								<Typography
@@ -442,8 +441,6 @@ const DocCreateEditForm = () => {
 								</Typography>
 							</Grid>
 						</Grid>
-
-						
 
 						<div>
 							<TableContainer
@@ -661,9 +658,9 @@ const DocCreateEditForm = () => {
 												onChange={(date) => {
 													setDueDate(date)
 												}}
-                        slots={{
-                          textField: params =>  <TextField {...params} />
-                        }}
+												slots={{
+													textField: (params) => <TextField {...params} />,
+												}}
 											/>
 										</LocalizationProvider>
 									</Grid>
@@ -677,8 +674,7 @@ const DocCreateEditForm = () => {
 											id='currency-list'
 											options={currencies}
 											getOptionLabel={(option) => (option ? option.currency : '')}
-											
-                      renderInput={(params) => (
+											renderInput={(params) => (
 												<TextField
 													{...params}
 													label='Select your currency'
@@ -699,13 +695,13 @@ const DocCreateEditForm = () => {
 								flexDirection: 'row',
 								justifyContent: 'space-between',
 							}}>
-							<Box >
+							<Box>
 								<Typography
 									variant='h4'
 									sx={{ color: 'rgb(17,65,141)' }}>
 									Additional Info
 								</Typography>
-								
+
 								<TextareaAutosize
 									minRows={4}
 									style={{
@@ -730,7 +726,7 @@ const DocCreateEditForm = () => {
 									sx={{ color: 'rgb(17,65,141)' }}>
 									Terms & Conditions
 								</Typography>
-								
+
 								<TextareaAutosize
 									minRows={4}
 									style={{

@@ -1,30 +1,5 @@
-export const statusStyling = (status) => {
-	return status === 'Paid'
-		? {
-				border: 'solid 1px black',
-				backgroundColor: '#76ff03',
-				padding: '8px 18px',
-				borderRadius: '20px',
-		  }
-		: status === 'Not Fully Paid'
-		? {
-				border: 'solid 1px black',
-				backgroundColor: '#b71c1c',
-				color: '#FFFFFF',
-				padding: '8px 18px',
-				borderRadius: '20px',
-		  }
-		: {
-				border: 'solid 1px black',
-				backgroundColor: '#b71c1c',
-				color: '#FFFFFF',
-				padding: '8px 18px',
-				borderRadius: '20px',
-		  }
-}
-
 export const DocumentTypeStyling = (documentType) => {
-	return documentType === 'Receipt'
+	return documentType === 'Order'
 		? {
 				border: 'solid 1px black',
 				backgroundColor: '#76ff03',

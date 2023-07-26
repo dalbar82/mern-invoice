@@ -1,15 +1,10 @@
-import ClearIcon from '@mui/icons-material/Clear'
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
-import ReceiptLongIcon from '@mui/icons-material/ReceiptLong'
 import {
 	Box,
-	Badge,
 	Button,
 	Container,
-	CssBaseline,
-	Modal,
+	Tooltip,
 	Paper,
-	styled,
+	Chip,
 	Table,
 	TableBody,
 	TableCell,
@@ -23,37 +18,13 @@ import {
 import moment from 'moment'
 import { useState } from 'react'
 import { FaEye } from 'react-icons/fa'
-import { GiReceiveMoney, GiTakeMyMoney } from 'react-icons/gi'
 import { useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
 import Spinner from '../../../components/Spinner'
-import StyledDivider from '../../../components/StyledDivider'
+import GroupAddRoundedIcon from '@mui/icons-material/GroupAddRounded'
 import StyledTableCell from '../../../components/StyledTableCell'
 import StyledTableRow from '../../../components/StyledTableRow'
 import TablePaginationActions from '../../../components/TablePaginationActions'
-import {
-	useDeleteDocMutation,
-	useGetAllMyDocsQuery,
-} from '../documentsApiSlice'
-
-import { DocumentTypeStyling, statusStyling } from './components/styling'
-
-const modalStyle = {
-	position: 'absolute',
-	top: '50%',
-	left: '50%',
-	transform: 'translate(-50%, -50%)',
-	width: 500,
-	bgcolor: 'background.paper',
-	border: '2px solid #000',
-	borderRadius: '25px',
-	boxShadow: 24,
-	p: 4,
-}
-
-const StyledButton = styled(Button)({
-	boxShadow: '0 0 0 0 #f0f0f0, 0 0 0 0 rgba(124, 105, 239, 1)',
-})
+import { useGetAllMyDocsQuery } from '../documentsApiSlice'
 
 const DocumentsPage = () => {
 	const navigate = useNavigate()
@@ -63,20 +34,7 @@ const DocumentsPage = () => {
 
 	const { data, isLoading } = useGetAllMyDocsQuery(page)
 
-	const [deleteDoc] = useDeleteDocMutation()
-
 	const rows = data?.myDocuments
-
-	const [open, setOpen] = useState(false)
-
-	const [selectedDoc, setSelectedDoc] = useState('')
-
-	const handleOpen = (document) => {
-		setSelectedDoc(document)
-		setOpen(true)
-	}
-
-	const handleClose = () => setOpen(false)
 
 	const emptyRows =
 		page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows?.length) : 0
@@ -90,68 +48,31 @@ const DocumentsPage = () => {
 		setPage(0)
 	}
 
-	const deleteDocumentHandler = async (id) => {
-		try {
-			const response = await deleteDoc(id).unwrap()
-			toast.success(`${response.message}`)
-		} catch (err) {
-			toast.error('The document could not be deleted')
-		}
-	}
-
 	return (
 		<Container
 			component='main'
-			maxWidth='lg'
-			sx={{ mt: 10 }}>
-			<CssBaseline />
-
-			<Box
-				sx={{
-					display: 'flex',
-					flexDirection: 'row',
-					justifyContent: 'center',
-					alignItems: 'center',
-				}}>
-				<GiTakeMyMoney className='auth-svg' />
-				<Typography variant='h1'>Documents</Typography>
-			</Box>
-
-			<StyledDivider />
-
+			maxWidth='xl'
+			sx={{ mt: 14, ml: 15, width: '90%' }}>
 			<Box
 				sx={{
 					display: 'flex',
 					flexDirection: 'row',
 					justifyContent: 'space-between',
+					alignItems: 'center',
+					borderBottom: '1px solid #e1e1e1',
+					paddingBottom: '20px',
+					marginBottom: '20px',
 				}}>
-				<Box
-					sx={{
-						display: 'flex',
-						flexDirection: 'row',
-					}}>
-					<Typography variant='h4'>Total Documents: </Typography>
-					<Badge
-						badgeContent={data?.totalDocuments || '0'}
-						color='success'
-						sx={{
-							margin: '3px 0 5px 5px',
-						}}>
-						<GiReceiveMoney
-							color='action'
-							fontSize={45}
-						/>
-					</Badge>
+				<Typography variant='h6'>Jobs</Typography>
+				<Box>
+					<Tooltip title='Add Job'>
+						<Button
+							sx={{ p: '15px 0px 15px 10px', color: '#a6aeb3' }}
+							variant='text'
+							startIcon={<GroupAddRoundedIcon />}
+							onClick={() => navigate('/create-doc')}></Button>
+					</Tooltip>
 				</Box>
-
-				<StyledButton
-					className='new-customer-btn'
-					variant='contained'
-					color='success'
-					startIcon={<ReceiptLongIcon />}
-					onClick={() => navigate('/create-doc')}>
-					Create New Document
-				</StyledButton>
 			</Box>
 
 			{isLoading ? (
@@ -168,15 +89,13 @@ const DocumentsPage = () => {
 						aria-label='simple-table'>
 						<TableHead>
 							<TableRow>
-								<StyledTableCell>#</StyledTableCell>
 								<StyledTableCell>Doc No</StyledTableCell>
-								<StyledTableCell>Type</StyledTableCell>
+								<StyledTableCell>Job Status</StyledTableCell>
 								<StyledTableCell>Customer</StyledTableCell>
 								<StyledTableCell>Amount</StyledTableCell>
 								<StyledTableCell>Due Date</StyledTableCell>
 								<StyledTableCell>Payment Status</StyledTableCell>
 								<StyledTableCell>View</StyledTableCell>
-								<StyledTableCell>Delete</StyledTableCell>
 							</TableRow>
 						</TableHead>
 						<TableBody>
@@ -195,21 +114,23 @@ const DocumentsPage = () => {
 									<StyledTableCell
 										component='th'
 										scope='row'>
-										{page * rowsPerPage + index + 1}
-									</StyledTableCell>
-
-									<StyledTableCell
-										component='th'
-										scope='row'>
 										{row?.documentNumber}
 									</StyledTableCell>
 
 									<StyledTableCell
 										component='th'
 										scope='row'>
-										<button style={DocumentTypeStyling(row.documentType)}>
+										<Chip
+											color={
+												row.documentType === 'Invoice'
+													? 'primary'
+													: row.documentType === 'Order'
+													? 'success'
+													: 'secondary'
+											}
+											label={row?.documentType}>
 											{row?.documentType}
-										</button>
+										</Chip>
 									</StyledTableCell>
 
 									<StyledTableCell
@@ -233,7 +154,17 @@ const DocumentsPage = () => {
 									<StyledTableCell
 										component='th'
 										scope='row'>
-										<button style={statusStyling(row.status)}>{row?.status}</button>
+										<Chip
+											label={row?.status}
+											color={
+												row?.status === 'Paid'
+													? 'primary'
+													: row?.status === 'Not Fully Paid'
+													? 'warning'
+													: 'error'
+											}>
+											{row?.status}
+										</Chip>
 									</StyledTableCell>
 
 									<StyledTableCell align='center'>
@@ -250,58 +181,9 @@ const DocumentsPage = () => {
 											/>
 										</Box>
 									</StyledTableCell>
-
-									<StyledTableCell align='center'>
-										<Box
-											sx={{
-												'&:hover': {
-													cursor: 'pointer',
-												},
-											}}>
-											<ClearIcon
-												color='error'
-												fontSize='medium'
-												onClick={() => handleOpen(row)}
-											/>
-										</Box>
-									</StyledTableCell>
 								</StyledTableRow>
 							))}
 
-							{open && (
-								<Modal
-									open={open}
-									onClose={handleClose}
-									aria-labelledby='modal-modal-title'
-									aria-describedby='modal-modal-description'>
-									<Box sx={modalStyle}>
-										<Typography
-											id='modal-modal-title'
-											variant='h6'
-											component='h2'>
-											{`Are you sure you want to delete this ${selectedDoc.documentType}, with number ${selectedDoc.documentNumber}, belonging to ${selectedDoc.customer.name}?`}
-										</Typography>
-										<Button
-											id='modal-modal-description'
-											sx={{ mt: 2 }}
-											color='darkRed'
-											size='large'
-											fullWidth
-											variant='contained'
-											endIcon={<DeleteForeverIcon sx={{ color: 'white' }} />}
-											onClick={() => {
-												deleteDocumentHandler(`${selectedDoc._id}`)
-												handleClose()
-											}}>
-											<Typography
-												variant='h5'
-												sx={{ color: 'white' }}>
-												Delete Document
-											</Typography>
-										</Button>
-									</Box>
-								</Modal>
-							)}
 							{emptyRows > 0 && (
 								<TableRow style={{ height: 53 * emptyRows }}>
 									<TableCell colSpan={6} />
