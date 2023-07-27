@@ -18,7 +18,7 @@ import PasswordResetRequestPage from './features/auth/pages/PasswordResetRequest
 import PasswordResetPage from './features/auth/pages/PasswordResetPage'
 import { ROLES } from './config/roles'
 import UsersList from './features/users/pages/UsersListPage'
-import DashboardPage from './pages/DashboardPage'
+import DashboardPage from './features/dashboard/pages/DashboardPage'
 import AuthRequired from './components/AuthRequired'
 import HomePageNav from './components/HomePageNav'
 import './styles/loggingPages.css'
@@ -30,8 +30,7 @@ import CustomerEditForm from './features/customers/pages/CustomerEditForm'
 import SingleCustomerPage from './features/customers/pages/SingleCustomerPage'
 import DocCreateEditForm from './features/documents/pages/DocCreateEditForm'
 import DocumentsPage from './features/documents/pages/DocumentsPage'
-
-// import SingleDocumentPage from "./features/documents/pages/SingleDocumentPage";
+import SingleDocumentPage from './features/documents/pages/SingleDocumentPage'
 
 const App = () => {
 	useTitle('Job Forge - Home')
@@ -72,10 +71,6 @@ const App = () => {
 					{/* Private Routes - Users */}
 					<Route element={<AuthRequired allowedRoles={[ROLES.User]} />}>
 						<Route
-							path='dashboard'
-							element={<DashboardPage />}
-						/>
-						<Route
 							path='profile'
 							element={<ProfilePage />}
 						/>
@@ -100,19 +95,32 @@ const App = () => {
 							path='*'
 							element={<NotFound />}
 						/>
+						<Route
+							path='users'
+							element={<UsersList />}
+						/>
+						<Route
+							path='documents'
+							element={<DocumentsPage />}
+						/>
+						<Route
+							path='create-doc'
+							element={<DocCreateEditForm />}
+						/>
+						<Route
+							path='edit-doc/:id'
+							element={<DocCreateEditForm />}
+						/>
+						<Route
+							path='document/:id'
+							element={<SingleDocumentPage />}
+						/>
+						<Route
+							path='dashboard'
+							element={<DashboardPage />}
+						/>
 					</Route>
-					<Route
-						path='users'
-						element={<UsersList />}
-					/>
-					<Route
-						path='documents'
-						element={<DocumentsPage />}
-					/>
-					<Route
-						path='create-doc'
-						element={<DocCreateEditForm />}
-					/>
+
 					{/* Private Routes - Admin Users only */}
 					<Route element={<AuthRequired allowedRoles={[ROLES.Admin]} />}>
 						<Route
