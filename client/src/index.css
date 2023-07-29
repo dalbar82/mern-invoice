@@ -55,7 +55,7 @@ span {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	border-bottom: 1px solid rgb(17, 65, 141);
+	/* border-bottom: 1px solid rgb(17, 65, 141); */
 }
 .billItem p,
 h4 {

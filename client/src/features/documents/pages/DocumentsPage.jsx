@@ -121,13 +121,10 @@ const DocumentsPage = () => {
 										component='th'
 										scope='row'>
 										<Chip
-											color={
-												row.documentType === 'Invoice'
-													? 'primary'
-													: row.documentType === 'Order'
-													? 'success'
-													: 'secondary'
-											}
+											sx={{
+												backgroundColor: '#eeeeee',
+												color: 'rgb(0 0 0 / 67%)'
+											}}
 											label={row?.documentType}></Chip>
 									</StyledTableCell>
 
@@ -154,13 +151,10 @@ const DocumentsPage = () => {
 										scope='row'>
 										<Chip
 											label={row?.status}
-											color={
-												row?.status === 'Paid'
-													? 'success'
-													: row?.status === 'Not Fully Paid'
-													? 'warning'
-													: 'error'
-											}></Chip>
+											sx={{
+												backgroundColor: '#eeeeee',
+												color: 'rgb(0 0 0 / 67%)'
+											}}></Chip>
 									</StyledTableCell>
 
 									<StyledTableCell align='center'>
