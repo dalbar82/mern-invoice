@@ -1,17 +1,13 @@
 import styled from '@emotion/styled'
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle'
-import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange'
+import DoneIcon from '@mui/icons-material/Done'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
-import FaceIcon from '@mui/icons-material/Face'
 import ClearIcon from '@mui/icons-material/Clear'
-import SaveAsIcon from '@mui/icons-material/SaveAs'
 import { produce } from 'immer'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 import {
 	Box,
 	Button,
-	Chip,
 	Container,
 	Tooltip,
 	Grid,
@@ -79,10 +75,14 @@ const DocCreateEditForm = () => {
 	const [docData, setDocData] = useState(docInitialState)
 	const [items, setItems] = useState(itemsInitialState)
 	const [documentType, setDocumentType] = useState('Quotation')
+	const [viewJobDetails, setViewJobDetails] = useState(true)
+	const [viewItemDetails, setViewItemDetails] = useState(false)
+	const [viewShippingDetails, setViewShippingDetails] = useState(false)
 
 	const [currency, setCurrency] = useState(currencies[0].code)
 
 	const today = new Date()
+	const docTypes = ['Invoice', 'Order', 'Quotation']
 
 	const [dueDate, setDueDate] = useState(
 		today.getTime() + 7 * 24 * 60 * 60 * 1000
@@ -216,11 +216,29 @@ const DocCreateEditForm = () => {
 		}
 	}
 
+	const switchPageView = (page) => {
+		if (page === 'job') {
+			setViewJobDetails(true)
+			setViewItemDetails(false)
+			setViewShippingDetails(false)
+		}
+		if (page === 'item') {
+			setViewJobDetails(false)
+			setViewItemDetails(true)
+			setViewShippingDetails(false)
+		}
+		if (page === 'delivery') {
+			setViewJobDetails(false)
+			setViewItemDetails(false)
+			setViewShippingDetails(true)
+		}
+	}
+
 	return (
 		<Container
 			component='main'
 			maxWidth='xl'
-			sx={{ mt: 14, ml: 15, width: '90%', overflowY: 'scroll' }}>
+			sx={{ mt: 14, ml: 15, width: '90%' }}>
 			<Box
 				sx={{
 					display: 'flex',
@@ -249,16 +267,16 @@ const DocCreateEditForm = () => {
 					container
 					sx={{
 						height: '77vh',
-						overflowY: 'scroll',
+
 						paddingBottom: '20px',
 						backgroundColor: 'white',
 					}}>
 					<Grid
 						item
 						md={9}
-						sm={12}>
+						sm={12}
+						pl={3}>
 						<Box
-							className='thisone'
 							sx={{
 								mt: '1rem',
 								display: 'flex',
@@ -269,191 +287,233 @@ const DocCreateEditForm = () => {
 							noValidate
 							autoComplete='off'
 							onSubmit={createUpdateDocHandler}>
-							<StyledContainer>
-								<Grid
-									container
-									justifyContent='space-between'>
-									<Grid></Grid>
-									<Grid>
-										<DocumentType
-											documentType={documentType}
-											setDocumentType={setDocumentType}
-										/>
-									</Grid>
-								</Grid>
+							<Box
+								sx={{
+									marginTop: '30px',
+									marginBottom: '20px',
+									width: '90%',
+									display: 'flex',
+									justifyContent: 'space-evenly',
+								}}>
+								<Button
+									onClick={() => {
+										switchPageView('job')
+									}}
+									sx={{
+										width: '250px',
+										fontWeight: '400',
+										borderBottom: '1px solid #e1e1e1',
+										paddingBottom: '20px',
+									}}>
+									01. Job Info
+								</Button>
+								<Button
+									onClick={() => {
+										switchPageView('item')
+									}}
+									sx={{
+										width: '250px',
+										fontWeight: '400',
+										borderBottom: '1px solid #e1e1e1',
+										paddingBottom: '20px',
+									}}>
+									02. Items
+								</Button>
+								<Button
+									onClick={() => {
+										switchPageView('delivery')
+									}}
+									sx={{
+										width: '250px',
+										fontWeight: '400',
+										borderBottom: '1px solid #e1e1e1',
+										paddingBottom: '20px',
+									}}>
+									03. Delivery/Shipping
+								</Button>
+							</Box>
 
+							{/* Job info */}
+
+							{viewJobDetails && (
 								<Grid
+									rowSpacing={4}
 									container
+									sx={{
+										padding: '24px 24px',
+									}}
 									justifyContent='space-between'>
 									<Grid
 										item
-										sx={{ width: '50%' }}>
-										<Container>
+										md={6}>
+										<Autocomplete
+											style={{ marginRight: '20px' }}
+											disablePortal
+											id='documents-list'
+											options={docTypes || []}
+											renderInput={(params) => (
+												<TextField
+													{...params}
+													label='Job Status'
+												/>
+											)}
+											value={documentType}
+											onChange={(event, value) => {
+												setDocumentType(value)
+											}}
+										/>
+									</Grid>
+
+									<Grid
+										md={6}
+										item>
+										<LocalizationProvider dateAdapter={AdapterDateFns}>
+											<DatePicker
+												label='Set Due Date'
+												value={dueDate}
+												sx={{
+													width: '100%',
+												}}
+												onChange={(date) => {
+													setDueDate(date)
+												}}
+												slots={{
+													textField: (params) => <TextField {...params} />,
+												}}
+											/>
+										</LocalizationProvider>
+									</Grid>
+									{/* customer info */}
+
+									<Grid
+										item
+										xs={12}>
+										<Box
+											mb={2}
+											sx={{
+												display: 'flex',
+												alignItems: 'flex-end',
+											}}>
 											<Typography
-												variant='inherit'
+												variant='p'
 												style={{
 													color: '#5a5a5a',
-													pl: '3px',
 													textTransform: 'uppercase',
-												}}
-												gutterBottom>
-												Send to:
+												}}>
+												Customer
 											</Typography>
-											{customer && (
-												<>
-													<Typography
-														variant='subtitle1'
-														gutterBottom>
-														<b>Name:</b> {customer?.name}
-													</Typography>
-													<Typography
-														variant='body1'
-														gutterBottom>
-														<b>Email:</b> {customer?.email}
-													</Typography>
-													<Typography
-														variant='body1'
-														gutterBottom>
-														<b>AccountNo:</b> {customer?.accountNo}
-													</Typography>
-													<Typography
-														variant='body1'
-														gutterBottom>
-														<b>VAT/TIN No:</b> {customer?.vatTinNo}
-													</Typography>
-													<Typography variant='body1'>
-														<b>Phone Number:</b> {customer?.phoneNumber}
-													</Typography>
-													<Typography variant='body1'>
-														<b>Address:</b> {customer?.address}
-													</Typography>
-													<Button
-														sx={{ textTransform: 'none' }}
-														color='warning'
-														size='large'
-														onClick={() => setCustomer(null)}
-														startIcon={<ChangeCircleIcon color='warning' />}>
-														choose another customer
-													</Button>
-												</>
-											)}
-											<div style={customer ? { display: 'none' } : { display: 'block' }}>
-												<Autocomplete
-													disablePortal
-													sx={{ pt: '10px' }}
-													id='customers-list'
-													options={customers?.myCustomers || []}
-													getOptionLabel={(option) => (option ? option.name : '')}
-													renderInput={(params) => (
-														<TextField
-															{...params}
-															label='Select a customer'
-														/>
-													)}
-													value={customers?.myCustomers?.name}
-													onChange={(event, value) => {
-														setCustomer(value)
-													}}
-												/>
-											</div>
-
 											{!customer && (
 												<>
-													<Grid
-														item
-														sx={{ pt: '10px', pb: '10px' }}>
-														<Chip
-															color='secondary'
-															icon={<FaceIcon />}
-															label='Add New Customer'
-															onClick={() => navigate('/create-customer')}
-														/>
+													<Grid item>
+														<Tooltip title='Add new customer'>
+															<Button
+																startIcon={<AddCircleOutlineIcon />}
+																color='secondary'
+																sx={{ padding: '0' }}
+																onClick={() => navigate('/create-customer')}
+															/>
+														</Tooltip>
 													</Grid>
 												</>
 											)}
-										</Container>
-									</Grid>
-
-									<Grid
-										item
-										style={{ marginRight: 20, textAlign: 'right' }}>
-										<Typography
-											sx={{
-												textTransform: 'uppercase',
-												color: '#5a5a5a',
-											}}
-											gutterBottom>
-											Payment Status
-										</Typography>
-
-										<Typography
-											variant='h5'
-											style={{
-												color: documentType === 'Order' ? 'green' : 'red',
-											}}
-											gutterBottom>
-											{documentType === 'Order' ? 'Paid' : 'Not Paid'}
-										</Typography>
-
-										<Typography
-											sx={{
-												display: 'flex',
-												textTransform: 'uppercase',
-												color: '#5a5a5a',
-											}}
-											gutterBottom>
-											<CalendarMonthIcon
-												sx={{ alignItems: 'center' }}
-												fontSize='small'
-												color='info'
+											{customer && (
+												<Tooltip title='Choose another customer'>
+													<Button
+														sx={{ padding: '0', textTransform: 'none' }}
+														color='warning'
+														onClick={() => setCustomer(null)}
+														startIcon={<ChangeCircleIcon color='warning' />}
+													/>
+												</Tooltip>
+											)}
+										</Box>
+										{customer && (
+											<Grid
+												container
+												rowSpacing={2}
+												// sx={{display:'flex', justifyContent: 'space-between'}}
+												>
+												<Grid
+													item
+													md={12}
+													sm={10}>
+													<TextField
+														margin='normal'
+														fullWidth
+														variant='filled'
+														label='Name'
+														disabled
+														value={customer?.name}
+													/>
+												</Grid>
+												<Grid
+													item
+													md={5}
+													sm={10}>
+													<TextField
+														margin='normal'
+														sx={{width: '95%'}}
+														fullWidth
+														variant='filled'
+														label='Contact Email'
+														disabled
+														value={customer?.email}
+													/>
+												</Grid>
+												<Grid
+													item
+													md={5}
+													sm={10}>
+													<TextField
+														margin='normal'
+														sx={{width: '95%'}}
+														variant='filled'
+														label='Contact Phone'
+														disabled
+														value={customer?.phoneNumber}
+													/>
+												</Grid>
+												<Grid
+													item
+													md={2}
+													sm={10}>
+													<TextField
+														margin='normal'
+														fullWidth
+														variant='filled'
+														label='GST'
+														disabled
+														value={customer?.vatTinNo}
+													/>
+												</Grid>
+											</Grid>
+										)}
+										<div style={customer ? { display: 'none' } : { display: 'block' }}>
+											<Autocomplete
+												disablePortal
+												sx={{ pt: '10px' }}
+												id='customers-list'
+												label='select'
+												options={customers?.myCustomers || []}
+												getOptionLabel={(option) => (option ? option.name : '')}
+												renderInput={(params) => (
+													<TextField
+														{...params}
+														label='Select a customer'
+													/>
+												)}
+												value={customers?.myCustomers?.name}
+												onChange={(event, value) => {
+													setCustomer(value)
+												}}
 											/>
-											Date of Issue:
-										</Typography>
-										<Typography gutterBottom>
-											<b>{format(new Date(), 'do MMMM yyyy')}</b>
-										</Typography>
-
-										<Typography
-											sx={{
-												display: 'flex',
-												textTransform: 'uppercase',
-												color: '#5a5a5a',
-											}}
-											gutterBottom>
-											<CalendarMonthIcon
-												fontSize='small'
-												color='warning'
-											/>
-											Due Date:
-										</Typography>
-										<Typography
-											variant='body1'
-											gutterBottom>
-											<b>{dueDate && format(dueDate, 'do MMMM yyyy')}</b>
-										</Typography>
-
-										<Typography
-											sx={{
-												display: 'flex',
-												textTransform: 'uppercase',
-												color: '#5a5a5a',
-											}}
-											gutterBottom>
-											<CurrencyExchangeIcon
-												fontSize='small'
-												color='success'
-											/>
-											Total Amount:{' '}
-										</Typography>
-										<Typography
-											variant='h6'
-											gutterBottom>
-											{currency}
-											{addCurrencyCommas(total.toFixed(2))}
-										</Typography>
+										</div>
 									</Grid>
 								</Grid>
+							)}
 
+							{/* items */}
+							{viewItemDetails && (
 								<div>
 									<TableContainer
 										component={Paper}
@@ -599,148 +659,65 @@ const DocCreateEditForm = () => {
 										Add Product or Service
 									</StyledItemButton>
 								</div>
+							)}
 
-								<div className='toolbar'>
-									<Container>
-										<Grid container>
-											<Grid
-												item
-												sx={{
-													marginTop: '16px',
-													marginRight: 5,
-												}}>
-												<TextField
-													type='text'
-													step='any'
-													name='rates'
-													id='rates'
-													value={rates}
-													onChange={handleRates}
-													placeholder='such as 18% etc'
-													label='VAT(%)'
-												/>
-											</Grid>
-											<Grid
-												item
-												sx={{
-													marginTop: '16px',
-													marginRight: 5,
-												}}>
-												<LocalizationProvider dateAdapter={AdapterDateFns}>
-													<DatePicker
-														label='Set Due Date'
-														value={dueDate}
-														onChange={(date) => {
-															setDueDate(date)
-														}}
-														slots={{
-															textField: (params) => <TextField {...params} />,
-														}}
-													/>
-												</LocalizationProvider>
-											</Grid>
+							<Box
+								sx={{
+									marginTop: '20px',
+									display: 'flex',
+									flexDirection: 'row',
+									justifyContent: 'space-between',
+								}}>
+								<Box>
+									<Typography
+										variant='h4'
+										sx={{ color: 'rgb(17,65,141)' }}>
+										Additional Info
+									</Typography>
 
-											<Grid
-												item
-												sx={{ width: 255, marginTop: '5px' }}>
-												<Autocomplete
-													disablePortal
-													sx={{ pt: '10px' }}
-													id='currency-list'
-													options={currencies}
-													getOptionLabel={(option) => (option ? option.currency : '')}
-													renderInput={(params) => (
-														<TextField
-															{...params}
-															label='Select your currency'
-														/>
-													)}
-													value={currencies.code}
-													onChange={(e, value) => setCurrency(value.code)}
-												/>
-											</Grid>
-										</Grid>
-									</Container>
-								</div>
-
-								<Box
-									sx={{
-										marginTop: '20px',
-										display: 'flex',
-										flexDirection: 'row',
-										justifyContent: 'space-between',
-									}}>
-									<Box>
-										<Typography
-											variant='h4'
-											sx={{ color: 'rgb(17,65,141)' }}>
-											Additional Info
-										</Typography>
-
-										<TextareaAutosize
-											minRows={4}
-											style={{
-												width: 350,
-												border: 'solid 1px #d6d6d6',
-												padding: '10px',
-											}}
-											placeholder='Add a special note or memo to your customers,such as payment information/account'
-											onChange={(e) =>
-												setDocData({
-													...docData,
-													additionalInfo: e.target.value,
-												})
-											}
-											value={docData.additionalInfo}
-										/>
-									</Box>
-
-									<Box>
-										<Typography
-											variant='h4'
-											sx={{ color: 'rgb(17,65,141)' }}>
-											Terms & Conditions
-										</Typography>
-
-										<TextareaAutosize
-											minRows={4}
-											style={{
-												width: 350,
-												border: 'solid 1px #d6d6d6',
-												padding: '10px',
-											}}
-											placeholder='Add legal terms or conditions, such as your return/refund policy, shipping info, product warranties or privacy policy'
-											onChange={(e) =>
-												setDocData({
-													...docData,
-													termsConditions: e.target.value,
-												})
-											}
-											value={docData.termsConditions}
-										/>
-									</Box>
-								</Box>
-
-								<Box sx={{ display: 'flex', justifyContent: 'center' }}>
-									<Button
-										variant='outlined'
-										type='submit'
-										size='large'
-										sx={{
-											marginTop: '20px',
-											borderColor: 'rgb(17,65,141)',
-											borderRadius: '30px',
-											'&:hover': {
-												bgcolor: 'rgb(17,65,141)',
-												color: 'white',
-												borderColor: 'rgb(17,65,141)',
-											},
+									<TextareaAutosize
+										minRows={4}
+										style={{
+											width: 350,
+											border: 'solid 1px #d6d6d6',
+											padding: '10px',
 										}}
-										startIcon={<SaveAsIcon />}>
-										Create/Update Doc
-									</Button>
+										placeholder='Add a special note or memo to your customers,such as payment information/account'
+										onChange={(e) =>
+											setDocData({
+												...docData,
+												additionalInfo: e.target.value,
+											})
+										}
+										value={docData.additionalInfo}
+									/>
 								</Box>
-							</StyledContainer>
+
+								<Box>
+									<Typography
+										variant='h4'
+										sx={{ color: 'rgb(17,65,141)' }}>
+										Terms & Conditions
+									</Typography>
+
+									<TextareaAutosize
+										minRows={4}
+										style={{
+											width: 350,
+											border: 'solid 1px #d6d6d6',
+											padding: '10px',
+										}}
+										placeholder='Add legal terms or conditions, such as your return/refund policy, shipping info, product warranties or privacy policy'
+										onChange={(e) =>
+											setDocData({
+												...docData,
+												termsConditions: e.target.value,
+											})
+										}
+										value={docData.termsConditions}
+									/>
+								</Box>
+							</Box>
 						</Box>
 					</Grid>
 					<Grid
@@ -756,50 +733,97 @@ const DocCreateEditForm = () => {
 								height: '95%',
 								padding: '25px',
 							}}>
-							<Typography
-								variant='h6'
+							<Box
 								sx={{
 									fontWeight: '400',
 									borderBottom: '1px solid #e1e1e1',
 									paddingBottom: '20px',
 									marginBottom: '20px',
+									display: 'flex',
+									justifyContent: 'space-between',
 								}}>
-								Summary
-							</Typography>
+								<Typography variant='h6'>Summary</Typography>
+								<Tooltip title='Submit'>
+									<Button
+										color='success'
+										sx={{
+											p: '0 0 0 10px',
+											color: '#a6aeb3',
+										}}
+										variant='text'
+										startIcon={<DoneIcon />}
+										type='submit'></Button>
+								</Tooltip>
+							</Box>
+
 							<Box
 								sx={{
 									textAlign: 'left',
 									borderBottom: '1px solid #e1e1e1',
+									fontSize: 'small',
 								}}>
-								{/* <Typography
-									variant='p'
-									className='title'>
-									Cost Summary
-								</Typography> */}
 								<div className='billItem'>
-									<Typography variant='subtitle1'>Sub total:</Typography>
-									<p style={{ padding: '0' }}>
+									<Typography variant='p'>Sub total:</Typography>
+									<p>
 										{currency} {subTotal.toFixed(2)}
 									</p>
 								</div>
-
 								<div className='billItem'>
-									<Typography variant='subtitle1'>Tax:</Typography>
-									<p style={{ padding: '0' }}>{salesTax.toFixed(1)}</p>
+									<Typography variant='p'>Tax:</Typography>
+									<p>{salesTax.toFixed(1)}</p>
 								</div>
-
 								<div className='billItem'>
-									<Typography variant='subtitle1'>Total:</Typography>
-									<h4
-										style={{
-											color: 'black',
-											fontSize: '16px',
-											lineHeight: '8px',
-										}}>
+									<Typography variant='p'>Total:</Typography>
+									<h4>
 										{currency}
 										{addCurrencyCommas(total.toFixed(2))}
 									</h4>
 								</div>
+							</Box>
+							{/* dates */}
+							<Grid
+								item
+								sx={{
+									borderBottom: '1px solid #e1e1e1',
+									fontSize: 'small',
+								}}>
+								<Typography
+									mt={3}
+									sx={{
+										display: 'flex',
+										textTransform: 'uppercase',
+										fontSize: 'small',
+									}}>
+									Date Created: {format(new Date(), 'do MMMM yyyy')}
+								</Typography>
+								<Typography
+									mt={3}
+									mb={2}
+									sx={{
+										display: 'flex',
+										textTransform: 'uppercase',
+										fontSize: 'small',
+									}}>
+									Due Date: {dueDate && format(dueDate, 'do MMMM yyyy')}
+								</Typography>
+							</Grid>
+							<Box sx={{ display: 'flex', justifyContent: 'center' }}>
+								<Button
+									variant='contained'
+									type='submit'
+									size='large'
+									sx={{
+										marginTop: '20px',
+										borderColor: 'rgb(17,65,141)',
+
+										'&:hover': {
+											bgcolor: 'rgb(17,65,141)',
+											color: 'white',
+											borderColor: 'rgb(17,65,141)',
+										},
+									}}>
+									SUBMIT
+								</Button>
 							</Box>
 						</Box>
 					</Grid>

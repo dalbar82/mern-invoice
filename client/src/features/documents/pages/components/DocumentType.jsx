@@ -5,7 +5,7 @@ import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
 
 const StyledSelect = styled(Select)({
-	fontSize: '2rem',
+	fontSize: '1rem',
 	textTransform: 'uppercase',
 	fontWeight: 'bold',
 })
@@ -15,8 +15,8 @@ const DocumentType = ({ documentType, setDocumentType }) => {
 		setDocumentType(e.target.value)
 	}
 	return (
-		<Box sx={{ marginLeft: '400px', marginBottom: '15px' }}>
-			<FormControl sx={{ m: 1, minWidth: 120 }}>
+		<Box>
+			<FormControl>
 				<StyledSelect
 					input={<Input />}
 					labelId='doc-helper-label'
@@ -31,7 +31,7 @@ const DocumentType = ({ documentType, setDocumentType }) => {
 					<MenuItem value='Order'>Order</MenuItem>
 					<MenuItem value='Quotation'>Quotation</MenuItem>
 				</StyledSelect>
-				<FormHelperText sx={{marginLeft: '0'}}>
+				<FormHelperText sx={{ marginLeft: '0' }}>
 					Select a Document to generate, defaults to Quotation
 				</FormHelperText>
 			</FormControl>

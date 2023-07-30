@@ -32,35 +32,24 @@ span {
 	font-size: 4rem;
 }
 
-.broken-heart {
-	font-size: 10rem;
-	color: crimson;
-}
-.sad-tear {
-	font-size: 10rem;
-	color: rgb(158, 158, 13);
-}
-
 /* document styling */
 .title {
-	background-color: rgba(238, 235, 235, 0.954);
-	border-bottom: 1px solid rgb(17, 65, 141);
-	color: rgb(17, 65, 141);
+	
+	border-bottom: 1px solid #e1e1e1;
+	
 	font-weight: 500;
 	padding: 15px 0px;
 	text-align: center;
+	width: 100%;
+	margin-bottom: 10px !important;
 }
 
 .billItem {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	/* border-bottom: 1px solid rgb(17, 65, 141); */
 }
-.billItem p,
-h4 {
-	padding: 3px;
-}
+
 .toolBar {
 	margin-top: 50px;
 }
