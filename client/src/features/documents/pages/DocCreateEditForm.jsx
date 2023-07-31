@@ -33,7 +33,6 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 import Spinner from '../../../components/Spinner'
-import StyledContainer from '../../../components/StyledContainer'
 import StyledTableCell from '../../../components/StyledTableCell'
 import StyledTableRow from '../../../components/StyledTableRow'
 import currencies from '../../../world_currencies.json'
@@ -75,11 +74,23 @@ const DocCreateEditForm = () => {
 	const [docData, setDocData] = useState(docInitialState)
 	const [items, setItems] = useState(itemsInitialState)
 	const [documentType, setDocumentType] = useState('Quotation')
-	const [viewJobDetails, setViewJobDetails] = useState(true)
+	const [viewProjectDetails, setViewProjectDetails] = useState(true)
 	const [viewItemDetails, setViewItemDetails] = useState(false)
 	const [viewShippingDetails, setViewShippingDetails] = useState(false)
 
 	const [currency, setCurrency] = useState(currencies[0].code)
+
+	const [customer, setCustomer] = useState(null)
+	const [salesTax, setSalesTax] = useState(10)
+	const [total, setTotal] = useState(0)
+	const [subTotal, setSubTotal] = useState(0)
+	const [rates, setRates] = useState(0)
+	const [status, setStatus] = useState('Not Paid')
+	const [deliveryAddress, setDeliveryAddress] = useState()
+	const [deliveryCity, setDeliveryCity] = useState('')
+	const [deliveryState, setDeliveryState] = useState('')
+	const [deliveryCountry, setDeliveryCountry] = useState('')
+	const [deliveryNotes, setDeliveryNotes] = useState('')
 
 	const today = new Date()
 	const docTypes = ['Invoice', 'Order', 'Quotation']
@@ -88,17 +99,10 @@ const DocCreateEditForm = () => {
 		today.getTime() + 7 * 24 * 60 * 60 * 1000
 	)
 
-	const [customer, setCustomer] = useState(null)
-	const [salesTax, setSalesTax] = useState(0)
-	const [total, setTotal] = useState(0)
-	const [subTotal, setSubTotal] = useState(0)
-	const [rates, setRates] = useState(0)
-	const [status, setStatus] = useState('Not Paid')
-
 	useEffect(() => {
 		if (isSuccess) {
 			navigate('/documents')
-			toast.success('Your document was created successfully')
+			toast.success('Your project was created successfully')
 		}
 		if (updateDocSuccess) {
 			navigate('/documents')
@@ -119,6 +123,11 @@ const DocCreateEditForm = () => {
 			setCurrency(doc.currency)
 			setRates(doc.rates)
 			setCustomer(doc.customer)
+			setDeliveryAddress(doc.deliveryAddress)
+			setDeliveryCity(doc.deliveryCity)
+			setDeliveryState(doc.deliveryState)
+			setDeliveryCountry(doc.deliveryCountry)
+			setDeliveryNotes(doc.deliveryNotes)
 		}
 	}, [doc])
 
@@ -188,6 +197,11 @@ const DocCreateEditForm = () => {
 					rates,
 					currency,
 					status,
+					deliveryAddress,
+					deliveryCity,
+					deliveryState,
+					deliveryCountry,
+					deliveryNotes
 				})
 			} catch (err) {
 				const message = err.data.message
@@ -208,6 +222,11 @@ const DocCreateEditForm = () => {
 					currency,
 					status,
 					paymentRecords: [],
+					deliveryAddress,
+					deliveryCity,
+					deliveryState,
+					deliveryCountry,
+					deliveryNotes
 				})
 			} catch (err) {
 				const message = err.data.message
@@ -217,18 +236,18 @@ const DocCreateEditForm = () => {
 	}
 
 	const switchPageView = (page) => {
-		if (page === 'job') {
-			setViewJobDetails(true)
+		if (page === 'project') {
+			setViewProjectDetails(true)
 			setViewItemDetails(false)
 			setViewShippingDetails(false)
 		}
 		if (page === 'item') {
-			setViewJobDetails(false)
+			setViewProjectDetails(false)
 			setViewItemDetails(true)
 			setViewShippingDetails(false)
 		}
 		if (page === 'delivery') {
-			setViewJobDetails(false)
+			setViewProjectDetails(false)
 			setViewItemDetails(false)
 			setViewShippingDetails(true)
 		}
@@ -249,7 +268,7 @@ const DocCreateEditForm = () => {
 					paddingBottom: '20px',
 					marginBottom: '20px',
 				}}>
-				<Typography variant='h6'>Create Document</Typography>
+				<Typography variant='h6'>Create/Edit Project</Typography>
 				<Box>
 					<Tooltip title='Cancel'>
 						<Button
@@ -297,7 +316,7 @@ const DocCreateEditForm = () => {
 								}}>
 								<Button
 									onClick={() => {
-										switchPageView('job')
+										switchPageView('project')
 									}}
 									sx={{
 										width: '250px',
@@ -305,7 +324,7 @@ const DocCreateEditForm = () => {
 										borderBottom: '1px solid #e1e1e1',
 										paddingBottom: '20px',
 									}}>
-									01. Job Info
+									01. Project Info
 								</Button>
 								<Button
 									onClick={() => {
@@ -333,9 +352,9 @@ const DocCreateEditForm = () => {
 								</Button>
 							</Box>
 
-							{/* Job info */}
+							{/* Project info */}
 
-							{viewJobDetails && (
+							{viewProjectDetails && (
 								<Grid
 									rowSpacing={4}
 									container
@@ -343,6 +362,18 @@ const DocCreateEditForm = () => {
 										padding: '24px 24px',
 									}}
 									justifyContent='space-between'>
+									<Grid
+										item
+										xs={12}>
+										<Typography
+											variant='p'
+											style={{
+												color: '#5a5a5a',
+												textTransform: 'uppercase',
+											}}>
+											Project Information
+										</Typography>
+									</Grid>
 									<Grid
 										item
 										md={6}>
@@ -354,7 +385,7 @@ const DocCreateEditForm = () => {
 											renderInput={(params) => (
 												<TextField
 													{...params}
-													label='Job Status'
+													label='Project Status'
 												/>
 											)}
 											value={documentType}
@@ -696,7 +727,7 @@ const DocCreateEditForm = () => {
 									</StyledItemButton>
 								</div>
 							)}
-
+							{/* TODO - setup T&C's in admin page */}
 							{/* <Box
 								sx={{
 									marginTop: '20px',
@@ -729,7 +760,102 @@ const DocCreateEditForm = () => {
 									/>
 								</Box>
 							</Box> */}
+							{/* delivery details*/}
+							{viewShippingDetails && (
+								<Grid
+									rowSpacing={4}
+									container
+									sx={{
+										padding: '24px 24px',
+									}}>
+									<Grid
+										item
+										xs={12}>
+										<Typography variant='p'>DELIVERY DETAILS</Typography>
+									</Grid>
+									<Grid
+										item
+										xs={12}>
+										<TextField
+											fullWidth
+											variant='outlined'
+											label='Street Address'
+											value={deliveryAddress}
+											onChange={(e) => setDeliveryAddress(e.target.value)}
+										/>
+									</Grid>
+									<Grid
+										item
+										xs={12}>
+										<TextField
+											fullWidth
+											variant='outlined'
+											label='City/Suburb'
+											value={deliveryCity}
+											onChange={(e) => setDeliveryCity(e.target.value)}
+										/>
+									</Grid>
+									<Grid
+										item
+										xs={12}>
+										<TextField
+											fullWidth
+											variant='outlined'
+											label='State/Territory'
+											value={deliveryState}
+											onChange={(e) => setDeliveryState(e.target.value)}
+										/>
+									</Grid>
+									<Grid
+										item
+										xs={12}>
+										<TextField
+											fullWidth
+											variant='outlined'
+											label='Country'
+											value={deliveryCountry}
+											onChange={(e) => setDeliveryCountry(e.target.value)}
+										/>
+									</Grid>
+									<Grid
+										item
+										xs={12}>
+										<Box
+											mt={1}
+											sx={{
+												display: 'flex',
+												flexDirection: 'column',
+											}}>
+											<Typography
+												variant='p'
+												mb={1}
+												style={{
+													color: '#5a5a5a',
+													textTransform: 'uppercase',
+												}}>
+												Delivery Notes
+											</Typography>
+
+											<TextareaAutosize
+												minRows={4}
+												style={{
+													fontFamily: 'poppins',
+													border: 'solid 1px #d6d6d6',
+													padding: '10px',
+												}}
+												// placeholder='Add a special note or memo to your customers,such as payment information/account'
+												onChange={(e) =>
+													setDeliveryNotes(e.target.value)
+												}
+												value={deliveryNotes}
+											/>
+										</Box>
+									</Grid>
+								</Grid>
+							)}
 						</Grid>
+
+						{/* summary section */}
 						<Grid
 							item
 							md={3}

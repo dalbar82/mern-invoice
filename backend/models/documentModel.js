@@ -65,6 +65,11 @@ const documentSchema = new Schema(
 		total: Number,
 		currency: String,
 		totalAmountReceived: Number,
+		deliveryAddress: String,
+		deliveryCity: String,
+		deliveryState: String,
+		deliveryCountry: String,
+		deliveryNotes: String,
 		billingItems: [
 			{
 				itemName: String,
