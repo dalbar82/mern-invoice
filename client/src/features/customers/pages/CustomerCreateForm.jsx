@@ -55,7 +55,7 @@ const CustomerCreateForm = () => {
 					name: '',
 					email: '',
 					phoneNumber: '',
-					vatTinNo: 0,
+					abn: 0,
 					address: '',
 					city: '',
 					country: '',
@@ -90,7 +90,7 @@ const CustomerCreateForm = () => {
 								sx={{
 									mt: 14,
 									ml: 15,
-									pb: 3
+									pb: 3,
 								}}>
 								<form
 									noValidate
@@ -211,27 +211,27 @@ const CustomerCreateForm = () => {
 															{errors.phoneNumber}
 														</FormHelperText>
 													)}
-													{/* VatTinNo */}
+													{/* Abn */}
 													<TextField
 														variant='filled'
-														label='VAT'
+														label='ABN'
 														margin='normal'
 														fullWidth
-														error={Boolean(touched.vatTinNo && errors.vatTinNo)}
-														id='customer-vatTin'
-														type='vatTinNo'
-														value={values.vatTinNo}
-														name='vatTinNo'
+														error={Boolean(touched.abn && errors.abn)}
+														id='customer-abn'
+														type='abn'
+														value={values.abn}
+														name='abn'
 														onBlur={handleBlur}
 														onChange={handleChange}
-														placeholder='e.g +254710123456 - must be a valid phone number with country code.'
+														placeholder='e.g 75 000 000 000'
 														inputProps={{}}
 													/>
-													{touched.vatTinNo && errors.vatTinNo && (
+													{touched.abn && errors.abn && (
 														<FormHelperText
 															error
-															id='helper-text-vatTinNo'>
-															{errors.vatTinNo}
+															id='helper-text-abn'>
+															{errors.abn}
 														</FormHelperText>
 													)}
 
@@ -277,7 +277,7 @@ const CustomerCreateForm = () => {
 													{touched.city && errors.city && (
 														<FormHelperText
 															error
-															id='helper-text-vatTinNo'>
+															id='helper-text-abn'>
 															{errors.city}
 														</FormHelperText>
 													)}
@@ -300,7 +300,7 @@ const CustomerCreateForm = () => {
 													{touched.country && errors.country && (
 														<FormHelperText
 															error
-															id='helper-text-vatTinNo'>
+															id='helper-text-abn'>
 															{errors.country}
 														</FormHelperText>
 													)}

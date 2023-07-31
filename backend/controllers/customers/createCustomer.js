@@ -6,7 +6,8 @@ import Customer from '../../models/customerModel.js'
 // $-auth    Private
 
 const createCustomer = asyncHandler(async (req, res) => {
-	const { email, name, phoneNumber, vatTinNo, address, city, country } = req.body
+	const { email, name, phoneNumber, vatTinNo, abn, address, city, country } =
+		req.body
 
 	if (!email || !name || !phoneNumber) {
 		res.status(400)
@@ -28,6 +29,7 @@ const createCustomer = asyncHandler(async (req, res) => {
 		email,
 		phoneNumber,
 		vatTinNo,
+		abn,
 		address,
 		city,
 		country,

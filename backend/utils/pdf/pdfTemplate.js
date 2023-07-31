@@ -133,7 +133,7 @@ export default function ({
 										document?.customer?.accountNo
 									}</p>
          <p style="font-size: 12px"> <span class="header">VAT/TIN No:</span> </>${
-										document?.customer?.vatTinNo
+										document?.customer?.abn
 									}</p>
          <p style="font-size: 12px">${document?.customer?.email}</p>
          <p style="font-size: 12px">${document?.customer?.phoneNumber}</p>

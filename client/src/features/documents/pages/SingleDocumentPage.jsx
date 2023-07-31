@@ -310,7 +310,7 @@ const SingleDocumentPage = () => {
 									<Typography
 										variant='body1'
 										gutterBottom>
-										<b>VAT/TIN No:</b> {document?.customer?.vatTinNo}
+										<b>ABN:</b> {document?.customer?.abn}
 									</Typography>
 									<Typography
 										variant='body1'
@@ -538,7 +538,7 @@ const SingleDocumentPage = () => {
 
 							<Box className='billItem'>
 								<Typography variant='subtitle1'>
-									{`VAT/Sales Tax (${document?.rates}%):`}
+									{`Sales Tax (${document?.rates}%):`}
 								</Typography>
 								<h4>{document?.salesTax.toFixed(2)}</h4>
 							</Box>

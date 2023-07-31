@@ -24,7 +24,7 @@ const CustomerEditForm = () => {
 	const [name, setName] = useState('')
 	const [email, setEmail] = useState('')
 	const [phoneNumber, setPhoneNumber] = useState('')
-	const [vatTinNo, setVatTinNo] = useState(0)
+	const [abn, setAbn] = useState(0)
 	const [address, setAddress] = useState('')
 	const [city, setCity] = useState('')
 	const [country, setCountry] = useState('')
@@ -44,7 +44,7 @@ const CustomerEditForm = () => {
 			setName(customer.name)
 			setEmail(customer.email)
 			setPhoneNumber(customer.phoneNumber)
-			setVatTinNo(customer.vatTinNo)
+			setAbn(customer.abn)
 			setAddress(customer.address)
 			setCity(customer.city)
 			setCountry(customer.country)
@@ -67,7 +67,7 @@ const CustomerEditForm = () => {
 				name,
 				email,
 				phoneNumber,
-				vatTinNo,
+				abn,
 				address,
 				city,
 				country,
@@ -192,16 +192,16 @@ const CustomerEditForm = () => {
 								<Grid
 									item
 									md={6}>
-									{/* VAT/TIN Number */}
+									{/* ABN */}
 									<TextField
 										variant='filled'
 										fullWidth
-										id='vatTinNo'
-										label='VAT/TIN Number'
-										name='vatTinNo'
+										id='abn'
+										label='ABN'
+										name='abn'
 										margin='normal'
-										value={vatTinNo}
-										onChange={(e) => setVatTinNo(e.target.value)}
+										value={abn}
+										onChange={(e) => setAbn(e.target.value)}
 									/>
 								</Grid>
 								<Grid

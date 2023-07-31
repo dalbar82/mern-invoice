@@ -29,6 +29,7 @@ const customerSchema = new Schema(
 			type: Number,
 			default: 0,
 		},
+		abn: Number,
 		address: String,
 		city: String,
 		country: String,

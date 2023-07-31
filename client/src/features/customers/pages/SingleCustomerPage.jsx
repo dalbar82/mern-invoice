@@ -110,10 +110,10 @@ const SingleCustomerPage = () => {
 											label={'Account #'}
 											text={data?.customer.accountNo}
 										/>
-										{/* VAT */}
+										{/* ABN */}
 										<ListItemWrapper
-											label={'VAT #'}
-											text={data?.customer.vatTinNo ? `${data?.customer.vatTinNo}` : ''}
+											label={'ABN'}
+											text={data?.customer.abn ? `${data?.customer.abn}` : ''}
 										/>
 										{/* phone */}
 										<ListItemWrapper
