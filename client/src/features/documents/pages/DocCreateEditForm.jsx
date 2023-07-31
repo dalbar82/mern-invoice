@@ -263,30 +263,30 @@ const DocCreateEditForm = () => {
 			{isLoading || updateDocLoading ? (
 				<Spinner />
 			) : (
-				<Grid
-					container
+				<Box
 					sx={{
-						height: '77vh',
-
-						paddingBottom: '20px',
-						backgroundColor: 'white',
-					}}>
+						mt: '1rem',
+						display: 'flex',
+						flexDirection: 'column',
+						alignItems: 'center',
+					}}
+					component='form'
+					noValidate
+					autoComplete='off'
+					onSubmit={createUpdateDocHandler}>
 					<Grid
-						item
-						md={9}
-						sm={12}
-						pl={3}>
-						<Box
-							sx={{
-								mt: '1rem',
-								display: 'flex',
-								flexDirection: 'column',
-								alignItems: 'center',
-							}}
-							component='form'
-							noValidate
-							autoComplete='off'
-							onSubmit={createUpdateDocHandler}>
+						container
+						sx={{
+							height: '77vh',
+
+							paddingBottom: '20px',
+							backgroundColor: 'white',
+						}}>
+						<Grid
+							item
+							md={9}
+							sm={12}
+							pl={3}>
 							<Box
 								sx={{
 									marginTop: '30px',
@@ -389,7 +389,7 @@ const DocCreateEditForm = () => {
 										item
 										xs={12}>
 										<Box
-											mb={2}
+											mb={1}
 											sx={{
 												display: 'flex',
 												alignItems: 'flex-end',
@@ -420,6 +420,7 @@ const DocCreateEditForm = () => {
 												<Tooltip title='Choose another customer'>
 													<Button
 														sx={{ padding: '0', textTransform: 'none' }}
+														mb={1}
 														color='warning'
 														onClick={() => setCustomer(null)}
 														startIcon={<ChangeCircleIcon color='warning' />}
@@ -430,9 +431,7 @@ const DocCreateEditForm = () => {
 										{customer && (
 											<Grid
 												container
-												rowSpacing={2}
-												// sx={{display:'flex', justifyContent: 'space-between'}}
-												>
+												rowSpacing={2}>
 												<Grid
 													item
 													md={12}
@@ -440,7 +439,7 @@ const DocCreateEditForm = () => {
 													<TextField
 														margin='normal'
 														fullWidth
-														variant='filled'
+														variant='standard'
 														label='Name'
 														disabled
 														value={customer?.name}
@@ -452,9 +451,9 @@ const DocCreateEditForm = () => {
 													sm={10}>
 													<TextField
 														margin='normal'
-														sx={{width: '95%'}}
+														sx={{ width: '95%' }}
 														fullWidth
-														variant='filled'
+														variant='standard'
 														label='Contact Email'
 														disabled
 														value={customer?.email}
@@ -466,8 +465,8 @@ const DocCreateEditForm = () => {
 													sm={10}>
 													<TextField
 														margin='normal'
-														sx={{width: '95%'}}
-														variant='filled'
+														sx={{ width: '95%' }}
+														variant='standard'
 														label='Contact Phone'
 														disabled
 														value={customer?.phoneNumber}
@@ -480,7 +479,7 @@ const DocCreateEditForm = () => {
 													<TextField
 														margin='normal'
 														fullWidth
-														variant='filled'
+														variant='standard'
 														label='GST'
 														disabled
 														value={customer?.vatTinNo}
@@ -508,6 +507,43 @@ const DocCreateEditForm = () => {
 												}}
 											/>
 										</div>
+									</Grid>
+									<Grid
+										item
+										xs={12}>
+										<Box
+											mt={1}
+											sx={{
+												display: 'flex',
+												flexDirection: 'column',
+											}}>
+											<Typography
+												variant='p'
+												mb={1}
+												style={{
+													color: '#5a5a5a',
+													textTransform: 'uppercase',
+												}}>
+												Additional Info
+											</Typography>
+
+											<TextareaAutosize
+												minRows={4}
+												style={{
+													fontFamily: 'poppins',
+													border: 'solid 1px #d6d6d6',
+													padding: '10px',
+												}}
+												// placeholder='Add a special note or memo to your customers,such as payment information/account'
+												onChange={(e) =>
+													setDocData({
+														...docData,
+														additionalInfo: e.target.value,
+													})
+												}
+												value={docData.additionalInfo}
+											/>
+										</Box>
 									</Grid>
 								</Grid>
 							)}
@@ -661,38 +697,13 @@ const DocCreateEditForm = () => {
 								</div>
 							)}
 
-							<Box
+							{/* <Box
 								sx={{
 									marginTop: '20px',
 									display: 'flex',
 									flexDirection: 'row',
 									justifyContent: 'space-between',
 								}}>
-								<Box>
-									<Typography
-										variant='h4'
-										sx={{ color: 'rgb(17,65,141)' }}>
-										Additional Info
-									</Typography>
-
-									<TextareaAutosize
-										minRows={4}
-										style={{
-											width: 350,
-											border: 'solid 1px #d6d6d6',
-											padding: '10px',
-										}}
-										placeholder='Add a special note or memo to your customers,such as payment information/account'
-										onChange={(e) =>
-											setDocData({
-												...docData,
-												additionalInfo: e.target.value,
-											})
-										}
-										value={docData.additionalInfo}
-									/>
-								</Box>
-
 								<Box>
 									<Typography
 										variant='h4'
@@ -717,117 +728,117 @@ const DocCreateEditForm = () => {
 										value={docData.termsConditions}
 									/>
 								</Box>
-							</Box>
-						</Box>
-					</Grid>
-					<Grid
-						item
-						md={3}
-						sm={12}>
-						<Box
-							sx={{
-								backgroundColor: '#f6fafb',
-								borderRadius: '4px',
-								margin: '20px',
-								width: '90%',
-								height: '95%',
-								padding: '25px',
-							}}>
+							</Box> */}
+						</Grid>
+						<Grid
+							item
+							md={3}
+							sm={12}>
 							<Box
 								sx={{
-									fontWeight: '400',
-									borderBottom: '1px solid #e1e1e1',
-									paddingBottom: '20px',
-									marginBottom: '20px',
-									display: 'flex',
-									justifyContent: 'space-between',
+									backgroundColor: '#f6fafb',
+									borderRadius: '4px',
+									margin: '20px',
+									width: '90%',
+									height: '95%',
+									padding: '25px',
 								}}>
-								<Typography variant='h6'>Summary</Typography>
-								<Tooltip title='Submit'>
-									<Button
-										color='success'
+								<Box
+									sx={{
+										fontWeight: '400',
+										borderBottom: '1px solid #e1e1e1',
+										paddingBottom: '20px',
+										marginBottom: '20px',
+										display: 'flex',
+										justifyContent: 'space-between',
+									}}>
+									<Typography variant='h6'>Summary</Typography>
+									<Tooltip title='Submit'>
+										<Button
+											color='success'
+											sx={{
+												p: '0 0 0 10px',
+												color: '#a6aeb3',
+											}}
+											variant='text'
+											startIcon={<DoneIcon />}
+											type='submit'></Button>
+									</Tooltip>
+								</Box>
+
+								<Box
+									sx={{
+										textAlign: 'left',
+										borderBottom: '1px solid #e1e1e1',
+										fontSize: 'small',
+									}}>
+									<div className='billItem'>
+										<Typography variant='p'>Sub total:</Typography>
+										<p>
+											{currency} {subTotal.toFixed(2)}
+										</p>
+									</div>
+									<div className='billItem'>
+										<Typography variant='p'>Tax:</Typography>
+										<p>{salesTax.toFixed(1)}</p>
+									</div>
+									<div className='billItem'>
+										<Typography variant='p'>Total:</Typography>
+										<h4>
+											{currency}
+											{addCurrencyCommas(total.toFixed(2))}
+										</h4>
+									</div>
+								</Box>
+								{/* dates */}
+								<Grid
+									item
+									sx={{
+										borderBottom: '1px solid #e1e1e1',
+										fontSize: 'small',
+									}}>
+									<Typography
+										mt={3}
 										sx={{
-											p: '0 0 0 10px',
-											color: '#a6aeb3',
-										}}
-										variant='text'
-										startIcon={<DoneIcon />}
-										type='submit'></Button>
-								</Tooltip>
-							</Box>
-
-							<Box
-								sx={{
-									textAlign: 'left',
-									borderBottom: '1px solid #e1e1e1',
-									fontSize: 'small',
-								}}>
-								<div className='billItem'>
-									<Typography variant='p'>Sub total:</Typography>
-									<p>
-										{currency} {subTotal.toFixed(2)}
-									</p>
-								</div>
-								<div className='billItem'>
-									<Typography variant='p'>Tax:</Typography>
-									<p>{salesTax.toFixed(1)}</p>
-								</div>
-								<div className='billItem'>
-									<Typography variant='p'>Total:</Typography>
-									<h4>
-										{currency}
-										{addCurrencyCommas(total.toFixed(2))}
-									</h4>
-								</div>
-							</Box>
-							{/* dates */}
-							<Grid
-								item
-								sx={{
-									borderBottom: '1px solid #e1e1e1',
-									fontSize: 'small',
-								}}>
-								<Typography
-									mt={3}
-									sx={{
-										display: 'flex',
-										textTransform: 'uppercase',
-										fontSize: 'small',
-									}}>
-									Date Created: {format(new Date(), 'do MMMM yyyy')}
-								</Typography>
-								<Typography
-									mt={3}
-									mb={2}
-									sx={{
-										display: 'flex',
-										textTransform: 'uppercase',
-										fontSize: 'small',
-									}}>
-									Due Date: {dueDate && format(dueDate, 'do MMMM yyyy')}
-								</Typography>
-							</Grid>
-							<Box sx={{ display: 'flex', justifyContent: 'center' }}>
-								<Button
-									variant='contained'
-									type='submit'
-									size='large'
-									sx={{
-										marginTop: '20px',
-										borderColor: 'rgb(17,65,141)',
-
-										'&:hover': {
-											bgcolor: 'rgb(17,65,141)',
-											color: 'white',
+											display: 'flex',
+											textTransform: 'uppercase',
+											fontSize: 'small',
+										}}>
+										Date Created: {format(new Date(), 'do MMMM yyyy')}
+									</Typography>
+									<Typography
+										mt={3}
+										mb={3}
+										sx={{
+											display: 'flex',
+											textTransform: 'uppercase',
+											fontSize: 'small',
+										}}>
+										Due Date: {dueDate && format(dueDate, 'do MMMM yyyy')}
+									</Typography>
+								</Grid>
+								<Box sx={{ display: 'flex', justifyContent: 'center' }}>
+									<Button
+										variant='contained'
+										type='submit'
+										size='large'
+										sx={{
+											marginTop: '20px',
 											borderColor: 'rgb(17,65,141)',
-										},
-									}}>
-									SUBMIT
-								</Button>
+
+											'&:hover': {
+												bgcolor: 'rgb(17,65,141)',
+												color: 'white',
+												borderColor: 'rgb(17,65,141)',
+											},
+										}}>
+										SUBMIT
+									</Button>
+								</Box>
 							</Box>
-						</Box>
+						</Grid>
 					</Grid>
-				</Grid>
+				</Box>
 			)}
 		</Container>
 	)
