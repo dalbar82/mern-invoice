@@ -80,6 +80,7 @@ const DocCreateEditForm = () => {
 
 	const [currency, setCurrency] = useState(currencies[0].code)
 
+	const [name, setName] = useState('')
 	const [customer, setCustomer] = useState(null)
 	const [salesTax, setSalesTax] = useState(10)
 	const [total, setTotal] = useState(0)
@@ -89,6 +90,7 @@ const DocCreateEditForm = () => {
 	const [deliveryAddress, setDeliveryAddress] = useState()
 	const [deliveryCity, setDeliveryCity] = useState('')
 	const [deliveryState, setDeliveryState] = useState('')
+	const [deliveryPostcode, setDeliveryPostcode] = useState('')
 	const [deliveryCountry, setDeliveryCountry] = useState('')
 	const [deliveryNotes, setDeliveryNotes] = useState('')
 
@@ -115,6 +117,7 @@ const DocCreateEditForm = () => {
 
 	useEffect(() => {
 		if (doc) {
+			setName(doc.name)
 			setDocData(doc)
 			setItems(doc.billingItems)
 			setSubTotal(doc.subTotal)
@@ -126,6 +129,7 @@ const DocCreateEditForm = () => {
 			setDeliveryAddress(doc.deliveryAddress)
 			setDeliveryCity(doc.deliveryCity)
 			setDeliveryState(doc.deliveryState)
+			setDeliveryPostcode(doc.deliveryPostcode)
 			setDeliveryCountry(doc.deliveryCountry)
 			setDeliveryNotes(doc.deliveryNotes)
 		}
@@ -189,6 +193,7 @@ const DocCreateEditForm = () => {
 					...docData,
 					billingItems: [...items],
 					documentType,
+					name,
 					customer,
 					dueDate,
 					salesTax,
@@ -200,8 +205,9 @@ const DocCreateEditForm = () => {
 					deliveryAddress,
 					deliveryCity,
 					deliveryState,
+					deliveryPostcode,
 					deliveryCountry,
-					deliveryNotes
+					deliveryNotes,
 				})
 			} catch (err) {
 				const message = err.data.message
@@ -213,6 +219,7 @@ const DocCreateEditForm = () => {
 					...docData,
 					billingItems: [...items],
 					documentType,
+					name,
 					customer,
 					dueDate,
 					salesTax,
@@ -225,8 +232,9 @@ const DocCreateEditForm = () => {
 					deliveryAddress,
 					deliveryCity,
 					deliveryState,
+					deliveryPostcode,
 					deliveryCountry,
-					deliveryNotes
+					deliveryNotes,
 				})
 			} catch (err) {
 				const message = err.data.message
@@ -377,6 +385,19 @@ const DocCreateEditForm = () => {
 									<Grid
 										item
 										md={6}>
+										<TextField
+											required
+											sx={{ marginRight: '20px', width: '96%' }}
+											label='Project Name'
+											value={name}
+											onChange={(e) => {
+												setName(e.target.value)
+											}}
+										/>
+									</Grid>
+									<Grid
+										item
+										md={3}>
 										<Autocomplete
 											style={{ marginRight: '20px' }}
 											disablePortal
@@ -396,7 +417,7 @@ const DocCreateEditForm = () => {
 									</Grid>
 
 									<Grid
-										md={6}
+										md={3}
 										item>
 										<LocalizationProvider dateAdapter={AdapterDateFns}>
 											<DatePicker
@@ -812,6 +833,17 @@ const DocCreateEditForm = () => {
 										<TextField
 											fullWidth
 											variant='outlined'
+											label='Postcode'
+											value={deliveryPostcode}
+											onChange={(e) => setDeliveryPostcode(e.target.value)}
+										/>
+									</Grid>
+									<Grid
+										item
+										xs={12}>
+										<TextField
+											fullWidth
+											variant='outlined'
 											label='Country'
 											value={deliveryCountry}
 											onChange={(e) => setDeliveryCountry(e.target.value)}
@@ -844,9 +876,7 @@ const DocCreateEditForm = () => {
 													padding: '10px',
 												}}
 												// placeholder='Add a special note or memo to your customers,such as payment information/account'
-												onChange={(e) =>
-													setDeliveryNotes(e.target.value)
-												}
+												onChange={(e) => setDeliveryNotes(e.target.value)}
 												value={deliveryNotes}
 											/>
 										</Box>
@@ -941,6 +971,34 @@ const DocCreateEditForm = () => {
 											fontSize: 'small',
 										}}>
 										Due Date: {dueDate && format(dueDate, 'do MMMM yyyy')}
+									</Typography>
+								</Grid>
+								<Grid
+									item
+									sx={{
+										borderBottom: '1px solid #e1e1e1',
+										fontSize: 'small',
+									}}>
+									<Typography
+										mt={3}
+										mb={3}
+										sx={{
+											display: 'flex',
+											textTransform: 'uppercase',
+											fontSize: 'small',
+										}}>
+										Delivery Details
+									</Typography>
+									<Typography
+										mt={3}
+										variant='body1'>
+										{deliveryAddress},
+									</Typography>
+									<Typography
+										mt={3}
+										mb={3}
+										variant='body1'>
+										{deliveryCity} {deliveryState} {deliveryPostcode}
 									</Typography>
 								</Grid>
 								<Box sx={{ display: 'flex', justifyContent: 'center' }}>

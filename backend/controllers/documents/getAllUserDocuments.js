@@ -15,7 +15,7 @@ const getAllUserDocuments = asyncHandler(async (req, res) => {
 		.sort({
 			createdAt: -1,
 		})
-		.limit(pageSize)
+		// .limit(pageSize)
 		.skip(pageSize * (page - 1))
 		.lean()
 

@@ -89,10 +89,10 @@ const DocumentsPage = () => {
 						aria-label='simple-table'>
 						<TableHead>
 							<TableRow>
+								<StyledTableCell width={'20%'}>Name</StyledTableCell>
+								<StyledTableCell width={'20%'}>Customer</StyledTableCell>
 								<StyledTableCell>Doc No</StyledTableCell>
 								<StyledTableCell>Job Status</StyledTableCell>
-								<StyledTableCell>Customer</StyledTableCell>
-								<StyledTableCell>Amount</StyledTableCell>
 								<StyledTableCell>Due Date</StyledTableCell>
 								<StyledTableCell>Payment Status</StyledTableCell>
 								<StyledTableCell>View</StyledTableCell>
@@ -114,18 +114,7 @@ const DocumentsPage = () => {
 									<StyledTableCell
 										component='th'
 										scope='row'>
-										{row?.documentNumber}
-									</StyledTableCell>
-
-									<StyledTableCell
-										component='th'
-										scope='row'>
-										<Chip
-											sx={{
-												backgroundColor: '#eeeeee',
-												color: 'rgb(0 0 0 / 67%)'
-											}}
-											label={row?.documentType}></Chip>
+										{row?.name}
 									</StyledTableCell>
 
 									<StyledTableCell
@@ -137,7 +126,18 @@ const DocumentsPage = () => {
 									<StyledTableCell
 										component='th'
 										scope='row'>
-										{row?.total?.toFixed(2)}
+										{row?.documentNumber}
+									</StyledTableCell>
+
+									<StyledTableCell
+										component='th'
+										scope='row'>
+										<Chip
+											sx={{
+												backgroundColor: '#eeeeee',
+												color: 'rgb(0 0 0 / 67%)',
+											}}
+											label={row?.documentType}></Chip>
 									</StyledTableCell>
 
 									<StyledTableCell
@@ -153,11 +153,11 @@ const DocumentsPage = () => {
 											label={row?.status}
 											sx={{
 												backgroundColor: '#eeeeee',
-												color: 'rgb(0 0 0 / 67%)'
+												color: 'rgb(0 0 0 / 67%)',
 											}}></Chip>
 									</StyledTableCell>
 
-									<StyledTableCell align='center'>
+									<StyledTableCell>
 										<Box
 											sx={{
 												'&:hover': {

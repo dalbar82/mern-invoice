@@ -50,6 +50,7 @@ const documentSchema = new Schema(
 			default: 'Invoice',
 			enum: ['Invoice', 'Order', 'Quotation'],
 		},
+		name: String,
 		documentNumber: String,
 		dueDate: Date,
 		additionalInfo: String,
@@ -68,6 +69,7 @@ const documentSchema = new Schema(
 		deliveryAddress: String,
 		deliveryCity: String,
 		deliveryState: String,
+		diliveryPostcode: String,
 		deliveryCountry: String,
 		deliveryNotes: String,
 		billingItems: [
