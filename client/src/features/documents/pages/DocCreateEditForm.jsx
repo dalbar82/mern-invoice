@@ -29,7 +29,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { format } from 'date-fns'
 import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 import Spinner from '../../../components/Spinner'
@@ -183,6 +183,12 @@ const DocCreateEditForm = () => {
 		}
 		total()
 	}, [docData, items, rates, subTotal])
+
+	const location = useLocation()
+
+	const createNewCustomer = () => {
+		navigate('/create-customer', { state: { prevPath: location.pathname } })
+	}
 
 	const createUpdateDocHandler = async (e) => {
 		e.preventDefault()
@@ -462,7 +468,7 @@ const DocCreateEditForm = () => {
 																startIcon={<AddCircleOutlineIcon />}
 																color='secondary'
 																sx={{ padding: '0' }}
-																onClick={() => navigate('/create-customer')}
+																onClick={() => createNewCustomer()}
 															/>
 														</Tooltip>
 													</Grid>
