@@ -611,24 +611,31 @@ const DocCreateEditForm = () => {
 								<div>
 									<TableContainer
 										component={Paper}
-										sx={{ marginBottom: '100px' }}>
+										sx={{ marginBottom: '30px', marginTop: '15px' }}>
 										<Table
-											sx={{ minWidth: 700 }}
+											sx={{ minWidth: 650 }}
 											aria-label='simple-table'>
 											<TableHead>
 												<TableRow>
 													<StyledTableCell>#</StyledTableCell>
-													<StyledTableCell>Product</StyledTableCell>
-													<StyledTableCell>Qty</StyledTableCell>
-													<StyledTableCell>Unit Price</StyledTableCell>
-													<StyledTableCell>Disc(%)</StyledTableCell>
+													<StyledTableCell width={'40%'}>Product</StyledTableCell>
+													<StyledTableCell width={'12%'}>Qty</StyledTableCell>
+													<StyledTableCell width={'12%'}>Unit Price</StyledTableCell>
+													<StyledTableCell width={'10%'}>Disc(%)</StyledTableCell>
 													<StyledTableCell>Line Total</StyledTableCell>
 													<StyledTableCell>Remove</StyledTableCell>
 												</TableRow>
 											</TableHead>
 											<TableBody>
 												{items.map((item, index) => (
-													<StyledTableRow key={index}>
+													<StyledTableRow
+														key={index}
+														sx={{
+															'&:last-child td, &:last-child th': {
+																border: 0,
+															},
+															cursor: 'pointer',
+														}}>
 														<StyledTableCell
 															component='th'
 															scope='row'>
@@ -745,12 +752,12 @@ const DocCreateEditForm = () => {
 										</Table>
 									</TableContainer>
 									<StyledItemButton
-										className='new-customer-btn'
+										// className='new-customer-btn'
 										variant='contained'
 										color='success'
 										startIcon={<AddCircleOutlineIcon />}
 										onClick={handleAddBillingItemsRow}>
-										Add Product or Service
+										Add Item
 									</StyledItemButton>
 								</div>
 							)}

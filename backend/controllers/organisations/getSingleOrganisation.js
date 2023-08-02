@@ -23,7 +23,7 @@ const getSingleUserOrganisation = asyncHandler(async (req, res) => {
 	} else {
 		res.status(401)
 		throw new Error(
-			"You are not authorized to view this organisation's information. He/She is not your organisation"
+			"You are not authorized to view this organisation's information."
 		)
 	}
 })

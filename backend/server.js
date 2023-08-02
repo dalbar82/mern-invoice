@@ -16,7 +16,7 @@ import googleAuth from './config/passsportSetup.js'
 import customerRoutes from './routes/customerRoutes.js'
 import documentRoutes from './routes/documentRoutes.js'
 import uploadRoutes from './routes/uploadRoutes.js'
-
+import organisationRoutes from './routes/organisationRoutes.js'
 
 await connectionToDB()
 
@@ -46,6 +46,7 @@ app.get('/api/v1/test', (req, res) => {
 })
 
 app.use('/api/v1/auth', authRoutes)
+app.use('/api/v1/organisation', apiLimiter, organisationRoutes)
 app.use('/api/v1/user', apiLimiter, userRoutes)
 app.use('/api/v1/customer', apiLimiter, customerRoutes)
 app.use('/api/v1/document', apiLimiter, documentRoutes)
