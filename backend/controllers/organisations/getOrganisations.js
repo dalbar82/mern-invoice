@@ -5,9 +5,14 @@ import Organisation from '../../models/organisationModel.js'
 // $-path    GET /api/v1/organisation/all
 // $-auth    Private
 
-const getAllUserOrganisations = asyncHandler(async (req, res) => {
+const getOrganisations = asyncHandler(async (req, res) => {
 	const pageSize = 10
 	const page = Number(req.query.page) || 1
+
+	if (!req.user.roles.includes('Internal_admin')) {
+		res.status(400)
+		throw new Error('You are not authorised to complete this action')
+	}
 
 	const count = await Organisation.countDocuments({ createdBy: req.user._id })
 
@@ -27,4 +32,4 @@ const getAllUserOrganisations = asyncHandler(async (req, res) => {
 	})
 })
 
-export default getAllUserOrganisations
+export default getOrganisations
