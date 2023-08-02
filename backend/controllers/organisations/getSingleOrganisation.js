@@ -5,7 +5,7 @@ import Organisation from '../../models/organisationModel.js'
 // $-path    GET /api/v1/organisation/:id
 // $-auth    Private
 
-const getSingleUserOrganisation = asyncHandler(async (req, res) => {
+const getSingleOrganisation = asyncHandler(async (req, res) => {
 	const organisation = await Organisation.findById(req.params.id)
 
 	const user = req.user._id
@@ -13,6 +13,11 @@ const getSingleUserOrganisation = asyncHandler(async (req, res) => {
 	if (!organisation) {
 		res.status(204)
 		throw new Error('Organisation not found')
+	}
+
+	if (!req.user.roles.includes('Internal_admin')) {
+		res.status(400)
+		throw new Error('You are not authorised to complete this action')
 	}
 
 	if (organisation.id !== user) {
@@ -28,4 +33,4 @@ const getSingleUserOrganisation = asyncHandler(async (req, res) => {
 	}
 })
 
-export default getSingleUserOrganisation
+export default getSingleOrganisation

@@ -5,6 +5,11 @@ import Organisation from '../../models/organisationModel.js'
 // $-path    POST /api/v1/organisation/create
 // $-auth    Private
 
+if (!req.user.roles.includes('Internal_admin')) {
+	res.status(400)
+	throw new Error('You are not authorised to complete this action')
+}
+
 const createOrganisation = asyncHandler(async (req, res) => {
 	const {
 		email,
@@ -34,11 +39,6 @@ const createOrganisation = asyncHandler(async (req, res) => {
 		throw new Error(
 			'An Organisation must have at least a name, address, email and phone number'
 		)
-	}
-
-	if (!req.user.roles.includes('Internal_admin')) {
-		res.status(400)
-		throw new Error('You are not authorised to complete this action')
 	}
 
 	const organisationExists = await Organisation.findOne({ name })

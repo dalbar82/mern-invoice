@@ -5,9 +5,13 @@ import Organisation from '../../models/organisationModel.js'
 // $-path    PATCH /api/v1/organisation/:id
 // $-auth    Private
 
-const updateOrganisationInfo = asyncHandler(async (req, res) => {
+const updateOrganisation = asyncHandler(async (req, res) => {
 	const organisation = await Organisation.findById(req.params.id)
 
+	if (!req.user.roles.includes('Internal_admin')) {
+		res.status(400)
+		throw new Error('You are not authorised to complete this action')
+	}
 	if (!organisation) {
 		res.status(404)
 		throw new Error('That Organisation does not exist')
@@ -36,4 +40,4 @@ const updateOrganisationInfo = asyncHandler(async (req, res) => {
 	})
 })
 
-export default updateOrganisationInfo
+export default updateOrganisation
