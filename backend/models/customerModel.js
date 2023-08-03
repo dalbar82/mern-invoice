@@ -24,6 +24,10 @@ const customerSchema = new Schema(
 			unique: true,
 			validate: [validator.isEmail, 'A customer must have a valid email address'],
 		},
+		organisation: {
+			type: String,
+			required: true,
+		},
 		accountNo: String,
 		vatTinNo: {
 			type: Number,

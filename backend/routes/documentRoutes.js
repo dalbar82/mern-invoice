@@ -1,6 +1,6 @@
 import express from 'express'
 import createDocument from '../controllers/documents/createDocument.js'
-import deleteDocument from '../controllers/documents/deleteDocument.js'
+// import deleteDocument from '../controllers/documents/deleteDocument.js'
 import getAllUserDocuments from '../controllers/documents/getAllUserDocuments.js'
 import getSingleUserDocument from '../controllers/documents/getSingleUserDocument.js'
 import updateDocument from '../controllers/documents/updateDocument.js'
@@ -28,7 +28,7 @@ router
 	.route('/:id')
 	.patch(checkAuth, updateDocument)
 	.get(checkAuth, getSingleUserDocument)
-	.delete(checkAuth, deleteDocument)
+	// .delete(checkAuth, deleteDocument)
 
 // generate PDF doc at /api/v1/document/generate-pdf
 router.route('/generate-pdf').post(generatePDF)

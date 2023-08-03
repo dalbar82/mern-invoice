@@ -7,11 +7,16 @@ import User from '../../models/userModel.js'
 const getAllUserAccounts = asyncHandler(async (req, res) => {
 	const pageSize = 10
 
+	if (!req.body.organisation) {
+		res.status(400)
+		throw new Error('Organisation id must be supplied')
+	}
+
 	const page = Number(req.query.pageNumber) || 1
 
-	const count = await User.countDocuments({})
+	const count = await User.countDocuments({ organisation: req.body.organisation })
 
-	const users = await User.find()
+	const users = await User.find({ organisation: req.body.organisation })
 		.sort({ createdAt: -1 })
 		.select('-refreshToken')
 		.limit(pageSize)

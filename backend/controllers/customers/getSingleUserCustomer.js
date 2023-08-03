@@ -1,31 +1,36 @@
 import asyncHandler from 'express-async-handler'
-import Organisation from '../../models/organisationModel.js'
+import Customer from '../../models/customerModel.js'
 
-// $-title   Get a Single organisation belonging to a User
-// $-path    GET /api/v1/organisation/:id
+// $-title   Get a Single customer belonging to a User
+// $-path    GET /api/v1/customer/:id
 // $-auth    Private
 
-const getSingleUserOrganisation = asyncHandler(async (req, res) => {
-	const organisation = await Organisation.findById(req.params.id)
+const getSingleUserCustomer = asyncHandler(async (req, res) => {
+	const customer = await Customer.findById(req.params.id)
 
 	const user = req.user._id
 
-	if (!organisation) {
-		res.status(204)
-		throw new Error('Organisation not found')
+	if (req.user.organisation !== customer.organisation) {
+		res.status(400)
+		throw new Error('You do not haver permission to view this customer')
 	}
 
-	if (organisation.id !== user) {
+	if (!customer) {
+		res.status(204)
+		throw new Error('Customer not found')
+	}
+
+	if (customer.id !== user) {
 		res.status(200).json({
 			success: true,
-			organisation,
+			customer,
 		})
 	} else {
 		res.status(401)
 		throw new Error(
-			"You are not authorized to view this organisation's information. He/She is not your organisation"
+			"You are not authorized to view this customer's information. He/She is not your customer"
 		)
 	}
 })
 
-export default getSingleUserOrganisation
+export default getSingleUserCustomer

@@ -13,12 +13,19 @@ const updateCustomerInfo = asyncHandler(async (req, res) => {
 		throw new Error('That Customer does not exist')
 	}
 
-	if (customer.createdBy.toString() !== req.user.id) {
-		res.status(401)
+	if (req.user.organisation !== customer.organisation) {
+		res.status(400)
 		throw new Error(
-			"You are not authorized to update this customer's information. He/She is not your customer"
+			"You are not authorized to update this customer's information."
 		)
 	}
+
+	// if (customer.createdBy.toString() !== req.user.id) {
+	// 	res.status(401)
+	// 	throw new Error(
+	// 		"You are not authorized to update this customer's information. He/She is not your customer"
+	// 	)
+	// }
 
 	const { id: _id } = req.params
 	const fieldsToUpdate = req.body

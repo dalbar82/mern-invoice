@@ -12,9 +12,19 @@ const { randomBytes } = await import('crypto')
 // $-auth    Public
 
 const registerUser = asyncHandler(async (req, res) => {
-	const { email, username, firstName, lastName, password, passwordConfirm } =
-		req.body
-
+	const {
+		email,
+		username,
+		firstName,
+		lastName,
+		password,
+		passwordConfirm,
+		organisation,
+	} = req.body
+	if (!organisation) {
+		res.status(400)
+		throw new Error('A user must belong to an organisation')
+	}
 	if (!email) {
 		res.status(400)
 		throw new Error('An email address is required')
@@ -54,6 +64,7 @@ const registerUser = asyncHandler(async (req, res) => {
 		lastName,
 		password,
 		passwordConfirm,
+		organisation,
 	})
 
 	const registeredUser = await newUser.save()

@@ -89,6 +89,7 @@ const userSchema = new Schema(
 			type: [String],
 			default: [USER],
 		},
+		organisation: { type: String, required: true },
 		active: {
 			type: Boolean,
 			default: true,

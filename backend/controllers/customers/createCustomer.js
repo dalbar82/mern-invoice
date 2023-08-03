@@ -6,8 +6,22 @@ import Customer from '../../models/customerModel.js'
 // $-auth    Private
 
 const createCustomer = asyncHandler(async (req, res) => {
-	const { email, name, phoneNumber, vatTinNo, abn, address, city, country } =
-		req.body
+	const {
+		email,
+		name,
+		phoneNumber,
+		vatTinNo,
+		abn,
+		address,
+		city,
+		country,
+		organisation,
+	} = req.body
+
+	if (!organisation) {
+		res.status(400)
+		throw new Error('A customer must belong to an organisation')
+	}
 
 	if (!email || !name || !phoneNumber) {
 		res.status(400)
@@ -33,6 +47,7 @@ const createCustomer = asyncHandler(async (req, res) => {
 		address,
 		city,
 		country,
+		organisation,
 	})
 
 	const createdCustomer = await newCustomer.save()
