@@ -10,7 +10,7 @@ export const usersApiSlice = baseApiSlice.injectEndpoints({
 			query: (customerInfo) => ({
 				url: '/customer/create',
 				method: 'POST',
-				body: customerInfo,
+				body: customerInfo, 
 			}),
 			invalidatesTags: ['Customer'],
 		}),

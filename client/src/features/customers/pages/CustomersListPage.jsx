@@ -29,7 +29,7 @@ import { useGetAllUsersQuery } from '../../users/usersApiSlice'
 
 const CustomerListPage = () => {
 	const { data: userData } = useGetAllUsersQuery()
-	if (userData) localStorage.setItem('users', JSON.stringify(userData.users))
+
 	useTitle('Customers')
 	const navigate = useNavigate()
 
@@ -52,10 +52,10 @@ const CustomerListPage = () => {
 		setPage(0)
 	}
 
-	const userName = (id) => {
-		const users = JSON.parse(localStorage.getItem('users')) || []
-		const name = users.find((user) => user._id === id) || []
-		return name.username || ''
+	const retrieveUserName = (id) => {
+		const currentUser = userData.users?.find((user) => user._id === id)?.username
+
+		return currentUser || ''
 	}
 
 	return (
@@ -132,7 +132,7 @@ const CustomerListPage = () => {
 											<StyledTableCell align='left'>{row.email}</StyledTableCell>
 											{/* Account Manager */}
 											<StyledTableCell align='left'>
-												{userName(row.createdBy)}
+												{userData ? retrieveUserName(row?.createdBy) : ''}
 											</StyledTableCell>
 											{/* City */}
 											<StyledTableCell align='left'>{row.city}</StyledTableCell>

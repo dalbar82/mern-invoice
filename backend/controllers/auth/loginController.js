@@ -100,6 +100,7 @@ const loginUser = asyncHandler(async (req, res) => {
 			username: existingUser.username,
 			provider: existingUser.provider,
 			avatar: existingUser.avatar,
+			organisation: existingUser.organisation,
 			accessToken,
 		})
 	} else {

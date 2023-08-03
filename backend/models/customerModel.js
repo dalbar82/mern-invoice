@@ -22,7 +22,6 @@ const customerSchema = new Schema(
 			required: true,
 			lowercase: true,
 			unique: true,
-			validate: [validator.isEmail, 'A customer must have a valid email address'],
 		},
 		organisation: {
 			type: String,
@@ -39,11 +38,7 @@ const customerSchema = new Schema(
 		country: String,
 		phoneNumber: {
 			type: String,
-			required: true,
-			validate: [
-				validator.isMobilePhone,
-				"Your mobile phone number must begin with a '+', followed by your country code then actual number e.g +254123456789",
-			],
+			required: true,	
 		},
 	},
 	{

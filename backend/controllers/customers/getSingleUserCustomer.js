@@ -12,7 +12,7 @@ const getSingleUserCustomer = asyncHandler(async (req, res) => {
 
 	if (req.user.organisation !== customer.organisation) {
 		res.status(400)
-		throw new Error('You do not haver permission to view this customer')
+		throw new Error('You do not have permission to view this customer')
 	}
 
 	if (!customer) {

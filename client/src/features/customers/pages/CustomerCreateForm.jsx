@@ -25,7 +25,7 @@ const CustomerCreateForm = () => {
 	const location = useLocation()
 	const goBack = () => navigate(-1)
 
-	const from = location.state.prevPath || '/customers'
+	const from = location.state?.prevPath || '/customers'
 
 	const [createCustomer, { isSuccess, isLoading }] = useCreateCustomerMutation()
 

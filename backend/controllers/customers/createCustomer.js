@@ -15,9 +15,9 @@ const createCustomer = asyncHandler(async (req, res) => {
 		address,
 		city,
 		country,
-		organisation,
+		
 	} = req.body
-
+	const organisation = req.user.organisation
 	if (!organisation) {
 		res.status(400)
 		throw new Error('A customer must belong to an organisation')
