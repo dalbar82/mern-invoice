@@ -132,7 +132,7 @@ const ProfileInfo = ({ user }) => {
 						overflow: 'visible',
 						filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
 						mt: 1.5,
-						bgcolor: '#202128',
+						bgcolor: '#fafafa',
 						color: '#ffffff',
 						borderRadius: '10px',
 
@@ -150,7 +150,7 @@ const ProfileInfo = ({ user }) => {
 							right: 14,
 							width: 10,
 							height: 10,
-							bgcolor: '#202128',
+							bgcolor: '#fafafa',
 							transform: 'translateY(-50%) rotate(45deg)',
 							zIndex: 0,
 						},

@@ -54,6 +54,13 @@ export const usersApiSlice = baseApiSlice.injectEndpoints({
 			}),
 			invalidatesTags: [{ type: 'User', id: 'LIST' }],
 		}),
+		reactivateUser: builder.mutation({
+			query: (id) => ({
+				url: `/user/${id}/reactivate`,
+				method: 'PATCH',
+			}),
+			invalidatesTags: [{ type: 'User', id: 'LIST' }],
+		}),
 	}),
 })
 
@@ -64,4 +71,5 @@ export const {
 	useDeleteMyAccountMutation,
 	useDeleteUserMutation,
 	useDeactivateUserMutation,
+	useReactivateUserMutation,
 } = usersApiSlice

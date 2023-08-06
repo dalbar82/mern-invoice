@@ -88,10 +88,7 @@ const documentSchema = new Schema(
 )
 
 documentSchema.pre('save', async function (next) {
-	this.documentNumber = `${new Date().getFullYear()}-${new Date().toLocaleString(
-		'default',
-		{ month: 'long' }
-	)}-${randomBytes(3).toString('hex').toUpperCase()}`
+	this.documentNumber = `${randomBytes(3).toString('hex').toUpperCase()}`
 	next()
 })
 

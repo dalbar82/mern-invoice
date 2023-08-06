@@ -2,7 +2,7 @@ import { baseApiSlice } from '../api/baseApiSlice'
 
 export const documentsApiSlice = baseApiSlice.injectEndpoints({
 	endpoints: (builder) => ({
-		getAllMyDocs: builder.query({
+		getAllDocs: builder.query({
 			query: (page = 1) => `/document/all?page=${page}`,
 			providesTags: ['Document'],
 		}),
@@ -49,6 +49,6 @@ export const {
 	useDeleteDocMutation,
 	useCreateDocMutation,
 	useGetSingleDocQuery,
-	useGetAllMyDocsQuery,
+	useGetAllDocsQuery,
 	useUpdateDocMutation,
 } = documentsApiSlice

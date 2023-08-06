@@ -119,7 +119,9 @@ const CustomerListPage = () => {
 											{/* name */}
 											<StyledTableCell
 												component='th'
-												scope='row'>
+												scope='row'
+												fontWeight='600'
+												>
 												{row.name}
 											</StyledTableCell>
 											{/* account# */}

@@ -13,10 +13,7 @@ import {
 	Typography,
 	Checkbox,
 	Tooltip,
-	styled,
-	toolbarClasses,
 } from '@mui/material'
-import ClearRoundedIcon from '@mui/icons-material/ClearRounded'
 import moment from 'moment'
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
@@ -27,6 +24,7 @@ import TablePaginationActions from '../../../components/TablePaginationActions'
 import useTitle from '../../../hooks/useTitle'
 import {
 	useGetAllUsersQuery,
+	useReactivateUserMutation,
 	useDeactivateUserMutation,
 	useDeleteUserMutation,
 } from '../usersApiSlice'
@@ -47,6 +45,7 @@ const UserListPage = () => {
 	)
 	const [deleteUser] = useDeleteUserMutation()
 	const [deactivateUser] = useDeactivateUserMutation()
+	const [reactivateUser] = useReactivateUserMutation()
 	const rows = data?.users
 
 	const emptyRows =
@@ -65,6 +64,15 @@ const UserListPage = () => {
 		try {
 			await deactivateUser(id).unwrap()
 			toast.success('User deactivated')
+		} catch (err) {
+			const message = err.data.message
+			toast.error(message)
+		}
+	}
+	const reactivateUserHandler = async (id) => {
+		try {
+			await reactivateUser(id).unwrap()
+			toast.success('User reactivated')
 		} catch (err) {
 			const message = err.data.message
 			toast.error(message)
@@ -138,7 +146,8 @@ const UserListPage = () => {
 											}}>
 											<StyledTableCell
 												component='th'
-												scope='row'>
+												scope='row'
+												fontWeight='600'>
 												{row.email}
 											</StyledTableCell>
 											<StyledTableCell align='right'>{row.username}</StyledTableCell>
@@ -153,7 +162,11 @@ const UserListPage = () => {
 													<Checkbox
 														color='success'
 														checked={row?.active}
-														onChange={() => deactivateUserHandler(row._id)}
+														onClick={() =>
+															row?.active === true
+																? deactivateUserHandler(row._id)
+																: reactivateUserHandler(row._id)
+														}
 													/>
 												</Tooltip>
 											</StyledTableCell>

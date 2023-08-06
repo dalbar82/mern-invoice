@@ -24,7 +24,7 @@ import GroupAddRoundedIcon from '@mui/icons-material/GroupAddRounded'
 import StyledTableCell from '../../../components/StyledTableCell'
 import StyledTableRow from '../../../components/StyledTableRow'
 import TablePaginationActions from '../../../components/TablePaginationActions'
-import { useGetAllMyDocsQuery } from '../documentsApiSlice'
+import { useGetAllDocsQuery } from '../documentsApiSlice'
 
 const DocumentsPage = () => {
 	const navigate = useNavigate()
@@ -32,7 +32,7 @@ const DocumentsPage = () => {
 	const [page, setPage] = useState(0)
 	const [rowsPerPage, setRowsPerPage] = useState(10)
 
-	const { data, isLoading } = useGetAllMyDocsQuery(page)
+	const { data, isLoading } = useGetAllDocsQuery(page)
 
 	const rows = data?.myDocuments
 
@@ -63,7 +63,7 @@ const DocumentsPage = () => {
 					paddingBottom: '20px',
 					marginBottom: '20px',
 				}}>
-				<Typography variant='h6'>Jobs</Typography>
+				<Typography variant='h6'>Projects</Typography>
 				<Box>
 					<Tooltip title='Add Job'>
 						<Button
@@ -78,7 +78,7 @@ const DocumentsPage = () => {
 			{isLoading ? (
 				<Spinner />
 			) : !rows.length ? (
-				<div>No Docs</div>
+				<div>No projects</div>
 			) : (
 				<TableContainer
 					component={Paper}
@@ -89,9 +89,9 @@ const DocumentsPage = () => {
 						aria-label='simple-table'>
 						<TableHead>
 							<TableRow>
+								<StyledTableCell>Doc No</StyledTableCell>
 								<StyledTableCell width={'20%'}>Name</StyledTableCell>
 								<StyledTableCell width={'20%'}>Customer</StyledTableCell>
-								<StyledTableCell>Doc No</StyledTableCell>
 								<StyledTableCell>Job Status</StyledTableCell>
 								<StyledTableCell>Due Date</StyledTableCell>
 								<StyledTableCell>Payment Status</StyledTableCell>
@@ -113,6 +113,12 @@ const DocumentsPage = () => {
 									}}>
 									<StyledTableCell
 										component='th'
+										fontWeight='600'
+										scope='row'>
+										{row?.documentNumber}
+									</StyledTableCell>
+									<StyledTableCell
+										component='th'
 										scope='row'>
 										{row?.name}
 									</StyledTableCell>
@@ -121,12 +127,6 @@ const DocumentsPage = () => {
 										component='th'
 										scope='row'>
 										{row?.customer?.name}
-									</StyledTableCell>
-
-									<StyledTableCell
-										component='th'
-										scope='row'>
-										{row?.documentNumber}
 									</StyledTableCell>
 
 									<StyledTableCell

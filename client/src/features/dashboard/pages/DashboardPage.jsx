@@ -1,6 +1,5 @@
 import AlarmTwoToneIcon from '@mui/icons-material/AlarmTwoTone'
 import CloseTwoToneIcon from '@mui/icons-material/CloseTwoTone'
-import DashboardTwoToneIcon from '@mui/icons-material/DashboardTwoTone'
 import DifferenceTwoToneIcon from '@mui/icons-material/DifferenceTwoTone'
 import DoneAllTwoToneIcon from '@mui/icons-material/DoneAllTwoTone'
 import HistoryEduTwoToneIcon from '@mui/icons-material/HistoryEduTwoTone'
@@ -8,24 +7,28 @@ import PaidTwoToneIcon from '@mui/icons-material/PaidTwoTone'
 import SavingsTwoToneIcon from '@mui/icons-material/SavingsTwoTone'
 import SentimentDissatisfiedTwoToneIcon from '@mui/icons-material/SentimentDissatisfiedTwoTone'
 import SentimentSatisfiedAltTwoToneIcon from '@mui/icons-material/SentimentSatisfiedAltTwoTone'
-import { Box, Container, CssBaseline, Grid, Typography } from '@mui/material'
+import { Box, Container, Grid, Typography } from '@mui/material'
 import StyledDashboardGrid from '../../../components/StyledDashboardGrid'
 import StyledDivider from '../../../components/StyledDivider'
 import { useGetAllCustomersQuery } from '../../customers/customersApiSlice'
-import { useGetAllMyDocsQuery } from '../../documents/documentsApiSlice'
+import { useGetAllDocsQuery } from '../../documents/documentsApiSlice'
 import { addCurrencyCommas } from '../../documents/pages/components/addCurrencyCommas'
 import PaymentHistory from './components/paymentHistory'
 import useTitle from '../../../hooks/useTitle'
+import SimpleListItem from './components/simpleListItem'
+import { useState } from 'react'
 
 const DashboardPage = () => {
-	useTitle('My Dashboard - MERN Invoice')
+	useTitle('My Dashboard')
 	const { data: customers } = useGetAllCustomersQuery()
-	const { data: documents } = useGetAllMyDocsQuery()
+	const { data: documents } = useGetAllDocsQuery()
 
-	let totalRecieved = 0
+	const date = new Date().toDateString()
+
+	let totalMoniesRecieved = 0
 	for (let i = 0; i < documents?.myDocuments?.length; i++) {
 		if (documents?.myDocuments[i]?.totalAmountReceived !== undefined) {
-			totalRecieved += documents?.myDocuments[i]?.totalAmountReceived
+			totalMoniesRecieved += documents?.myDocuments[i]?.totalAmountReceived
 		}
 	}
 
@@ -69,20 +72,42 @@ const DashboardPage = () => {
 	return (
 		<Container
 			component='main'
-			maxWidth='md'
-			sx={{ mt: 10 }}>
-			<CssBaseline />
+			maxWidth='xl'
+			sx={{ mt: 14, ml: 15, width: '90%' }}>
 			<Box
 				sx={{
 					display: 'flex',
 					flexDirection: 'row',
-					justifyContent: 'center',
+					justifyContent: 'space-between',
 					alignItems: 'center',
+					borderBottom: '1px solid #e1e1e1',
+					paddingBottom: '20px',
+					marginBottom: '20px',
 				}}>
-				<DashboardTwoToneIcon sx={{ fontSize: 70 }} />
-				<Typography variant='h2'>My Dashboard</Typography>
+				<Typography
+					variant='h6'
+					sx={{ p: '10px 0px 10px 0px' }}>
+					Dashboard
+				</Typography>
+				<Typography
+					variant='h6'
+					sx={{ p: '10px 0px 10px 0px' }}>
+					{date}
+				</Typography>
 			</Box>
-			<StyledDivider />
+			<Box width={'100%'}>
+				<Grid
+					container
+					lineHeight={'5'}>
+					{docOverDue &&
+						docOverDue.map((item) => (
+							<SimpleListItem
+								key={item._id}
+								data={item}
+							/>
+						))}
+				</Grid>
+			</Box>
 			<Box>
 				<Grid
 					container
@@ -159,7 +184,7 @@ const DashboardPage = () => {
 							<Typography
 								variant='h6'
 								sx={{ marginLeft: 1 }}>
-								{addCurrencyCommas(totalRecieved)}
+								{addCurrencyCommas(totalMoniesRecieved)}
 							</Typography>
 						</Box>
 						<Typography variant='h6'>Cash Received</Typography>
@@ -178,7 +203,7 @@ const DashboardPage = () => {
 							<Typography
 								variant='h5'
 								sx={{ marginLeft: 1 }}>
-								{addCurrencyCommas((totalAmount - totalRecieved).toFixed(2))}
+								{addCurrencyCommas((totalAmount - totalMoniesRecieved).toFixed(2))}
 							</Typography>
 						</Box>
 						<Typography variant='h6'>Cash Pending</Typography>

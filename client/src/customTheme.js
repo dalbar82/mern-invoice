@@ -7,7 +7,7 @@ export const customTheme = createTheme({
 	},
 	palette: {
 		background: {
-			default: '#f5f6f8',
+			default: '#f5f5fc',
 		},
 		textLabel: {
 			main: '#6610f2',
@@ -34,7 +34,7 @@ export const customTheme = createTheme({
 				// Name of the slot
 				paper: {
 					// Some CSS
-					backgroundColor: '#202128',
+					backgroundColor: '#fafafa',
 					color: '#fff',
 				},
 			},
