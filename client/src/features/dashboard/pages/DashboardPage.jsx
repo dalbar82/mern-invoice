@@ -16,7 +16,6 @@ import { addCurrencyCommas } from '../../documents/pages/components/addCurrencyC
 import PaymentHistory from './components/paymentHistory'
 import useTitle from '../../../hooks/useTitle'
 import SimpleListItem from './components/simpleListItem'
-import { useState } from 'react'
 
 const DashboardPage = () => {
 	useTitle('My Dashboard')
@@ -44,6 +43,7 @@ const DashboardPage = () => {
 			paymentHistory = [].concat.apply([], history)
 		}
 	}
+	const user = JSON.parse(localStorage.getItem('user')) || ''
 
 	const sortPaymentHistory = paymentHistory.sort(function (a, b) {
 		const c = new Date(a.datePaid)
@@ -85,29 +85,86 @@ const DashboardPage = () => {
 					marginBottom: '20px',
 				}}>
 				<Typography
-					variant='h6'
+					variant='subtitle1'
 					sx={{ p: '10px 0px 10px 0px' }}>
 					Dashboard
 				</Typography>
 				<Typography
-					variant='h6'
-					sx={{ p: '10px 0px 10px 0px' }}>
+					variant='subtitle1'
+					sx={{ p: '10px 0px 10px 0px', color: '#a6aeb3' }}>
 					{date}
 				</Typography>
 			</Box>
-			<Box width={'100%'}>
-				<Grid
-					container
-					lineHeight={'5'}>
-					{docOverDue &&
-						docOverDue.map((item) => (
-							<SimpleListItem
-								key={item._id}
-								data={item}
-							/>
-						))}
+			<Box sx={{ flexGrow: 1 }}>
+				<Grid container>
+					{/* Grid top - Welcome banner */}
+					<Grid
+						item
+						mt={1}
+						mb={4}
+						sm={12}
+						p={3}
+						sx={{
+							backgroundColor: '#f3dbe1cc',
+							borderRadius: '10px',
+
+							color: '#fd7e8b',
+						}}>
+						<Typography
+							variant='subtitle1'
+							sx={{ p: '10px 0px 10px 0px' }}>
+							Welcome {user.firstName ? user.firstName : ''}
+						</Typography>
+					</Grid>
+
+					{/* Grid middle */}
+					<Grid
+						item
+						lg={6}
+						md={6}
+						xs={12}
+						p={3}
+						sx={{ minHeight: '50vh', backgroundColor: 'white', borderRadius: '10px' }}>
+						<Box width={'100%'}>
+							<Grid container>
+								<Grid
+									item
+									xs={12}>
+									<Box
+										display={'flex'}
+										justifyContent={'space-between'}>
+										<Typography
+											variant='subtitle2'
+											sx={{ p: '10px 0px 10px 0px' }}>
+											Due Today
+										</Typography>
+										<Typography
+											variant='subtitle2'
+											sx={{ p: '10px 0px 10px 0px' }}>
+											% Complete
+										</Typography>
+									</Box>
+								</Grid>
+								{docOverDue &&
+									docOverDue.map((item) => (
+										<SimpleListItem
+											key={item._id}
+											data={item}
+										/>
+									))}
+							</Grid>
+						</Box>
+					</Grid>
+					<Grid
+						item
+						sm={6}></Grid>
+					{/* Grid bottom */}
+					<Grid
+						item
+						sm={12}></Grid>
 				</Grid>
 			</Box>
+
 			<Box>
 				<Grid
 					container
@@ -130,7 +187,7 @@ const DashboardPage = () => {
 								{customers?.totalCustomers}
 							</Typography>
 						</Box>
-						<Typography variant='h6'>Total Customers</Typography>
+						<Typography variant='subtitle1'>Total Customers</Typography>
 					</StyledDashboardGrid>
 					{/* total documents */}
 					<StyledDashboardGrid>
@@ -150,7 +207,7 @@ const DashboardPage = () => {
 								{documents?.totalDocuments}
 							</Typography>
 						</Box>
-						<Typography variant='h6'>Total Documents</Typography>
+						<Typography variant='subtitle1'>Total Documents</Typography>
 					</StyledDashboardGrid>
 					{/* total amount */}
 					<StyledDashboardGrid>
@@ -170,7 +227,7 @@ const DashboardPage = () => {
 								{addCurrencyCommas(totalAmount.toFixed(2))}
 							</Typography>
 						</Box>
-						<Typography variant='h6'>Expected Income</Typography>
+						<Typography variant='subtitle1'>Expected Income</Typography>
 					</StyledDashboardGrid>
 					{/* total paid */}
 					<StyledDashboardGrid>
@@ -182,12 +239,12 @@ const DashboardPage = () => {
 							}}>
 							<PaidTwoToneIcon sx={{ fontSize: 30, color: '#ff9100' }} />
 							<Typography
-								variant='h6'
+								variant='subtitle1'
 								sx={{ marginLeft: 1 }}>
 								{addCurrencyCommas(totalMoniesRecieved)}
 							</Typography>
 						</Box>
-						<Typography variant='h6'>Cash Received</Typography>
+						<Typography variant='subtitle1'>Cash Received</Typography>
 					</StyledDashboardGrid>
 					{/* pending amount */}
 					<StyledDashboardGrid>
@@ -206,7 +263,7 @@ const DashboardPage = () => {
 								{addCurrencyCommas((totalAmount - totalMoniesRecieved).toFixed(2))}
 							</Typography>
 						</Box>
-						<Typography variant='h6'>Cash Pending</Typography>
+						<Typography variant='subtitle1'>Cash Pending</Typography>
 					</StyledDashboardGrid>
 					{/* Fully paid docs */}
 					<StyledDashboardGrid>
@@ -218,12 +275,12 @@ const DashboardPage = () => {
 							}}>
 							<DoneAllTwoToneIcon sx={{ fontSize: 30, color: '#651fff' }} />
 							<Typography
-								variant='h6'
+								variant='subtitle1'
 								sx={{ marginLeft: 1 }}>
 								{fullyPaid?.length}
 							</Typography>
 						</Box>
-						<Typography variant='h6'>Total Paid Docs</Typography>
+						<Typography variant='subtitle1'>Total Paid Docs</Typography>
 					</StyledDashboardGrid>
 					{/* Partially Paid */}
 					<StyledDashboardGrid>
@@ -235,12 +292,12 @@ const DashboardPage = () => {
 							}}>
 							<CloseTwoToneIcon sx={{ fontSize: 30, color: '#2196f3' }} />
 							<Typography
-								variant='h6'
+								variant='subtitle1'
 								sx={{ marginLeft: 1 }}>
 								{partiallyPaid?.length}
 							</Typography>
 						</Box>
-						<Typography variant='h6'>Not Fully Paid</Typography>
+						<Typography variant='subtitle1'>Not Fully Paid</Typography>
 					</StyledDashboardGrid>
 					{/* overdue */}
 					<StyledDashboardGrid>
@@ -252,12 +309,12 @@ const DashboardPage = () => {
 							}}>
 							<AlarmTwoToneIcon sx={{ fontSize: 30, color: '#006064' }} />
 							<Typography
-								variant='h6'
+								variant='subtitle1'
 								sx={{ marginLeft: 1 }}>
 								{docOverDue?.length}
 							</Typography>
 						</Box>
-						<Typography variant='h6'>Overdue</Typography>
+						<Typography variant='subtitle1'>Overdue</Typography>
 					</StyledDashboardGrid>
 					{/* unpaid */}
 					<StyledDashboardGrid>
@@ -271,16 +328,16 @@ const DashboardPage = () => {
 								sx={{ fontSize: 30, color: '#455a64' }}
 							/>
 							<Typography
-								variant='h6'
+								variant='subtitle1'
 								sx={{ marginLeft: 1 }}>
 								{notPaid?.length}
 							</Typography>
 						</Box>
-						<Typography variant='h6'>UnPaid</Typography>
+						<Typography variant='subtitle1'>UnPaid</Typography>
 					</StyledDashboardGrid>
 				</Grid>
 			</Box>
-			<Box
+			{/* <Box
 				sx={{
 					mt: 3,
 					display: 'flex',
@@ -293,8 +350,8 @@ const DashboardPage = () => {
 					{paymentHistory?.length ? 'Payment History' : 'No Payments as of now'}
 				</Typography>
 			</Box>
-			<StyledDivider />
-			<PaymentHistory sortPaymentHistory={sortPaymentHistory} />
+
+			<PaymentHistory sortPaymentHistory={sortPaymentHistory} /> */}
 		</Container>
 	)
 }

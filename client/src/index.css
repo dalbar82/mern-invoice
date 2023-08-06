@@ -7,7 +7,7 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 	min-height: 100vh;
 	background-color: #f5f5fc;
-	color: rgb(31, 31, 31)
+	color: rgb(31, 31, 31);
 }
 
 .footer {
@@ -34,9 +34,8 @@ span {
 
 /* document styling */
 .title {
-	
 	border-bottom: 1px solid #e1e1e1;
-	
+
 	font-weight: 500;
 	padding: 15px 0px;
 	text-align: center;

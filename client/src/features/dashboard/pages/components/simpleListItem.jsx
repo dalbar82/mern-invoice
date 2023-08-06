@@ -1,30 +1,34 @@
-import { Grid, Box } from '@mui/material'
+import { Grid, Box, Typography } from '@mui/material'
 
 const simpleListItem = ({ data }) => {
+	console.log(data);
 	return (
 		<>
-			<Grid container>
-				<Grid
-					item
-					xs={2}>
-					<Box
-						p={2}
-						sx={{
-							fontSize: 'small',
-							backgroundColor: '#7e838670',
-							borderRadius: '10px',
-							height: '10px',
-						}}>
-						{data.documentNumber}
-					</Box>
-				</Grid>
-				<Grid
-					item
-					xs={10}
-					display={'flex'}>
-					<Box>{data.name}</Box>
-					
-				</Grid>
+			<Grid
+				item
+				xs={12}
+				sx={{
+					padding: '20px 0',
+					display: 'flex',
+					borderBottom: '1px solid #dcdcdcbf',
+				}}>
+				<Typography
+					sx={{
+						fontSize: 'small',
+						width: 'fit-content',
+						color: '#fd7e8b',
+						paddingRight: '5px',
+					}}>
+					{data.documentNumber}
+				</Typography>
+				<Typography
+					variant='subtitle2'
+					sx={{
+						fontSize: 'small',
+						textTransform: 'uppercase'
+					}}>
+					- {data.name}
+				</Typography>
 			</Grid>
 		</>
 	)
