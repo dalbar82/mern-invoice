@@ -75,7 +75,7 @@ const DocCreateEditForm = () => {
 
 	const [docData, setDocData] = useState(docInitialState)
 	const [items, setItems] = useState(itemsInitialState)
-	const [documentType, setDocumentType] = useState('')
+	const [documentType, setDocumentType] = useState('Quotation')
 	const [viewProjectDetails, setViewProjectDetails] = useState(true)
 	const [viewItemDetails, setViewItemDetails] = useState(false)
 	const [viewShippingDetails, setViewShippingDetails] = useState(false)
@@ -151,7 +151,7 @@ const DocCreateEditForm = () => {
 				unitPrice: '',
 				quantity: '',
 				discount: '',
-				productionStatus: 'Pre Production',
+				productionStatus: '',
 			},
 			...items.slice(insertAt),
 		]
@@ -185,7 +185,7 @@ const DocCreateEditForm = () => {
 			setTotal(finalTotal)
 		}
 		total()
-	}, [docData, items, rates, subTotal])
+	}, [items, rates, subTotal])
 
 	const location = useLocation()
 
@@ -411,9 +411,12 @@ const DocCreateEditForm = () => {
 										<TextField
 											variant='outlined'
 											select
-											// sx={{ padding: '10px' }}
-											id='document-list'
+											sx={{
+												width: '92%',
+											}}
 											defaultValue={'Quotation'}
+											value={documentType}
+											id='document-list'
 											onChange={(event) => {
 												setDocumentType(event.target.value)
 											}}>
@@ -672,9 +675,14 @@ const DocCreateEditForm = () => {
 														<StyledTableCell>
 															<TextField
 																variant='outlined'
+																class='prod-status'
+																sx={{
+																	width: '100%',
+																}}
 																select
 																id='production-status'
 																defaultValue={'Pre Production'}
+																value={item.productionStatus}
 																onChange={(e) => {
 																	const productionStatus = e.target.value
 																	setItems((currentItem) =>

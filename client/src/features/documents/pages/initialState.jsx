@@ -7,6 +7,7 @@ export const docInitialState = {
 	rates: '',
 	currency: '',
 	customer: '',
+	documentType: '',
 }
 
 export const itemsInitialState = [
@@ -15,7 +16,7 @@ export const itemsInitialState = [
 		unitPrice: '',
 		quantity: '',
 		discount: '',
-		productionStatus: '',
+		productionStatus: 'Pre Production',
 	},
 ]
 
