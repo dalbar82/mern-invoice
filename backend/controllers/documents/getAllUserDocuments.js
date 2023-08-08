@@ -9,9 +9,9 @@ const getAllUserDocuments = asyncHandler(async (req, res) => {
 	const pageSize = 10
 	const page = Number(req.query.page) || 1
 
-	const count = await Document.countDocuments({ createdBy: req.user._id })
+	const count = await Document.countDocuments({ organisation: req.user.organisation})
 
-	const documents = await Document.find({ createdBy: req.user._id })
+	const documents = await Document.find({ organisation: req.user.organisation })
 		.sort({
 			createdAt: -1,
 		})

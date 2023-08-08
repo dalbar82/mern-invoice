@@ -22,6 +22,7 @@ import {
 	TextareaAutosize,
 	TextField,
 	Typography,
+	MenuItem,
 } from '@mui/material'
 import Autocomplete from '@mui/material/Autocomplete'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
@@ -41,10 +42,10 @@ import {
 	useGetSingleDocQuery,
 	useUpdateDocMutation,
 } from '../documentsApiSlice'
+import { useGetUserProfileQuery } from '../../users/usersApiSlice'
 
 import { useGetAllCustomersQuery } from '../../customers/customersApiSlice'
 import { addCurrencyCommas } from './components/addCurrencyCommas'
-import DocumentType from './components/DocumentType'
 import { docInitialState, itemsInitialState } from './initialState'
 
 const StyledItemButton = styled(Button)({
@@ -55,6 +56,7 @@ const DocCreateEditForm = () => {
 	const { id } = useParams()
 	const navigate = useNavigate()
 
+	const { data: user } = useGetUserProfileQuery()
 	const { data: customers } = useGetAllCustomersQuery()
 	const { data: singleDoc } = useGetSingleDocQuery(id)
 
@@ -73,7 +75,7 @@ const DocCreateEditForm = () => {
 
 	const [docData, setDocData] = useState(docInitialState)
 	const [items, setItems] = useState(itemsInitialState)
-	const [documentType, setDocumentType] = useState('Quotation')
+	const [documentType, setDocumentType] = useState('')
 	const [viewProjectDetails, setViewProjectDetails] = useState(true)
 	const [viewItemDetails, setViewItemDetails] = useState(false)
 	const [viewShippingDetails, setViewShippingDetails] = useState(false)
@@ -81,6 +83,7 @@ const DocCreateEditForm = () => {
 	const [currency, setCurrency] = useState(currencies[0].code)
 
 	const [name, setName] = useState('')
+	const [organisation, setOrganisation] = useState()
 	const [customer, setCustomer] = useState(null)
 	const [salesTax, setSalesTax] = useState(10)
 	const [total, setTotal] = useState(0)
@@ -95,7 +98,8 @@ const DocCreateEditForm = () => {
 	const [deliveryNotes, setDeliveryNotes] = useState('')
 
 	const today = new Date()
-	const docTypes = ['Invoice', 'Order', 'Quotation']
+	const docTypes = ['Invoice', 'Order', 'Quotation', 'Archived']
+	const productionTypes = ['Pre Production', 'Production', 'Complete']
 
 	const [dueDate, setDueDate] = useState(
 		today.getTime() + 7 * 24 * 60 * 60 * 1000
@@ -118,7 +122,9 @@ const DocCreateEditForm = () => {
 	useEffect(() => {
 		if (doc) {
 			setName(doc.name)
+			setOrganisation(doc.organisation)
 			setDocData(doc)
+			setDocumentType(doc.documentType)
 			setItems(doc.billingItems)
 			setSubTotal(doc.subTotal)
 			setSalesTax(doc.salesTax)
@@ -135,10 +141,6 @@ const DocCreateEditForm = () => {
 		}
 	}, [doc])
 
-	useEffect(() => {
-		documentType === 'Order' ? setStatus('Paid') : setStatus('Not Paid')
-	}, [documentType])
-
 	const handleAddBillingItemsRow = (e) => {
 		e.preventDefault()
 		const insertAt = 0
@@ -149,6 +151,7 @@ const DocCreateEditForm = () => {
 				unitPrice: '',
 				quantity: '',
 				discount: '',
+				productionStatus: 'Pre Production',
 			},
 			...items.slice(insertAt),
 		]
@@ -226,6 +229,7 @@ const DocCreateEditForm = () => {
 					billingItems: [...items],
 					documentType,
 					name,
+					organisation: organisation || user.userProfile?.organisation,
 					customer,
 					dueDate,
 					salesTax,
@@ -404,22 +408,23 @@ const DocCreateEditForm = () => {
 									<Grid
 										item
 										md={3}>
-										<Autocomplete
-											style={{ marginRight: '20px' }}
-											disablePortal
-											id='documents-list'
-											options={docTypes || []}
-											renderInput={(params) => (
-												<TextField
-													{...params}
-													label='Project Status'
-												/>
-											)}
-											value={documentType}
-											onChange={(event, value) => {
-												setDocumentType(value)
-											}}
-										/>
+										<TextField
+											variant='outlined'
+											select
+											// sx={{ padding: '10px' }}
+											id='document-list'
+											defaultValue={'Quotation'}
+											onChange={(event) => {
+												setDocumentType(event.target.value)
+											}}>
+											{docTypes.map((option, index) => (
+												<MenuItem
+													key={index}
+													value={option}>
+													{option}
+												</MenuItem>
+											))}
+										</TextField>
 									</Grid>
 
 									<Grid
@@ -617,11 +622,12 @@ const DocCreateEditForm = () => {
 											aria-label='simple-table'>
 											<TableHead>
 												<TableRow>
-													<StyledTableCell>#</StyledTableCell>
+													<StyledTableCell width={'1%'}>#</StyledTableCell>
 													<StyledTableCell width={'40%'}>Product</StyledTableCell>
-													<StyledTableCell width={'12%'}>Qty</StyledTableCell>
-													<StyledTableCell width={'12%'}>Unit Price</StyledTableCell>
-													<StyledTableCell width={'10%'}>Disc(%)</StyledTableCell>
+													<StyledTableCell width={'20%'}>Status</StyledTableCell>
+													<StyledTableCell width={'8%'}>Qty</StyledTableCell>
+													<StyledTableCell width={'10%'}>Unit Price</StyledTableCell>
+													<StyledTableCell width={'8%'}>Disc(%)</StyledTableCell>
 													<StyledTableCell>Line Total</StyledTableCell>
 													<StyledTableCell>Remove</StyledTableCell>
 												</TableRow>
@@ -641,7 +647,7 @@ const DocCreateEditForm = () => {
 															scope='row'>
 															{index + 1}
 														</StyledTableCell>
-														<StyledTableCell style={{ width: '40%' }}>
+														<StyledTableCell>
 															<InputBase
 																multiline
 																style={{
@@ -661,6 +667,31 @@ const DocCreateEditForm = () => {
 																value={item.itemName}
 																placeholder='Name/Description'
 															/>
+														</StyledTableCell>
+														{/* status */}
+														<StyledTableCell>
+															<TextField
+																variant='outlined'
+																select
+																id='production-status'
+																defaultValue={'Pre Production'}
+																onChange={(e) => {
+																	const productionStatus = e.target.value
+																	setItems((currentItem) =>
+																		produce(currentItem, (v) => {
+																			v[index].productionStatus = productionStatus
+																		})
+																	)
+																}}>
+																{productionTypes.map((option, index) => (
+																	<MenuItem
+																		key={index}
+																		value={option}
+																		sx={{ padding: '16px' }}>
+																		{option}
+																	</MenuItem>
+																))}
+															</TextField>
 														</StyledTableCell>
 														{/* quantity */}
 														<StyledTableCell align='right'>

@@ -13,7 +13,7 @@ const deleteDocument = asyncHandler(async (req, res) => {
 		throw new Error('That document does not exist!')
 	}
 
-	if (document.createdBy.toString() !== req.user.id) {
+	if (document.organisation !== req.user.organisation) {
 		res.status(401)
 		throw new Error(
 			"You are not authorized to delete this document. It's not yours"

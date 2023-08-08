@@ -67,7 +67,7 @@ const newAccessToken = asyncHandler(async (req, res) => {
 					roles: existingUser.roles,
 				},
 				process.env.JWT_ACCESS_SECRET_KEY,
-				{ expiresIn: '10m' }
+				{ expiresIn: '100m' }
 			)
 
 			const newRefreshToken = jwt.sign(
@@ -95,6 +95,7 @@ const newAccessToken = asyncHandler(async (req, res) => {
 				username: existingUser.username,
 				provider: existingUser.provider,
 				avatar: existingUser.avatar,
+				organisation: existingUser.organisation,
 				accessToken,
 			})
 		}

@@ -15,6 +15,7 @@ export const itemsInitialState = [
 		unitPrice: '',
 		quantity: '',
 		discount: '',
+		productionStatus: '',
 	},
 ]
 

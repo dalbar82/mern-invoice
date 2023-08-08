@@ -48,7 +48,7 @@ const documentSchema = new Schema(
 		documentType: {
 			type: String,
 			default: 'Invoice',
-			enum: ['Invoice', 'Order', 'Quotation'],
+			enum: ['Invoice', 'Order', 'Quotation', 'Archived'],
 		},
 		name: String,
 		documentNumber: String,
@@ -60,6 +60,7 @@ const documentSchema = new Schema(
 			default: 'Not Paid',
 			enum: ['Paid', 'Not Fully Paid', 'Not Paid'],
 		},
+		organisation: String,
 		subTotal: Number,
 		salesTax: Number,
 		rates: String,
@@ -78,6 +79,11 @@ const documentSchema = new Schema(
 				unitPrice: Number,
 				quantity: Number,
 				discount: String,
+				productionStatus: {
+					type: String,
+					default: 'Pre Production',
+					enum: ['Pre Production', 'Production', 'Complete'],
+				},
 			},
 		],
 		paymentRecords: [paymentSchema],

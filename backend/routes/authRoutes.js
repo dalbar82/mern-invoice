@@ -55,6 +55,7 @@ router.get(
 			username: existingUser.username,
 			provider: existingUser.provider,
 			avatar: existingUser.avatar,
+			organisation: existingUser.organisation,
 		}
 
 		jwt.sign(

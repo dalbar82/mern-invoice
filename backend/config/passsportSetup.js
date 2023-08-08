@@ -28,6 +28,7 @@ const googleAuth = () => {
 							avatar: profile._json.picture,
 							email: profile._json.email,
 							googleID: profile.id,
+							organisation: profile._json.organisation,
 							isEmailVerified: profile._json.email_verified,
 							provider: 'google',
 						})

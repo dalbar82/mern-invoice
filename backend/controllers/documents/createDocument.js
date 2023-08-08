@@ -16,11 +16,9 @@ const createDocument = asyncHandler(async (req, res) => {
 		)
 	}
 
-	if (customer.createdBy.toString() !== req.user._id.toString()) {
+	if (customer.organisation !== req.user.organisation) {
 		res.status(400)
-		throw new Error(
-			'You are not allowed to create documents for customers who you did not create'
-		)
+		throw new Error('You are not authorised')
 	}
 
 	const fieldsToCreate = req.body
