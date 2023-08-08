@@ -18,6 +18,7 @@ import { Formik } from 'formik'
 import Spinner from '../../../components/Spinner'
 import useTitle from '../../../hooks/useTitle'
 import { useCreateCustomerMutation } from '../customersApiSlice'
+import '../../../styles/pageHeader.css'
 
 const CustomerCreateForm = () => {
 	useTitle('Create Customer')
@@ -97,17 +98,7 @@ const CustomerCreateForm = () => {
 									autoComplete='off'
 									onSubmit={handleSubmit}>
 									<Grid>
-										<Box
-											sx={{
-												display: 'flex',
-												flexDirection: 'row',
-												justifyContent: 'space-between',
-												alignItems: 'center',
-												borderBottom: '1px solid #e1e1e1',
-												paddingBottom: '20px',
-												marginBottom: '20px',
-												width: '100%',
-											}}>
+										<Box className='page-header'>
 											<Typography variant='h6'>New Customer</Typography>
 
 											<Box>

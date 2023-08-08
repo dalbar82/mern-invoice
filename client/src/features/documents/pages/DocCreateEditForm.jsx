@@ -47,6 +47,7 @@ import { useGetUserProfileQuery } from '../../users/usersApiSlice'
 import { useGetAllCustomersQuery } from '../../customers/customersApiSlice'
 import { addCurrencyCommas } from './components/addCurrencyCommas'
 import { docInitialState, itemsInitialState } from './initialState'
+import '../../../styles/pageHeader.css'
 
 const StyledItemButton = styled(Button)({
 	boxShadow: '0 0 0 0 #f0f0f0, 0 0 0 0 rgba(124, 105, 239, 1)',
@@ -276,19 +277,10 @@ const DocCreateEditForm = () => {
 			component='main'
 			maxWidth='xl'
 			sx={{ mt: 14, ml: 15, width: '90%' }}>
-			<Box
-				sx={{
-					display: 'flex',
-					flexDirection: 'row',
-					justifyContent: 'space-between',
-					alignItems: 'center',
-					borderBottom: '1px solid #e1e1e1',
-					paddingBottom: '20px',
-					marginBottom: '20px',
-				}}>
+			<Box className='page-header'>
 				<Typography variant='h6'>Create/Edit Project</Typography>
 				<Box>
-					<Tooltip title='Cancel'>
+					<Tooltip title='Close'>
 						<Button
 							sx={{ p: '15px 0px 15px 10px', color: '#a6aeb3' }}
 							variant='text'

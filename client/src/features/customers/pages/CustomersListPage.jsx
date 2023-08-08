@@ -26,6 +26,7 @@ import TablePaginationActions from '../../../components/TablePaginationActions'
 import useTitle from '../../../hooks/useTitle'
 import { useGetAllCustomersQuery } from '../customersApiSlice'
 import { useGetAllUsersQuery } from '../../users/usersApiSlice'
+import '../../../styles/pageHeader.css'
 
 const CustomerListPage = () => {
 	const { data: userData } = useGetAllUsersQuery()
@@ -63,16 +64,7 @@ const CustomerListPage = () => {
 			component='main'
 			maxWidth='xl'
 			sx={{ mt: 14, ml: 15, width: '90%' }}>
-			<Box
-				sx={{
-					display: 'flex',
-					flexDirection: 'row',
-					justifyContent: 'space-between',
-					alignItems: 'center',
-					borderBottom: '1px solid #e1e1e1',
-					paddingBottom: '20px',
-					marginBottom: '20px',
-				}}>
+			<Box className='page-header'>
 				<Typography variant='h6'>Customers</Typography>
 				<Box>
 					<Tooltip title='Add Customer'>
@@ -120,8 +112,7 @@ const CustomerListPage = () => {
 											<StyledTableCell
 												component='th'
 												scope='row'
-												fontWeight='600'
-												>
+												fontWeight='600'>
 												{row.name}
 											</StyledTableCell>
 											{/* account# */}

@@ -14,6 +14,7 @@ import {
 import { useNavigate, useParams } from 'react-router-dom'
 import Spinner from '../../../components/Spinner'
 import { useGetSingleCustomerQuery } from '../customersApiSlice'
+import '../../../styles/pageHeader.css'
 
 function capitalizeFirstLetter(string) {
 	return string.charAt(0).toUpperCase() + string.slice(1)
@@ -34,15 +35,7 @@ const SingleCustomerPage = () => {
 			maxWidth='xl'
 			sx={{ mt: 14, ml: 15, width: '90%' }}>
 			<Box
-				sx={{
-					display: 'flex',
-					flexDirection: 'row',
-					justifyContent: 'space-between',
-					alignItems: 'center',
-					borderBottom: '1px solid #e1e1e1',
-					paddingBottom: '20px',
-					marginBottom: '20px',
-				}}>
+				className='page-header'>
 				<Typography variant='h6'>{data?.customer.name}</Typography>
 				<Box sx={{}}>
 					<Tooltip title='Edit Profile'>

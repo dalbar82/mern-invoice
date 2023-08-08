@@ -34,6 +34,7 @@ import { useGetSingleDocQuery } from '../documentsApiSlice'
 import { addCurrencyCommas } from './components/addCurrencyCommas'
 import { statusColor } from './components/styling'
 import PaymentForm from './PaymentForm'
+import '../../../styles/pageHeader.css'
 
 const SingleDocumentPage = () => {
 	const { id } = useParams()
@@ -89,17 +90,11 @@ const SingleDocumentPage = () => {
 			component='main'
 			maxWidth='md'
 			sx={{ mt: 10 }}>
-			<CssBaseline />
-			<Box
-				sx={{
-					display: 'flex',
-					flexDirection: 'row',
-					justifyContent: 'center',
-					alignItems: 'center',
-				}}>
-				<FaUserSecret fontSize='35px' />
-				<Typography variant='h3'>
-					{document?.customer?.name.split(' ')[0]}'s Doc
+			<Box className='page-header'>
+				<Typography
+					variant='subtitle1'
+					sx={{ p: '10px 0px 10px 0px' }}>
+					{document?.customer?.name}
 				</Typography>
 				<Button
 					variant='contained'

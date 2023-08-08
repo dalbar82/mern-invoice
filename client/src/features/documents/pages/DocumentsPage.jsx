@@ -25,6 +25,7 @@ import StyledTableCell from '../../../components/StyledTableCell'
 import StyledTableRow from '../../../components/StyledTableRow'
 import TablePaginationActions from '../../../components/TablePaginationActions'
 import { useGetAllDocsQuery } from '../documentsApiSlice'
+import '../../../styles/pageHeader.css'
 
 const DocumentsPage = () => {
 	const navigate = useNavigate()
@@ -53,16 +54,7 @@ const DocumentsPage = () => {
 			component='main'
 			maxWidth='xl'
 			sx={{ mt: 14, ml: 15, width: '90%' }}>
-			<Box
-				sx={{
-					display: 'flex',
-					flexDirection: 'row',
-					justifyContent: 'space-between',
-					alignItems: 'center',
-					borderBottom: '1px solid #e1e1e1',
-					paddingBottom: '20px',
-					marginBottom: '20px',
-				}}>
+			<Box className='page-header'>
 				<Typography variant='h6'>Projects</Typography>
 				<Box>
 					<Tooltip title='Add Job'>
@@ -167,7 +159,7 @@ const DocumentsPage = () => {
 											<VisibilityRoundedIcon
 												color='success'
 												fontSize='medium'
-												onClick={() => navigate(`/document/${row._id}`)}
+												onClick={() => navigate(`/edit-doc/${row._id}`)}
 											/>
 										</Box>
 									</StyledTableCell>

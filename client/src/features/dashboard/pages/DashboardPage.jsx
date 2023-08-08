@@ -2,20 +2,19 @@ import AlarmTwoToneIcon from '@mui/icons-material/AlarmTwoTone'
 import CloseTwoToneIcon from '@mui/icons-material/CloseTwoTone'
 import DifferenceTwoToneIcon from '@mui/icons-material/DifferenceTwoTone'
 import DoneAllTwoToneIcon from '@mui/icons-material/DoneAllTwoTone'
-import HistoryEduTwoToneIcon from '@mui/icons-material/HistoryEduTwoTone'
 import PaidTwoToneIcon from '@mui/icons-material/PaidTwoTone'
 import SavingsTwoToneIcon from '@mui/icons-material/SavingsTwoTone'
 import SentimentDissatisfiedTwoToneIcon from '@mui/icons-material/SentimentDissatisfiedTwoTone'
 import SentimentSatisfiedAltTwoToneIcon from '@mui/icons-material/SentimentSatisfiedAltTwoTone'
 import { Box, Container, Grid, Typography } from '@mui/material'
 import StyledDashboardGrid from '../../../components/StyledDashboardGrid'
-import StyledDivider from '../../../components/StyledDivider'
 import { useGetAllCustomersQuery } from '../../customers/customersApiSlice'
 import { useGetAllDocsQuery } from '../../documents/documentsApiSlice'
 import { addCurrencyCommas } from '../../documents/pages/components/addCurrencyCommas'
 import PaymentHistory from './components/paymentHistory'
 import useTitle from '../../../hooks/useTitle'
 import SimpleListItem from './components/simpleListItem'
+import '../../../styles/pageHeader.css'
 
 const DashboardPage = () => {
 	useTitle('My Dashboard')
@@ -74,16 +73,7 @@ const DashboardPage = () => {
 			component='main'
 			maxWidth='xl'
 			sx={{ mt: 14, ml: 15, width: '90%' }}>
-			<Box
-				sx={{
-					display: 'flex',
-					flexDirection: 'row',
-					justifyContent: 'space-between',
-					alignItems: 'center',
-					borderBottom: '1px solid #e1e1e1',
-					paddingBottom: '20px',
-					marginBottom: '20px',
-				}}>
+			<Box className='page-header'>
 				<Typography
 					variant='subtitle1'
 					sx={{ p: '10px 0px 10px 0px' }}>
@@ -124,7 +114,11 @@ const DashboardPage = () => {
 						md={6}
 						xs={12}
 						p={3}
-						sx={{ minHeight: '50vh', backgroundColor: 'white', borderRadius: '10px' }}>
+						sx={{
+							minHeight: '50vh',
+							backgroundColor: 'white',
+							borderRadius: '10px',
+						}}>
 						<Box width={'100%'}>
 							<Grid container>
 								<Grid

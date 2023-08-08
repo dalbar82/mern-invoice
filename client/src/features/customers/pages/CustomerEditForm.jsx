@@ -17,6 +17,7 @@ import {
 	useGetSingleCustomerQuery,
 	useUpdateCustomerInfoMutation,
 } from '../customersApiSlice'
+import '../../../styles/pageHeader.css'
 
 const CustomerEditForm = () => {
 	const { custId } = useParams()
@@ -97,17 +98,7 @@ const CustomerEditForm = () => {
 					noValidate
 					autoComplete='off'
 					onSubmit={updateHandler}>
-					<Box
-						sx={{
-							display: 'flex',
-							flexDirection: 'row',
-							justifyContent: 'space-between',
-							alignItems: 'center',
-							borderBottom: '1px solid #e1e1e1',
-							paddingBottom: '20px',
-							marginBottom: '20px',
-							width: '100%',
-						}}>
+					<Box className='page-header'>
 						<Typography variant='h6'>Edit Customer</Typography>
 
 						<Box>
