@@ -35,19 +35,14 @@ export const getPDF = (req, res) => {
 // $-auth    Public
 
 export const sendDocument = (req, res) => {
-	const { profile, document } = req.body
-
+	const { user, doc } = req.body
 	pdf.create(pdfTemplate(req.body), options).toFile(filepath, (err) => {
 		transporter.sendMail({
 			from: process.env.SENDER_EMAIL,
-			to: `${document.customer.email}`,
-			replyTo: `${profile.email}`,
-			subject: `Document from ${
-				profile.businessName ? profile.businessName : profile.firstName
-			}`,
-			text: `Document from ${
-				profile.businessName ? profile.businessName : profile.firstName
-			}`,
+			to: `${doc.customer.email}`,
+			replyTo: `${user.email}`,
+			subject: `Document from ${user.userProfile?.firstName}`,
+			text: `Document from ${user.userProfile?.firstName}`,
 			html: emailTemplate(req.body),
 			attachments: [
 				{

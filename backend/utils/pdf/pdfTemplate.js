@@ -8,7 +8,7 @@ function addCurrencyCommas(currency) {
 
 export default function ({
 	profile,
-	document,
+	doc,
 	balanceDue,
 	status,
 	totalAmountReceived,
@@ -104,10 +104,10 @@ export default function ({
              </div>
              <div class="right">
                  <h2 style="font-size: 38px; font-weight:200; font-family: Arial, Helvetica, sans-serif;">${
-																		Number(balanceDue) <= 0 ? 'Order' : document?.documentType
+																		doc?.documentType
 																	}</h2>
                  <h6 style="font-size: 18px; font-family: Arial, Helvetica, sans-serif; color:#5a5a5a;">
-                   <b> No: ${document?.documentNumber}</b>
+                   <b> No: ${doc?.documentNumber}</b>
                </h6>
              </div>
      </section>
@@ -128,38 +128,38 @@ export default function ({
        </div>
        <div class="column">
          <h3 style="font-size: 14px; text-transform: uppercase;"> <strong>Bill To: </strong></h3>
-         <p style="font-size: 12px">${document?.customer?.name}</p>
+         <p style="font-size: 12px">${doc?.customer?.name}</p>
          <p style="font-size: 12px"> <span class="header">No: </span>${
-										document?.customer?.accountNo
+										doc?.customer?.accountNo
 									}</p>
          <p style="font-size: 12px"> <span class="header">VAT/TIN No:</span> </>${
-										document?.customer?.abn
+										doc?.customer?.abn
 									}</p>
-         <p style="font-size: 12px">${document?.customer?.email}</p>
-         <p style="font-size: 12px">${document?.customer?.phoneNumber}</p>
-         <p style="font-size: 12px">${document?.customer?.address}</p>
-         <p style="font-size: 12px">${document?.customer?.city}</p>
-         <p style="font-size: 12px">${document?.customer?.country}</p>
+         <p style="font-size: 12px">${doc?.customer?.email}</p>
+         <p style="font-size: 12px">${doc?.customer?.phoneNumber}</p>
+         <p style="font-size: 12px">${doc?.customer?.address}</p>
+         <p style="font-size: 12px">${doc?.customer?.city}</p>
+         <p style="font-size: 12px">${doc?.customer?.country}</p>
        </div>
        <div class="column">
          <h3 style="font-size: 14px; text-transform: uppercase;"> <strong>Payment Status: </strong></h3>
          <h4 style="font-size: 12px">${
-										totalAmountReceived >= document?.total ? 'Paid' : status
+										totalAmountReceived >= doc?.total ? 'Paid' : status
 									}
      </h4>
      <p class="header">Issued on:</p>
      <p style="font-size: 12px">
-       ${moment(document?.createdAt).format('DD-MM-YYYY')}
+       ${moment(doc?.createdAt).format('DD-MM-YYYY')}
      </p>
      <p class="header">Due on: </p>
       <p style="font-size: 12px">
-       ${moment(document?.dueDate).format('DD-MM-YYYY')}
+       ${moment(doc?.dueDate).format('DD-MM-YYYY')}
      </p>
      <p class="header">Total Amount:</p>
      <p>
-       <b><span style="font-size: 16px">${document?.currency}</span></b>
+       <b><span style="font-size: 16px">${doc?.currency}</span></b>
        <b><span style="font-size: 16px">${addCurrencyCommas(
-								document?.total.toFixed(2)
+								doc?.total.toFixed(2)
 							)}</span></b>
      </p>
        </div>
@@ -174,7 +174,7 @@ export default function ({
          <th style="font-size: 10px">Discount(%)</th>
          <th style="font-size: 10px">Line Total</th>
        </tr>
-       ${document?.billingItems?.map(
+       ${doc?.billingItems?.map(
 								(item, index) =>
 									`<tr>
          <td style="font-size: 10px">${index + 1}</td>
@@ -199,33 +199,33 @@ export default function ({
              <tr>
                <td style="font-size: 10px">Sub Total:</td>
                <td style="text-align: right; font-size: 10px; font-weight: 700">${
-																document?.currency
+																doc?.currency
 															}
-                 ${addCurrencyCommas(document?.subTotal.toFixed(2))}
+                 ${addCurrencyCommas(doc?.subTotal.toFixed(2))}
                  </td>
              </tr>
              <tr>
                <td style="font-size: 10px">VAT/Sales Tax (${
-																document?.rates
+																doc?.rates
 															}%):</td>
                <td style="text-align: right; font-size: 10px; font-weight: 700">${
-																document?.currency
+																doc?.currency
 															}
-                 ${document?.salesTax.toFixed(1)}
+                 ${doc?.salesTax.toFixed(1)}
                  </td>
              </tr>
               <tr>
                <td style="font-size: 10px">Cumulative Total:</td>
                <td style="text-align: right; font-size: 10px; font-weight: 700">${
-																document?.currency
+																doc?.currency
 															}
-                 ${addCurrencyCommas(document?.total.toFixed(2))}
+                 ${addCurrencyCommas(doc?.total.toFixed(2))}
                  </td>
              </tr>
               <tr>
                <td style="font-size: 10px">Amount Paid:</td>
                <td style="text-align: right; font-size: 10px; font-weight: 700">${
-																document?.currency
+																doc?.currency
 															}
                  ${addCurrencyCommas(totalAmountReceived.toFixed(2))}
                  </td>
@@ -233,10 +233,10 @@ export default function ({
              <tr>
                <td style="font-size: 10px">Balance:</td>
                <td style="text-align: right; font-size: 10px; font-weight: 700">${
-																document?.currency
+																doc?.currency
 															}
                  ${addCurrencyCommas(
-																		Math.round(document?.total - totalAmountReceived).toFixed(2)
+																		Math.round(doc?.total - totalAmountReceived).toFixed(2)
 																	)}
                  </td>
              </tr>
@@ -248,12 +248,12 @@ export default function ({
        <div class="two-column">
          <h4 style="font-size: 12px">Additional Info</h4>
          <hr class="divider">
-         <p style="font-size: 10px">${document?.additionalInfo}</p>
+         <p style="font-size: 10px">${doc?.additionalInfo}</p>
        </div>
        <div class="two-column">
          <h4 style="font-size: 12px">Terms & Conditions</h4>
          <hr class="divider">
-         <p style="font-size: 10px">${document?.termsConditions}</p>
+         <p style="font-size: 10px">${doc?.termsConditions}</p>
        </div>
      </section>
    </div>

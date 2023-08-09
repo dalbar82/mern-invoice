@@ -1,6 +1,6 @@
 import moment from 'moment'
 
-export default function ({ profile, document, totalAmountReceived }) {
+export default function ({ user, doc, totalAmountReceived }) {
 	return `
   <!DOCTYPE html>
   <html lang="en">
@@ -57,29 +57,29 @@ export default function ({ profile, document, totalAmountReceived }) {
       <body>
           <div class="container">
           <div class="content">
-            <img src=${profile?.avatar} class="logo" alt="logo"/>
+            <img src=${user?.avatar} class="logo" alt="logo"/>
             <h1 class="header"> ${
-													profile?.businessName ? profile?.businessName : profile.firstName
+													user?.businessName ? user?.businessName : user.firstName
 												}</h1>
 
       <hr class="divider">
       <p style="font-size: 18px">Dear Esteemed customer, ${
-							document.customer.name
+							doc.customer.name
 						}</p>
     <p style="font-size: 18px">I trust this email find you well. Kindly find attached as a pdf your, ${
-					document.documentType
+					doc.documentType
 				}</p>
   <p style="font-size: 18px">If you have paid, please ignore this message... Your current balance is <b>${
-			document?.currency
+			doc?.currency
 		}</b>
-  <b> ${Math.round(document?.total - totalAmountReceived).toFixed(
+  <b>  ${ Math.round(doc?.total - totalAmountReceived).toFixed(
 			2
-		)}</b> , due on <b>${moment(document?.dueDate).format('DD-MM-YYYY')}</b>
+		)}</b> , due on <b>${moment(doc?.dueDate).format('DD-MM-YYYY')}</b>
   </p>
 
   <div class="footer">
-    <h2>${profile?.businessName}</h2>
-    <p>${profile?.phoneNumber}</p>
+    <h2>${user?.businessName}</h2>
+    <p>${user?.phoneNumber}</p>
   
   </div>
           </div>

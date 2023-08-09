@@ -4,6 +4,7 @@ import DoneIcon from '@mui/icons-material/Done'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import ClearIcon from '@mui/icons-material/Clear'
 import { produce } from 'immer'
+import axios from 'axios'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 import {
 	Box,
@@ -15,6 +16,7 @@ import {
 	InputBase,
 	Paper,
 	Table,
+	CircularProgress,
 	TableBody,
 	TableContainer,
 	TableHead,
@@ -27,6 +29,7 @@ import {
 import Autocomplete from '@mui/material/Autocomplete'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+import SendSharpIcon from '@mui/icons-material/SendSharp'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { format } from 'date-fns'
 import { useEffect, useState } from 'react'
@@ -62,6 +65,7 @@ const DocCreateEditForm = () => {
 	const { data: singleDoc } = useGetSingleDocQuery(id)
 
 	const [createDoc, { isLoading, isSuccess }] = useCreateDocMutation()
+	const [sendEmail, setSendEmail] = useState(false)
 
 	const [
 		updateDoc,
@@ -97,6 +101,7 @@ const DocCreateEditForm = () => {
 	const [deliveryPostcode, setDeliveryPostcode] = useState('')
 	const [deliveryCountry, setDeliveryCountry] = useState('')
 	const [deliveryNotes, setDeliveryNotes] = useState('')
+	const [totalAmountReceived, setTotalAmountReceived] = useState(0)
 
 	const today = new Date()
 	const docTypes = ['Invoice', 'Order', 'Quotation', 'Archived']
@@ -188,6 +193,15 @@ const DocCreateEditForm = () => {
 		total()
 	}, [items, rates, subTotal])
 
+	useEffect(() => {
+		//Get the total amount paid
+		let totalReceived = 0
+		for (var i = 0; i < doc?.paymentRecords?.length; i++) {
+			totalReceived += Number(doc?.paymentRecords[i]?.amountPaid)
+			setTotalAmountReceived(totalReceived)
+		}
+	}, [doc])
+
 	const location = useLocation()
 
 	const createNewCustomer = () => {
@@ -272,14 +286,48 @@ const DocCreateEditForm = () => {
 		}
 	}
 
+	const sendPdfEmail = () => {
+		setSendEmail(true)
+		axios
+			.post(`/api/v1/document/send-pdf`, {
+				user,
+				doc,
+				status,
+				totalAmountReceived,
+			})
+			.then(() => setSendEmail(false))
+			.catch((error) => {
+				console.log(error)
+			})
+	}
+
 	return (
 		<Container
 			component='main'
 			maxWidth='xl'
 			sx={{ mt: 14, ml: 15, width: '90%' }}>
 			<Box className='page-header'>
-				<Typography variant='h6'>Create/Edit Project</Typography>
+				<Typography variant='h6'>Project Details</Typography>
 				<Box>
+					<Tooltip title='Email'>
+						{sendEmail ? (
+							<Box
+							sx={{
+								display: 'flex',
+								flexDirection: 'row',
+								justifyContent: 'center',
+							}}>
+							<CircularProgress />
+						</Box>
+						) : (
+
+						<Button
+							sx={{ p: '15px 0px 15px 10px', color: '#a6aeb3' }}
+							variant='text'
+							startIcon={<SendSharpIcon />}
+							onClick={sendPdfEmail}></Button>
+						)}
+					</Tooltip>
 					<Tooltip title='Close'>
 						<Button
 							sx={{ p: '15px 0px 15px 10px', color: '#a6aeb3' }}
