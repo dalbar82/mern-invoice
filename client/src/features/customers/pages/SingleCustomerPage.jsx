@@ -34,8 +34,7 @@ const SingleCustomerPage = () => {
 			component='main'
 			maxWidth='xl'
 			sx={{ mt: 14, ml: 15, width: '90%' }}>
-			<Box
-				className='page-header'>
+			<Box className='page-header'>
 				<Typography variant='h6'>{data?.customer.name}</Typography>
 				<Box sx={{}}>
 					<Tooltip title='Edit Profile'>
@@ -118,11 +117,7 @@ const SingleCustomerPage = () => {
 										{/* Address */}
 										<ListItemWrapper
 											label={'Address'}
-											text={
-												data?.customer.address && data?.customer.city
-													? `${data?.customer?.address}, ${data?.customer.city}`
-													: ''
-											}
+											text={`${data?.customer?.address}, ${data?.customer?.city} ${data?.customer?.state} ${data?.customer?.postcode}`}
 										/>
 									</List>
 								</Stack>

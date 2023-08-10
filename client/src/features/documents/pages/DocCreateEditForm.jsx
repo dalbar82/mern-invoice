@@ -309,9 +309,8 @@ const DocCreateEditForm = () => {
 			<Box className='page-header'>
 				<Typography variant='h6'>Project Details</Typography>
 				<Box>
-					<Tooltip title='Email'>
-						{sendEmail ? (
-							<Box
+					{sendEmail ? (
+						<Box
 							sx={{
 								display: 'flex',
 								flexDirection: 'row',
@@ -319,15 +318,15 @@ const DocCreateEditForm = () => {
 							}}>
 							<CircularProgress />
 						</Box>
-						) : (
-
-						<Button
-							sx={{ p: '15px 0px 15px 10px', color: '#a6aeb3' }}
-							variant='text'
-							startIcon={<SendSharpIcon />}
-							onClick={sendPdfEmail}></Button>
-						)}
-					</Tooltip>
+					) : (
+						<Tooltip title='Email'>
+							<Button
+								sx={{ p: '15px 0px 15px 10px', color: '#a6aeb3' }}
+								variant='text'
+								startIcon={<SendSharpIcon />}
+								onClick={sendPdfEmail}></Button>
+						</Tooltip>
+					)}
 					<Tooltip title='Close'>
 						<Button
 							sx={{ p: '15px 0px 15px 10px', color: '#a6aeb3' }}

@@ -57,9 +57,9 @@ export default function ({ user, doc, totalAmountReceived }) {
       <body>
           <div class="container">
           <div class="content">
-            <img src=${user?.avatar} class="logo" alt="logo"/>
+            <img src=${user?.userProfile?.avatar} class="logo" alt="logo"/>
             <h1 class="header"> ${
-													user?.businessName ? user?.businessName : user.firstName
+													user?.userProfile?.businessName ? user?.userProfile?.businessName : user.userProfile?.firstName
 												}</h1>
 
       <hr class="divider">
@@ -78,8 +78,8 @@ export default function ({ user, doc, totalAmountReceived }) {
   </p>
 
   <div class="footer">
-    <h2>${user?.businessName}</h2>
-    <p>${user?.phoneNumber}</p>
+    <h2>${user?.userProfile?.businessName}</h2>
+    <p>${user?.userProfile?.phoneNumber}</p>
   
   </div>
           </div>
