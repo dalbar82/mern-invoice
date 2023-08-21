@@ -714,7 +714,7 @@ const DocCreateEditForm = () => {
 														<StyledTableCell>
 															<TextField
 																variant='outlined'
-																class='prod-status'
+																className='prod-status'
 																sx={{
 																	width: '100%',
 																}}
