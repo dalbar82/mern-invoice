@@ -5,7 +5,6 @@ import {
 	Avatar,
 	Box,
 	ButtonBase,
-	Divider,
 	Grid,
 	ListItemIcon,
 	Menu,
@@ -30,10 +29,6 @@ const StyledMenuItem = styled(MenuItem)({
 	height: 50,
 })
 
-const StyledProfileDivider = styled(Divider)({
-	height: '2px',
-	borderColor: blueGrey[900],
-})
 
 const ProfileInfo = ({ user }) => {
 	const { isAdmin } = useAuthUser()
@@ -102,8 +97,8 @@ const ProfileInfo = ({ user }) => {
 						sx={{ p: 0.5 }}>
 						<Avatar
 							sx={{ bgcolor: lightBlue[900], fontSize: '1rem', fontWeight: '500' }}>
-							{user.firstName.charAt(0).toUpperCase()}
-							{user.lastName.charAt(0).toUpperCase()}
+							{user?.firstName?.charAt(0).toUpperCase()}
+							{user?.lastName?.charAt(0).toUpperCase()}
 						</Avatar>
 					</Stack>
 				)}
@@ -205,12 +200,12 @@ const ProfileInfo = ({ user }) => {
 														fontSize: '1rem',
 														fontWeight: '500',
 													}}>
-													{user.firstName.charAt(0).toUpperCase()}
-													{user.lastName.charAt(0).toUpperCase()}
+													{user?.firstName?.charAt(0).toUpperCase()}
+													{user?.lastName?.charAt(0).toUpperCase()}
 												</Avatar>
 												<Stack>
 													<Typography variant='h6'>
-														{user.firstName} {user.lastName}
+														{user?.firstName} {user?.lastName}
 													</Typography>
 													<Typography
 														variant='body2'
@@ -223,7 +218,6 @@ const ProfileInfo = ({ user }) => {
 									</Stack>
 								</Grid>
 							</StyledMenuItem>
-							<StyledProfileDivider />
 
 							{/* view profile */}
 							<StyledMenuItem onClick={() => navigate('/profile')}>
@@ -242,7 +236,6 @@ const ProfileInfo = ({ user }) => {
 									</Stack>
 								</Grid>
 							</StyledMenuItem>
-							<StyledProfileDivider />
 							{/* Dashboard */}
 							<StyledMenuItem onClick={() => navigate('/dashboard')}>
 								<Grid
@@ -262,7 +255,6 @@ const ProfileInfo = ({ user }) => {
 									</Stack>
 								</Grid>
 							</StyledMenuItem>
-							<StyledProfileDivider />
 
 							{/* logout */}
 							<StyledMenuItem onClick={handleLogout}>
@@ -286,7 +278,6 @@ const ProfileInfo = ({ user }) => {
 							</StyledMenuItem>
 						</Stack>
 					</Grid>
-					<Divider />
 				</Box>
 			</Menu>
 		</Box>

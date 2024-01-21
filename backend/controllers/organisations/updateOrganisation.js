@@ -8,7 +8,7 @@ import Organisation from '../../models/organisationModel.js'
 const updateOrganisation = asyncHandler(async (req, res) => {
 	const organisation = await Organisation.findById(req.params.id)
 
-	if (!req.user.roles.includes('Internal_admin')) {
+	if (!req.user.roles.includes('Admin')) {
 		res.status(400)
 		throw new Error('You are not authorised to complete this action')
 	}

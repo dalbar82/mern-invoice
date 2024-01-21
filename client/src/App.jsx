@@ -31,6 +31,7 @@ import SingleCustomerPage from './features/customers/pages/SingleCustomerPage'
 import DocCreateEditForm from './features/documents/pages/DocCreateEditForm'
 import DocumentsPage from './features/documents/pages/DocumentsPage'
 import SingleDocumentPage from './features/documents/pages/SingleDocumentPage'
+import OrganisationView from './features/organisation/pages/OrganisationView'
 
 const App = () => {
 	useTitle('Job Forge - Home')
@@ -126,6 +127,10 @@ const App = () => {
 						<Route
 							path='edit-profile'
 							element={<EditProfileForm />}
+						/>
+						<Route
+							path='organisation'
+							element={<OrganisationView />}
 						/>
 						<Route
 							path='register'

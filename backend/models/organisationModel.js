@@ -27,6 +27,17 @@ const organisationSchema = new Schema(
 				'A organisation must have a valid billing email address',
 			],
 		},
+		settings: {
+			productionStatusTemplates: [
+				{
+					statusTemplateName: { type: String, default: 'Standard' },
+					statusTemplateList: {
+						type: Array,
+						default: ['Pre Production', 'Production', 'Complete'],
+					},
+				},
+			],
+		},
 		accountNo: String,
 		tax: Number,
 		abn: Number,

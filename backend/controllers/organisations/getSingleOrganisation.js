@@ -15,7 +15,7 @@ const getSingleOrganisation = asyncHandler(async (req, res) => {
 		throw new Error('Organisation not found')
 	}
 
-	if (!req.user.roles.includes('Internal_admin')) {
+	if (!req.user.roles.includes('Admin')) {
 		res.status(400)
 		throw new Error('You are not authorised to complete this action')
 	}
