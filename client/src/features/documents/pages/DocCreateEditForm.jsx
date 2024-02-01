@@ -2,6 +2,8 @@ import styled from '@emotion/styled'
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle'
 import DoneIcon from '@mui/icons-material/Done'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
+import BuildIcon from '@mui/icons-material/Build';
+import BuildCircleOutlinedIcon from '@mui/icons-material/BuildCircleOutlined';
 import ClearIcon from '@mui/icons-material/Clear'
 import { produce } from 'immer'
 import axios from 'axios'
@@ -665,13 +667,14 @@ const DocCreateEditForm = () => {
 											<TableHead>
 												<TableRow>
 													<StyledTableCell width={'1%'}>#</StyledTableCell>
-													<StyledTableCell width={'40%'}>Product</StyledTableCell>
-													<StyledTableCell width={'20%'}>Status</StyledTableCell>
-													<StyledTableCell width={'8%'}>Qty</StyledTableCell>
-													<StyledTableCell width={'10%'}>Unit Price</StyledTableCell>
-													<StyledTableCell width={'8%'}>Disc(%)</StyledTableCell>
-													<StyledTableCell>Line Total</StyledTableCell>
-													<StyledTableCell>Remove</StyledTableCell>
+													<StyledTableCell width={'35%'}>Product</StyledTableCell>
+													<StyledTableCell width={'17%'}>Status</StyledTableCell>
+													<StyledTableCell width={'6%'}>Qty</StyledTableCell>
+													<StyledTableCell width={'9%'}>Unit Price</StyledTableCell>
+													<StyledTableCell width={'7%'}>Disc(%)</StyledTableCell>
+													<StyledTableCell width={'12%'}>Line Total</StyledTableCell>
+													<StyledTableCell></StyledTableCell>
+													<StyledTableCell></StyledTableCell>
 												</TableRow>
 											</TableHead>
 											<TableBody>
@@ -821,6 +824,23 @@ const DocCreateEditForm = () => {
 																		height: '20px',
 																	}}
 																	color='error'
+																/>
+															</IconButton>
+														</StyledTableCell>
+														<StyledTableCell align='right'>
+															<IconButton
+																onClick={() => {
+																	setItems(items.filter((i) => i.itemName !== item.itemName))
+																	setSubTotal(0)
+																	setTotal(0)
+																	setSalesTax(0)
+																}}>
+																<BuildCircleOutlinedIcon
+																	style={{
+																		width: '20px',
+																		height: '20px',
+																	}}
+																	color='success'
 																/>
 															</IconButton>
 														</StyledTableCell>

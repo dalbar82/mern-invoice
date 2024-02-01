@@ -117,7 +117,7 @@ const ProfilePage = () => {
 							sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'left' }}>
 							{data.userProfile?.avatar ? (
 								<Avatar
-									src={data.userProfile.avatar}
+									src={data.userProfile?.avatar}
 									sx={{ width: '60px', height: '60px', marginRight: '20px' }}
 								/>
 							) : (
@@ -127,8 +127,8 @@ const ProfilePage = () => {
 								/>
 							)}
 							<Box>
-								<Typography variant='h6'>{`${data.userProfile.firstName} ${data.userProfile.lastName}`}</Typography>
-								<Typography variant='p'>{`${data.userProfile.email}`}</Typography>
+								<Typography variant='h6'>{`${data.userProfile?.firstName} ${data.userProfile?.lastName}`}</Typography>
+								<Typography variant='p'>{`${data.userProfile?.email}`}</Typography>
 							</Box>
 						</Box>
 
@@ -175,24 +175,24 @@ const ProfilePage = () => {
 										{/* email */}
 										<ListItemWrapper
 											label={'Email'}
-											text={data.userProfile.email}
+											text={data.userProfile?.email}
 										/>
 										{/* name */}
 										<ListItemWrapper
 											label={'Name'}
-											text={`${data.userProfile.firstName} ${data.userProfile.lastName}`}
+											text={`${data.userProfile?.firstName} ${data.userProfile?.lastName}`}
 										/>
 										{/* username */}
 										<ListItemWrapper
 											label={'Username'}
-											text={data.userProfile.username}
+											text={data.userProfile?.username}
 										/>
 										{/* address */}
 										<ListItemWrapper
 											label={'Address'}
 											text={
-												data.userProfile.address
-													? `${data.userProfile.address || ''} ${
+												data.userProfile?.address
+													? `${data.userProfile?.address || ''} ${
 															data.userProfile?.city || ''
 													  } ${data.userProfile?.country || ''}`
 													: ''
@@ -203,14 +203,14 @@ const ProfilePage = () => {
 											label={'Phone'}
 											text={
 												data.userProfile?.phoneNumber
-													? `${data.userProfile.phoneNumber}`
+													? `${data.userProfile?.phoneNumber}`
 													: ''
 											}
 										/>
 										{/* roles */}
 										<ListItemWrapper
 											label={'Roles'}
-											text={data.userProfile.roles}
+											text={data.userProfile?.roles}
 										/>
 									</List>
 								</Stack>

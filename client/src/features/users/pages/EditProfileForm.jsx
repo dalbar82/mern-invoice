@@ -60,15 +60,15 @@ const EditProfileForm = () => {
 	useEffect(() => {
 		const userProfile = data?.userProfile
 		if (userProfile) {
-			setFirstName(userProfile.firstName)
-			setLastName(userProfile.lastName)
-			setUsername(userProfile.username)
-			setPhoneNumber(userProfile.phoneNumber)
-			setBusinessName(userProfile.businessName)
-			setCity(userProfile.city)
-			setAddress(userProfile.address)
-			setCountry(userProfile.country)
-			setAvatar(userProfile.avatar)
+			setFirstName(userProfile?.firstName)
+			setLastName(userProfile?.lastName)
+			setUsername(userProfile?.username)
+			setPhoneNumber(userProfile?.phoneNumber)
+			setBusinessName(userProfile?.businessName)
+			setCity(userProfile?.city)
+			setAddress(userProfile?.address)
+			setCountry(userProfile?.country)
+			setAvatar(userProfile?.avatar)
 		}
 	}, [data])
 

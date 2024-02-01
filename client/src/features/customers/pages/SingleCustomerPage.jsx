@@ -117,7 +117,7 @@ const SingleCustomerPage = () => {
 										{/* Address */}
 										<ListItemWrapper
 											label={'Address'}
-											text={`${data?.customer?.address}, ${data?.customer?.city} ${data?.customer?.state} ${data?.customer?.postcode}`}
+											text={`${data?.customer?.address}, ${data?.customer?.city} ${data?.customer?.country}`}
 										/>
 									</List>
 								</Stack>
