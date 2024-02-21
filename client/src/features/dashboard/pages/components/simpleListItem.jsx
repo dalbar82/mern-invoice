@@ -16,7 +16,7 @@ const simpleListItem = ({ data }) => {
 					sx={{
 						fontSize: 'small',
 						width: 'fit-content',
-						color: '#fd7e8b',
+						color: '#1f6e9a',
 						paddingRight: '5px',
 					}}>
 					{data.documentNumber}

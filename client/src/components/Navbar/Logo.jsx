@@ -25,7 +25,6 @@ const Logo = (fontSize) => {
 						height: '48px',
 						fontFamily: 'Londrina Sketch',
 					}}>
-					[=]
 				</div>
 				<div
 					style={{
@@ -36,8 +35,8 @@ const Logo = (fontSize) => {
 						fontSize: fontSize,
 						margin: 0,
 					}}>
-					<p style={{ fontFamily: 'Quicksand', color: '#c7cbd4' }}>Job</p>
-					<p style={{ fontFamily: 'Quicksand', color: 'rgb(25 142 189)' }}>Forge</p>
+					<p style={{ fontFamily: 'Quicksand', color: '#c7cbd4' }}>Eazy</p>
+					<p style={{ fontFamily: 'Quicksand', color: 'rgb(25 142 189)' }}>Flow</p>
 				</div>
 			</Link>
 		</>

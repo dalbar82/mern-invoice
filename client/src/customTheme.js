@@ -34,8 +34,9 @@ export const customTheme = createTheme({
 				// Name of the slot
 				paper: {
 					// Some CSS
-					backgroundColor: '#fafafa',
+					background: 'linear-gradient(94deg, rgba(0,117,180,1) 0%, rgba(65,162,215,1) 100%)',
 					color: '#fff',
+					borderRight: 'none'
 				},
 			},
 		},

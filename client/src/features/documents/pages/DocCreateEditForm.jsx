@@ -2,11 +2,11 @@ import styled from '@emotion/styled'
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle'
 import DoneIcon from '@mui/icons-material/Done'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
-import BuildIcon from '@mui/icons-material/Build';
-import BuildCircleOutlinedIcon from '@mui/icons-material/BuildCircleOutlined';
+import BuildCircleOutlinedIcon from '@mui/icons-material/BuildCircleOutlined'
 import ClearIcon from '@mui/icons-material/Clear'
 import { produce } from 'immer'
 import axios from 'axios'
+import { splitAddress } from '../../../utils/googleAddressSplit'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 import {
 	Box,
@@ -29,6 +29,7 @@ import {
 	MenuItem,
 } from '@mui/material'
 import Autocomplete from '@mui/material/Autocomplete'
+import GeoAutocomplete from 'react-google-autocomplete'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import SendSharpIcon from '@mui/icons-material/SendSharp'
@@ -97,13 +98,14 @@ const DocCreateEditForm = () => {
 	const [subTotal, setSubTotal] = useState(0)
 	const [rates, setRates] = useState(0)
 	const [status, setStatus] = useState('Not Paid')
-	const [deliveryAddress, setDeliveryAddress] = useState()
+	const [autoCompleteAddress, setAutoCompleteAddress] = useState('')
+	const [deliveryAddress, setDeliveryAddress] = useState('')
 	const [deliveryCity, setDeliveryCity] = useState('')
 	const [deliveryState, setDeliveryState] = useState('')
 	const [deliveryPostcode, setDeliveryPostcode] = useState('')
 	const [deliveryCountry, setDeliveryCountry] = useState('')
 	const [deliveryNotes, setDeliveryNotes] = useState('')
-	const [totalAmountReceived, setTotalAmountReceived] = useState(0)
+	const [totalAmountReceived, setTotalAmountReceived] = useState('')
 
 	const today = new Date()
 	const docTypes = ['Invoice', 'Order', 'Quotation', 'Archived']
@@ -209,7 +211,14 @@ const DocCreateEditForm = () => {
 	const createNewCustomer = () => {
 		navigate('/create-customer', { state: { prevPath: location.pathname } })
 	}
-
+	const autoCompleteStyle = {
+		width: '100%',
+		height: '57px',
+		padding: '12px',
+		color: 'rgba(0, 0, 0, 0.87)',
+		border: '1px solid #c4c4c4',
+		borderRadius: '4px',
+	}
 	const createUpdateDocHandler = async (e) => {
 		e.preventDefault()
 		if (doc) {
@@ -859,39 +868,6 @@ const DocCreateEditForm = () => {
 									</StyledItemButton>
 								</div>
 							)}
-							{/* TODO - setup T&C's in admin page */}
-							{/* <Box
-								sx={{
-									marginTop: '20px',
-									display: 'flex',
-									flexDirection: 'row',
-									justifyContent: 'space-between',
-								}}>
-								<Box>
-									<Typography
-										variant='h4'
-										sx={{ color: 'rgb(17,65,141)' }}>
-										Terms & Conditions
-									</Typography>
-
-									<TextareaAutosize
-										minRows={4}
-										style={{
-											width: 350,
-											border: 'solid 1px #d6d6d6',
-											padding: '10px',
-										}}
-										placeholder='Add legal terms or conditions, such as your return/refund policy, shipping info, product warranties or privacy policy'
-										onChange={(e) =>
-											setDocData({
-												...docData,
-												termsConditions: e.target.value,
-											})
-										}
-										value={docData.termsConditions}
-									/>
-								</Box>
-							</Box> */}
 							{/* delivery details*/}
 							{viewShippingDetails && (
 								<Grid
@@ -908,6 +884,30 @@ const DocCreateEditForm = () => {
 									<Grid
 										item
 										xs={12}>
+										<GeoAutocomplete
+											placeholder='Find add'
+											className='geo-auto-complete'
+											style={autoCompleteStyle}
+											apiKey='AIzaSyCBTqp3HnYj-Gj-g9hgYp9sYlGE2WURxwY'
+											options={{
+												types: ['geocode', 'establishment'],
+											}}
+											onPlaceSelected={(place) => {
+												const addressObject = splitAddress(place.address_components)
+												setAutoCompleteAddress(place)
+												setDeliveryAddress(
+													`${addressObject?.streetNumber?.long_name} ${addressObject?.streetName?.long_name}`
+												)
+												setDeliveryCity(addressObject?.city?.long_name)
+												setDeliveryState(addressObject?.state?.short_name)
+												setDeliveryCountry(addressObject?.country?.short_name)
+												setDeliveryPostcode(addressObject?.postcode?.short_name)
+											}}
+										/>
+									</Grid>
+									<Grid
+										item
+										xs={12}>
 										<TextField
 											fullWidth
 											variant='outlined'
@@ -916,6 +916,7 @@ const DocCreateEditForm = () => {
 											onChange={(e) => setDeliveryAddress(e.target.value)}
 										/>
 									</Grid>
+
 									<Grid
 										item
 										xs={12}>

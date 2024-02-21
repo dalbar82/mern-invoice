@@ -9,6 +9,7 @@ import {
 	ListItemIcon,
 	Menu,
 	MenuItem,
+	Paper,
 	Stack,
 	styled,
 	Typography,
@@ -64,10 +65,9 @@ const ProfileInfo = ({ user }) => {
 	}, [isSuccess, data])
 
 	return (
-		<Box sx={{ flexShrink: 0, ml: 0.75 }}>
+		<Box sx={{ flexShrink: 0, mr: 1.5 }}>
 			<ButtonBase
 				sx={{
-					p: 0.25,
 					bgColor: open ? '#E0E0E0' : 'transparent',
 					borderRadius: 10,
 					'&:hover': { bgcolor: '#555a64' },
@@ -82,7 +82,7 @@ const ProfileInfo = ({ user }) => {
 						direction='row'
 						spacing={2}
 						alignItems='center'
-						sx={{ p: 0.5 }}>
+						sx={{ m: 0.5 }}>
 						<Avatar
 							alt='profile user'
 							src={user.avatar}
@@ -106,7 +106,7 @@ const ProfileInfo = ({ user }) => {
 
 			{/* Menu Items */}
 			<Menu
-				sx={{ mt: '45px' }}
+				sx={{ mt: '50px' }}
 				id='account-menu'
 				anchorEl={anchorEl}
 				anchorOrigin={{
@@ -121,56 +121,29 @@ const ProfileInfo = ({ user }) => {
 				open={open}
 				onClose={handleCloseUserMenu}
 				onClick={handleCloseUserMenu}
-				PaperProps={{
-					elevation: 0,
-					sx: {
-						overflow: 'visible',
-						filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-						mt: 1.5,
-						bgcolor: '#fafafa',
-						color: '#ffffff',
-						borderRadius: '10px',
-
-						'& .MuiAvatar-root': {
-							width: 43,
-							height: 42,
-							ml: -0.5,
-							mr: 1,
-						},
-						'&:before': {
-							content: '""',
-							display: 'block',
-							position: 'absolute',
-							top: 0,
-							right: 14,
-							width: 10,
-							height: 10,
-							bgcolor: '#fafafa',
-							transform: 'translateY(-50%) rotate(45deg)',
-							zIndex: 0,
-						},
-					},
-				}}>
-				<Box>
+				>
+				<Paper
+					style={{boxShadow: 'none'}}>
 					<Grid
 						container
 						justifyContent='space-between'
 						alignItems='center'
-						color='#c7cbd4'>
-						<Stack>
+						color='#c7cbd4'
+						>
+						<Stack >
 							{/* profile menu item */}
-							<StyledMenuItem onClick={() => navigate('/profile')}>
+
 								<Grid item>
 									<Stack
 										direction='row'
-										spacing={1.25}
-										alignItems='center'>
+										alignItems='center'
+										onClick={() => {}}>
 										{user.avatar ? (
 											<Stack
 												direction='row'
 												spacing={1.25}
 												alignItems='center'
-												sx={{ p: 0.5 }}>
+												sx={{ p: 2.5 }}>
 												<Avatar
 													alt='profile user'
 													src={user.avatar}
@@ -181,10 +154,8 @@ const ProfileInfo = ({ user }) => {
 												/>
 												<Stack>
 													<Typography variant='h6'>
-														{user.firstName} {user.lastName}
-													</Typography>
-													<Typography variant='body2'>
-														{isAdmin ? 'Project Admin' : 'Product User'}
+														{user.firstName?.charAt(0).toUpperCase()}{' '}
+														{user.lastName?.charAt(0).toUpperCase()}
 													</Typography>
 												</Stack>
 											</Stack>
@@ -193,7 +164,7 @@ const ProfileInfo = ({ user }) => {
 												direction='row'
 												spacing={1.25}
 												alignItems='center'
-												sx={{ p: 0.5 }}>
+												sx={{ p: 2.5 }}>
 												<Avatar
 													sx={{
 														bgcolor: blueGrey[700],
@@ -205,19 +176,13 @@ const ProfileInfo = ({ user }) => {
 												</Avatar>
 												<Stack>
 													<Typography variant='h6'>
-														{user?.firstName} {user?.lastName}
-													</Typography>
-													<Typography
-														variant='body2'
-														color='#CFD8DC'>
-														{isAdmin ? 'Project Admin' : 'Product User'}
+														{user?.firstName.toUpperCase()} {user?.lastName.toUpperCase()}
 													</Typography>
 												</Stack>
 											</Stack>
 										)}
 									</Stack>
 								</Grid>
-							</StyledMenuItem>
 
 							{/* view profile */}
 							<StyledMenuItem onClick={() => navigate('/profile')}>
@@ -238,9 +203,7 @@ const ProfileInfo = ({ user }) => {
 							</StyledMenuItem>
 							{/* Dashboard */}
 							<StyledMenuItem onClick={() => navigate('/dashboard')}>
-								<Grid
-									item
-									color='iconsSideNav'>
+								<Grid item>
 									<Stack
 										direction='row'
 										alignItems='center'
@@ -269,16 +232,13 @@ const ProfileInfo = ({ user }) => {
 												sx={{ fontSize: 20 }}
 											/>
 										</ListItemIcon>
-										<MenuText
-											color='iconsSideNav'
-											text='Logout'
-										/>
+										<Typography variant='p'>Logout</Typography>
 									</Stack>
 								</Grid>
 							</StyledMenuItem>
 						</Stack>
 					</Grid>
-				</Box>
+				</Paper>
 			</Menu>
 		</Box>
 	)

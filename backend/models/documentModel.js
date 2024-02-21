@@ -70,7 +70,7 @@ const documentSchema = new Schema(
 		deliveryAddress: String,
 		deliveryCity: String,
 		deliveryState: String,
-		diliveryPostcode: String,
+		deliveryPostcode: String,
 		deliveryCountry: String,
 		deliveryNotes: String,
 		billingItems: [

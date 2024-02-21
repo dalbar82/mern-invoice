@@ -22,7 +22,9 @@ span {
 	font-size: 1.5rem;
 	padding-right: 10px;
 }
-
+.geo-auto-complete::placeholder {
+	font-size: 12px;
+}
 .verified {
 	color: limegreen;
 	font-size: 4rem;

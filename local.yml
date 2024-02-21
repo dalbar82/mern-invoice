@@ -29,7 +29,8 @@ services:
             - /app/node_modules
         networks:
             - invoice
-
+        environment:
+            GOOGLE_MAPS_KEY: ${GOOGLE_MAPS_KEY}
     mongodb:
         image: mongo:5.0.6-focal
         restart: always

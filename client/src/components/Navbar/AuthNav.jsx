@@ -116,7 +116,7 @@ const AuthNav = () => {
 			<AppBar
 				position='fixed'
 				open={open}
-				sx={{ color: '#c7cbd4' }}>
+				sx={{ color: '#0075b4' }}>
 				<Stack
 					direction='row'
 					alignItems='center'
@@ -147,18 +147,18 @@ const AuthNav = () => {
 					<IconButton onClick={handleDrawerClose}>
 						{theme.direction === 'rtl' ? (
 							<ChevronRightIcon
-								color='success'
+								color='#fff'
 								fontSize='large'
 							/>
 						) : (
 							<ChevronLeftIcon
-								color='success'
+								color='#fff'
 								fontSize='large'
 							/>
 						)}
 					</IconButton>
 				</DrawerHeader>
-				<Divider />
+
 				<MenuList />
 			</Drawer>
 		</Box>
