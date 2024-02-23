@@ -1,33 +1,52 @@
 import { Grid, Box, Typography } from '@mui/material'
-
+import Moment from 'react-moment'
 const simpleListItem = ({ data }) => {
-	console.log(data);
+	console.log(data)
 	return (
 		<>
 			<Grid
 				item
 				xs={12}
-				sx={{
-					padding: '20px 0',
+				style={{
+					padding: '25px 25px',
+					flexGrow: '0',
+					backgroundColor: ' white',
+					margin: '7px 0',
+					boxShadow: 'rgba(224, 228, 229, 0.96) 0px 0px 2px 1px',
+					borderRadius: '8px',
 					display: 'flex',
-					borderBottom: '1px solid #dcdcdcbf',
+					justifyContent: 'space-between',
 				}}>
-				<Typography
-					sx={{
-						fontSize: 'small',
-						width: 'fit-content',
-						color: '#1f6e9a',
-						paddingRight: '5px',
-					}}>
-					{data.documentNumber}
-				</Typography>
+				<Box>
+					<Typography
+						sx={{
+							fontWeight: '700',
+							fontSize: 'small',
+							width: 'fit-content',
+							color: '#50abdf',
+						}}>
+						{data.documentNumber}
+					</Typography>
+					<Typography
+						variant='subtitle2'
+						sx={{
+							fontSize: 'small',
+							textTransform: 'uppercase',
+						}}>
+						{data.name}
+					</Typography>
+				</Box>
+
 				<Typography
 					variant='subtitle2'
 					sx={{
 						fontSize: 'small',
-						textTransform: 'uppercase'
+						textTransform: 'uppercase',
 					}}>
-					- {data.name}
+					<Moment
+						format='DD/MM/YYYY'
+						date={data.dueDate}
+					/>
 				</Typography>
 			</Grid>
 		</>
