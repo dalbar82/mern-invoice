@@ -1,17 +1,20 @@
 import { styled, TableRow } from '@mui/material'
 
 const TableRowStyled = styled(TableRow)(({ theme }) => ({
-	'&:nth-of-type(odd)': {
-		backgroundColor: theme.palette.action.white,
-		color: 'black'
-	},
-	'&:last-child td, &:last-child th': {
-		borderBottom:' 1px solid #efefef',
-	},
+	// '&:last-child td, &:last-child th': {
+	// 	boxShadow: ' 2px 1px #efefef',
+	// },
 }))
 
-const StyledTableRow = ({ children }) => {
-	return <TableRowStyled>{children}</TableRowStyled>
+const StyledTableRow = ({ children, bgColor }) => {
+	return (
+		<TableRowStyled
+			style={{
+				background: { bgColor },
+			}}>
+			{children}
+		</TableRowStyled>
+	)
 }
 
 export default StyledTableRow

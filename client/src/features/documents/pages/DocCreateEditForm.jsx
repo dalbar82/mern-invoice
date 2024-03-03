@@ -108,7 +108,7 @@ const DocCreateEditForm = () => {
 	const [totalAmountReceived, setTotalAmountReceived] = useState('')
 
 	const today = new Date()
-	const docTypes = ['Invoice', 'Order', 'Quotation', 'Archived']
+	const docTypes = ['Invoice', 'Order', 'Quotation', 'Open', 'Paid']
 	const productionTypes = ['Pre Production', 'Production', 'Complete']
 
 	const [dueDate, setDueDate] = useState(
@@ -680,7 +680,7 @@ const DocCreateEditForm = () => {
 													<StyledTableCell width={'17%'}>Status</StyledTableCell>
 													<StyledTableCell width={'6%'}>Qty</StyledTableCell>
 													<StyledTableCell width={'9%'}>Unit Price</StyledTableCell>
-													<StyledTableCell width={'7%'}>Disc(%)</StyledTableCell>
+													<StyledTableCell width={'7%'}>Markup(%)</StyledTableCell>
 													<StyledTableCell width={'12%'}>Line Total</StyledTableCell>
 													<StyledTableCell></StyledTableCell>
 													<StyledTableCell></StyledTableCell>

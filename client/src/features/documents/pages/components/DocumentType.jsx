@@ -28,6 +28,8 @@ const DocumentType = ({ documentType, setDocumentType }) => {
 						<em>Select Document Type</em>
 					</MenuItem>
 					<MenuItem value='Invoice'>Invoice</MenuItem>
+					<MenuItem value='Paid'>Paid</MenuItem>
+					<MenuItem value='Open'>Open</MenuItem>
 					<MenuItem value='Order'>Order</MenuItem>
 					<MenuItem value='Quotation'>Quotation</MenuItem>
 				</StyledSelect>

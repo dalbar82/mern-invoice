@@ -48,7 +48,7 @@ const documentSchema = new Schema(
 		documentType: {
 			type: String,
 			default: 'Invoice',
-			enum: ['Invoice', 'Order', 'Quotation', 'Archived'],
+			enum: ['Invoice', 'Order', 'Quotation', 'Open', 'Paid'],
 		},
 		name: String,
 		documentNumber: String,
