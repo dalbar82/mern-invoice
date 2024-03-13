@@ -88,21 +88,7 @@ const MenuList = () => {
 					<StyledList>
 						<ListItem disablePadding>
 							<ListItemButton
-								onClick={() => navigate('/users')}
-								style={{ paddingTop: '0', paddingBottom: '0' }}>
-								<ListItemIcon>
-									<AdminPanelSettingsIcon
-										sx={{ margin: '25px 0', fontSize: 25, color: '#fff' }}
-									/>
-								</ListItemIcon>
-								<MenuText text='Users' />
-							</ListItemButton>
-						</ListItem>
-					</StyledList>
-					<StyledList>
-						<ListItem disablePadding>
-							<ListItemButton
-								onClick={() => navigate('/organisation')}
+								onClick={() => navigate('/organisation-edit')}
 								style={{ paddingTop: '0', paddingBottom: '0' }}>
 								<ListItemIcon>
 									<CorporateFareIcon

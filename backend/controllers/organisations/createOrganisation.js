@@ -18,6 +18,7 @@ const createOrganisation = asyncHandler(async (req, res) => {
 		country,
 		state,
 		postcode,
+		logo
 	} = req.body
 
 	if (
@@ -61,6 +62,7 @@ const createOrganisation = asyncHandler(async (req, res) => {
 		country,
 		state,
 		postcode,
+		logo
 	})
 
 	const createdOrganisation = await newOrganisation.save()

@@ -1,7 +1,7 @@
 import { styled, TableCell, tableCellClasses } from '@mui/material'
 
 const TableCellStyled = styled(TableCell)(
-	({ theme, width, radius, leftborder }) => ({
+	({ theme, width, radius, leftborder, align }) => ({
 		[`&.${tableCellClasses.head}`]: {
 			// backgroundColor: theme.palette.common.white,
 			color: '#fff',
@@ -16,6 +16,7 @@ const TableCellStyled = styled(TableCell)(
 			padding: '11px 16px',
 			background: 'white',
 			borderRadius: `${radius}`,
+			textAlign: `${align}`,
 			borderLeft: `${leftborder}`,
 		},
 	})
@@ -28,12 +29,14 @@ const StyledTableCell = ({
 	fontColor,
 	radius,
 	leftborder,
+	align
 }) => {
 	return (
 		<TableCellStyled
 			radius={radius}
 			leftborder={leftborder}
 			width={width}
+			align={align}
 			sx={{ fontWeight: { fontWeight } }}
 			style={{
 				color: { fontColor },

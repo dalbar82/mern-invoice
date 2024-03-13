@@ -72,7 +72,7 @@ export default function ({ user, doc, totalAmountReceived }) {
   <p style="font-size: 18px">If you have paid, please ignore this message... Your current balance is <b>${
 			doc?.currency
 		}</b>
-  <b>  ${ Math.round(doc?.total - totalAmountReceived).toFixed(
+  <b>  ${ Math.round(doc?.total - totalAmountReceived)?.toFixed(
 			2
 		)}</b> , due on <b>${moment(doc?.dueDate).format('DD-MM-YYYY')}</b>
   </p>

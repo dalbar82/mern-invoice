@@ -32,6 +32,7 @@ import DocCreateEditForm from './features/documents/pages/DocCreateEditForm'
 import DocumentsPage from './features/documents/pages/DocumentsPage'
 import SingleDocumentPage from './features/documents/pages/SingleDocumentPage'
 import OrganisationView from './features/organisation/pages/OrganisationView'
+import OrganisationEditForm from './features/organisation/pages/OrganisationEditForm'
 
 const App = () => {
 	useTitle('Job Forge - Home')
@@ -97,10 +98,6 @@ const App = () => {
 							element={<NotFound />}
 						/>
 						<Route
-							path='users'
-							element={<UsersList />}
-						/>
-						<Route
 							path='documents'
 							element={<DocumentsPage />}
 						/>
@@ -131,6 +128,10 @@ const App = () => {
 						<Route
 							path='organisation'
 							element={<OrganisationView />}
+						/>
+						<Route
+							path='organisation-edit'
+							element={<OrganisationEditForm />}
 						/>
 						<Route
 							path='register'

@@ -46,7 +46,7 @@ export const sendDocument = (req, res) => {
 			html: emailTemplate(req.body),
 			attachments: [
 				{
-					filename: 'myDocument.pdf',
+					filename: 'myDocument1.pdf',
 					path: filepath,
 				},
 			],

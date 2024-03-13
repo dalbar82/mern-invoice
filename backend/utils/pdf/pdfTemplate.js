@@ -123,7 +123,7 @@ export default function ({ user, doc, status, totalAmountReceived }) {
         <p style="font-size: 10px;"><span class="header">Total Amount:</span> 
         <span style="font-size: 10px">
           <span>${doc?.currency}</span>
-          <span>${addCurrencyCommas(doc?.total.toFixed(2))}</span>
+          <span>${addCurrencyCommas(doc?.total?.toFixed(2))}</span>
           </span>
         </p>
       </div>
@@ -136,7 +136,6 @@ export default function ({ user, doc, status, totalAmountReceived }) {
         <th style="font-size: 10px">Product/Service</th>
         <th style="font-size: 10px">Qty</th>
         <th style="font-size: 10px">Unit Price/Rate</th>
-        <th style="font-size: 10px">Discount(%)</th>
         <th style="font-size: 10px">Line Total</th>
       </tr>
       ${doc?.billingItems?.map(
@@ -146,11 +145,10 @@ export default function ({ user, doc, status, totalAmountReceived }) {
         <td style="font-size: 10px">${item.itemName}</td>
         <td style="font-size: 10px">${item.quantity}</td>
         <td style="font-size: 10px">${item.unitPrice}</td>
-        <td style="font-size: 10px">${item.discount}</td>
         <td style="font-size: 10px">${(
 									item?.quantity * item.unitPrice -
 									(item.quantity * item.unitPrice * item.discount) / 100
-								).toFixed(2)}</td>
+								)?.toFixed(2)}</td>
        </tr>`
 						)}
    
@@ -170,28 +168,23 @@ export default function ({ user, doc, status, totalAmountReceived }) {
             <tr>
               <td style="font-size: 10px">Tax (${doc?.rates}%):</td>
               <td style="text-align: right; font-size: 10px; font-weight: 700">
-                ${doc?.salesTax.toFixed(1)}
+                ${doc?.salesTax?.toFixed(1)}
                 </td>
             </tr>
              <tr>
               <td style="font-size: 10px">Total:</td>
               <td style="text-align: right; font-size: 10px; font-weight: 700">
-                ${addCurrencyCommas(doc?.total.toFixed(2))}
+                ${addCurrencyCommas(doc?.total?.toFixed(2))}
                 </td>
             </tr>
-             <tr>
-              <td style="font-size: 10px">Amount Paid:</td>
-              <td style="text-align: right; font-size: 10px; font-weight: 700">
-                ${addCurrencyCommas(totalAmountReceived.toFixed(2))}
-                </td>
-            </tr>
+           
             <tr>
               <td style="font-size: 10px">Balance:</td>
               <td style="text-align: right; font-size: 10px; font-weight: 700">${
 															doc?.currency
 														}
                 ${addCurrencyCommas(
-																	Math.round(doc?.total - totalAmountReceived).toFixed(2)
+																	Math.round(doc?.total - totalAmountReceived)?.toFixed(2)
 																)}
                 </td>
             </tr>

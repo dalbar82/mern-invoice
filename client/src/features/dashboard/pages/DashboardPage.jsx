@@ -25,7 +25,6 @@ const DashboardPage = () => {
 
 	let totalAmount = 0
 	for (let i = 0; i < documents?.myDocuments?.length; i++) {
-		console.log(documents?.myDocuments[i])
 		totalAmount += documents?.myDocuments[i]?.total
 	}
 
@@ -87,7 +86,7 @@ const DashboardPage = () => {
 								<Typography
 									variant='h5'
 									sx={{ marginLeft: 1, fontWeight: 700 }}>
-									${addCurrencyCommas(totalAmount.toFixed(2))}
+									${addCurrencyCommas(totalAmount?.toFixed(2))}
 								</Typography>
 							</Box>
 							<img

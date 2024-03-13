@@ -16,27 +16,24 @@ import {
 	TableRow,
 	Typography,
 } from '@mui/material'
-import EnhancedTableHead from '../../../components/Table/EnhancedTableHead'
 import moment from 'moment'
 import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded'
 import { useNavigate } from 'react-router-dom'
-import Spinner from '../../../components/Spinner'
 import GroupAddRoundedIcon from '@mui/icons-material/GroupAddRounded'
-import StyledTableCell from '../../../components/StyledTableCell'
-import StyledTableRow from '../../../components/StyledTableRow'
-import TablePaginationActions from '../../../components/TablePaginationActions'
-import { useGetAllDocsQuery } from '../documentsApiSlice'
-import '../../../styles/pageHeader.css'
 
-const DocumentsPage = () => {
+import EnhancedTableHead from './EnhancedTableHead'
+import Spinner from '../Spinner'
+import StyledTableRow from '../StyledTableRow'
+import StyledTableCell from '../StyledTableCell'
+import TablePaginationActions from '../TablePaginationActions'
+
+const DocumentsPage = ({children, headerDetails, rows, isLoading}) => {
 	const navigate = useNavigate()
 
 	const [page, setPage] = useState(0)
 	const [rowsPerPage, setRowsPerPage] = useState(10)
 	const [order, setOrder] = useState('asc')
 	const [orderBy, setOrderBy] = useState('dueDate')
-
-	const { data, isLoading } = useGetAllDocsQuery(page)
 
 	function descendingComparator(a, b, orderBy) {
 		if (b[orderBy] < a[orderBy]) {
@@ -80,51 +77,51 @@ const DocumentsPage = () => {
 		setPage(0)
 	}
 
-	const headerDetails = [
-		{
-			id: 'docNumber',
-			numeric: false,
-			disablePadding: true,
-			label: 'Doc #',
-		},
-		{
-			id: 'name',
-			numeric: false,
-			disablePadding: true,
-			label: 'Name',
-		},
-		{
-			id: 'customer',
-			numeric: false,
-			disablePadding: true,
-			label: 'Customer',
-		},
-		{
-			id: 'status',
-			numeric: false,
-			disablePadding: true,
-			label: 'Status',
-		},
-		{
-			id: 'dueDate',
-			numeric: false,
-			disablePadding: true,
-			label: 'Due',
-		},
-		{
-			id: 'payStatus',
-			numeric: false,
-			disablePadding: true,
-			label: 'Payment Status',
-		},
-		{
-			id: 'view',
-			numeric: false,
-			disablePadding: true,
-			label: 'view',
-		},
-	]
-	const rows = data?.myDocuments
+	// const headerDetails = [
+	// 	{
+	// 		id: 'docNumber',
+	// 		numeric: false,
+	// 		disablePadding: true,
+	// 		label: 'Doc #',
+	// 	},
+	// 	{
+	// 		id: 'name',
+	// 		numeric: false,
+	// 		disablePadding: true,
+	// 		label: 'Name',
+	// 	},
+	// 	{
+	// 		id: 'customer',
+	// 		numeric: false,
+	// 		disablePadding: true,
+	// 		label: 'Customer',
+	// 	},
+	// 	{
+	// 		id: 'status',
+	// 		numeric: false,
+	// 		disablePadding: true,
+	// 		label: 'Status',
+	// 	},
+	// 	{
+	// 		id: 'dueDate',
+	// 		numeric: false,
+	// 		disablePadding: true,
+	// 		label: 'Due',
+	// 	},
+	// 	{
+	// 		id: 'payStatus',
+	// 		numeric: false,
+	// 		disablePadding: true,
+	// 		label: 'Payment Status',
+	// 	},
+	// 	{
+	// 		id: 'view',
+	// 		numeric: false,
+	// 		disablePadding: true,
+	// 		label: 'view',
+	// 	},
+	// ]
+	// const rows = data?.myDocuments
 
 	const emptyRows =
 		page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows?.length) : 0
@@ -146,7 +143,7 @@ const DocumentsPage = () => {
 		if (status === 'Paid') return '#ca43ca'
 		return '#eeeeee'
 	}
-
+console.log(rows);
 	return (
 		<Container
 			component='main'
@@ -168,7 +165,7 @@ const DocumentsPage = () => {
 			{isLoading ? (
 				<Spinner />
 			) : !rows?.length ? (
-				<div>No projects</div>
+				<div>No Data</div>
 			) : (
 				<TableContainer
 					component={Paper}
@@ -194,91 +191,12 @@ const DocumentsPage = () => {
 							onRequestSort={handleRequestSort}
 							headCells={headerDetails}
 						/>
-						<TableBody>
-							{(visibleRows > 0
-								? rows?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-								: visibleRows
-							)?.map((row, index) => (
-								<StyledTableRow
-									key={row?._id}
-									sx={{
-										'&:last-child td, &:last-child th': {
-											border: 0,
-											borderRadius: '10px',
-										},
-										cursor: 'pointer',
-									}}>
-									<StyledTableCell
-										radius='10px 0 0 10px'
-										component='th'
-										fontWeight='600'
-										leftborder={`8px solid ${statusColour(row?.documentType)}`}
-										scope='row'>
-										{row?.documentNumber}
-									</StyledTableCell>
-									<StyledTableCell
-										component='th'
-										scope='row'>
-										{row?.name}
-									</StyledTableCell>
-
-									<StyledTableCell
-										component='th'
-										scope='row'>
-										{row?.customer?.name}
-									</StyledTableCell>
-
-									<StyledTableCell
-										component='th'
-										scope='row'>
-										<Chip
-											sx={{
-												backgroundColor: 'transparent',
-												color: `${statusColour(row?.documentType)}`,
-											}}
-											label={row?.documentType}></Chip>
-									</StyledTableCell>
-
-									<StyledTableCell
-										component='th'
-										scope='row'>
-										{moment(row?.dueDate).format('DD-MM-YYYY')}
-									</StyledTableCell>
-
-									<StyledTableCell
-										component='th'
-										scope='row'>
-										<Chip
-											label={row?.status}
-											sx={{
-												backgroundColor: '#eeeeee',
-												color: 'rgb(0 0 0 / 67%)',
-											}}></Chip>
-									</StyledTableCell>
-
-									<StyledTableCell radius='0 10px 10px 0'>
-										<Box
-											sx={{
-												'&:hover': {
-													cursor: 'pointer',
-												},
-											}}>
-											<VisibilityRoundedIcon
-												color='success'
-												fontSize='medium'
-												onClick={() => navigate(`/edit-doc/${row._id}`)}
-											/>
-										</Box>
-									</StyledTableCell>
-								</StyledTableRow>
-							))}
-
-							{emptyRows > 0 && (
+						{children}
+            {emptyRows > 0 && (
 								<TableRow style={{ height: 53 * emptyRows }}>
 									<TableCell colSpan={6} />
 								</TableRow>
 							)}
-						</TableBody>
 						<TableFooter>
 							<TableRow>
 								<TablePagination

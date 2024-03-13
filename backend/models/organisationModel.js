@@ -17,6 +17,10 @@ const organisationSchema = new Schema(
 			required: true,
 			trim: true,
 		},
+		logo: {
+			type: String,
+			required: false,
+		},
 		email: {
 			type: String,
 			required: true,

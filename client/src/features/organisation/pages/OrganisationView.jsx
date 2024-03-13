@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import ClearIcon from '@mui/icons-material/Clear'
+import EditIcon from '@mui/icons-material/Edit'
 import ListItemWrapper from '../../../components/ListItemWrapper'
 import {
 	Box,
@@ -24,11 +25,11 @@ const OrganisationView = () => {
 	const [loggedInUser, setLoggedInUser] = useState()
 
 	useEffect(() => {
-		const user = JSON.parse(localStorage.getItem('user'));
+		const user = JSON.parse(localStorage.getItem('user'))
 		if (user) {
-		 setLoggedInUser(user);
+			setLoggedInUser(user)
 		}
-	}, []);
+	}, [])
 
 	const orgId = loggedInUser?.organisation
 
@@ -37,7 +38,6 @@ const OrganisationView = () => {
 	const goBack = () => navigate(-1)
 
 	const { data, isLoading } = useGetSingleOrganisationQuery(orgId)
-console.log(data);
 	return (
 		<Container
 			component='main'
@@ -46,15 +46,15 @@ console.log(data);
 			<Box className='page-header'>
 				<Typography variant='h6'>{data?.organisation?.name}</Typography>
 				<Box sx={{}}>
-					{/* <Tooltip title='Edit Profile'> */}
-						{/* <Button
+					<Tooltip title='Edit Profile'>
+						<Button
 							sx={{ p: '15px 0px 15px 10px', color: '#a6aeb3' }}
 							variant='text'
 							startIcon={<EditIcon />}
 							onClick={() =>
 								navigate(`/edit-organisation/${data?.organisation?._id}`)
-							}></Button> */}
-					{/* </Tooltip> */}
+							}></Button>
+					</Tooltip>
 					<Tooltip title='Back'>
 						<Button
 							sx={{ p: '15px 0px 15px 10px', color: '#a6aeb3' }}
@@ -120,7 +120,9 @@ console.log(data);
 										<ListItemWrapper
 											label={'Phone'}
 											text={
-												data?.organisation?.phoneNumber ? `${data?.organisation?.phoneNumber}` : ''
+												data?.organisation?.phoneNumber
+													? `${data?.organisation?.phoneNumber}`
+													: ''
 											}
 										/>
 										{/* Address */}
@@ -129,8 +131,14 @@ console.log(data);
 											text={`${data?.organisation?.address}, ${data?.organisation?.city} ${data?.organisation?.state} ${data?.organisation?.postcode}`}
 										/>
 										<ListItemWrapper
-											label={data?.organisation?.settings?.productionStatusTemplates[0]?.statusTemplateName}
-											text={data?.organisation?.settings?.productionStatusTemplates[0]?.statusTemplateList}
+											label={
+												data?.organisation?.settings?.productionStatusTemplates[0]
+													?.statusTemplateName
+											}
+											text={
+												data?.organisation?.settings?.productionStatusTemplates[0]
+													?.statusTemplateList
+											}
 										/>
 									</List>
 								</Stack>

@@ -378,7 +378,7 @@ const SingleDocumentPage = () => {
 										variant='h5'
 										gutterBottom
 										sx={{ color: '#2979ff' }}>
-										{document?.currency} {addCurrencyCommas(document?.total.toFixed(2))}
+										{document?.currency} {addCurrencyCommas(document?.total?.toFixed(2))}
 									</Typography>
 								</Box>
 							</Grid>
@@ -502,7 +502,7 @@ const SingleDocumentPage = () => {
 														value={(
 															item?.quantity * item.unitPrice -
 															(item.quantity * item.unitPrice * item.discount) / 100
-														).toFixed(2)}
+														)?.toFixed(2)}
 													/>
 												</StyledTableCell>
 											</StyledTableRow>
@@ -527,7 +527,7 @@ const SingleDocumentPage = () => {
 								<Typography variant='subtitle1'>Sub total:</Typography>
 								<h4>
 									{' '}
-									{document?.currency} {addCurrencyCommas(document?.subTotal.toFixed(2))}
+									{document?.currency} {addCurrencyCommas(document?.subTotal?.toFixed(2))}
 								</h4>
 							</Box>
 
@@ -535,14 +535,14 @@ const SingleDocumentPage = () => {
 								<Typography variant='subtitle1'>
 									{`Sales Tax (${document?.rates}%):`}
 								</Typography>
-								<h4>{document?.salesTax.toFixed(2)}</h4>
+								<h4>{document?.salesTax?.toFixed(2)}</h4>
 							</Box>
 
 							<Box className='billItem'>
 								<Typography variant='subtitle1'>Cumulative Total :</Typography>
 								<h4>
 									{' '}
-									{document?.currency} {addCurrencyCommas(document?.total.toFixed(2))}
+									{document?.currency} {addCurrencyCommas(document?.total?.toFixed(2))}
 								</h4>
 							</Box>
 
@@ -551,7 +551,7 @@ const SingleDocumentPage = () => {
 								<h4>
 									{' '}
 									{document?.currency}{' '}
-									{addCurrencyCommas(totalAmountReceived.toFixed(2))}
+									{addCurrencyCommas(totalAmountReceived?.toFixed(2))}
 								</h4>
 							</Box>
 
@@ -561,7 +561,7 @@ const SingleDocumentPage = () => {
 									{' '}
 									{document?.currency}{' '}
 									{addCurrencyCommas(
-										Math.round(document?.total - totalAmountReceived).toFixed(2)
+										Math.round(document?.total - totalAmountReceived)?.toFixed(2)
 									)}
 								</h4>
 							</Box>

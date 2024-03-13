@@ -81,6 +81,7 @@ const EditProfileForm = () => {
 	}, [updateData, isSuccess, navigate])
 
 	const uploadFileHandler = async (e) => {
+		e.preventDefault()
 		const file = e.target.files[0]
 		const formData = new FormData()
 		formData.append('logo', file)
@@ -329,7 +330,7 @@ const EditProfileForm = () => {
 									fullWidth
 									id='avatar'
 									name='avatar'
-									label='Avatar'
+									label='Avatar Url'
 									value={avatar || ''}
 									onChange={(e) => setAvatar(e.target.value)}
 								/>
@@ -347,7 +348,7 @@ const EditProfileForm = () => {
 										type='file'
 										onChange={uploadFileHandler}
 									/>
-									{!uploading ? (
+									{/* {!uploading ? (
 										<Button
 											sx={{ mt: '5px' }}
 											fullWidth
@@ -361,7 +362,7 @@ const EditProfileForm = () => {
 											size={60}
 											sx={{ margin: 'auto' }}
 										/>
-									)}
+									)} */}
 								</label>
 							</Box>
 							<Box

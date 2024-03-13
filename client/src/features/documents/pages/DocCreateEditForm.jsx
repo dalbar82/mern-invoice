@@ -363,6 +363,7 @@ const DocCreateEditForm = () => {
 					onSubmit={createUpdateDocHandler}>
 					<Grid
 						container
+						style={{ overflowY: 'auto' }}
 						sx={{
 							height: '77vh',
 
@@ -416,7 +417,7 @@ const DocCreateEditForm = () => {
 										borderBottom: '1px solid #e1e1e1',
 										paddingBottom: '20px',
 									}}>
-									03. Delivery/Shipping
+									03. Address Details
 								</Button>
 							</Box>
 
@@ -673,17 +674,20 @@ const DocCreateEditForm = () => {
 										<Table
 											sx={{ minWidth: 650 }}
 											aria-label='simple-table'>
-											<TableHead>
+											<TableHead
+												style={{
+													background:
+														'linear-gradient(94deg, rgba(0,117,180,1) 0%, rgba(65,162,215,1) 100%)',
+												}}>
 												<TableRow>
 													<StyledTableCell width={'1%'}>#</StyledTableCell>
-													<StyledTableCell width={'35%'}>Product</StyledTableCell>
-													<StyledTableCell width={'17%'}>Status</StyledTableCell>
-													<StyledTableCell width={'6%'}>Qty</StyledTableCell>
+													<StyledTableCell width={'35%'}>Description</StyledTableCell>
+													<StyledTableCell width={'12%'}>Qty</StyledTableCell>
 													<StyledTableCell width={'9%'}>Unit Price</StyledTableCell>
 													<StyledTableCell width={'7%'}>Markup(%)</StyledTableCell>
 													<StyledTableCell width={'12%'}>Line Total</StyledTableCell>
 													<StyledTableCell></StyledTableCell>
-													<StyledTableCell></StyledTableCell>
+													{documentType === 'Order' && <StyledTableCell></StyledTableCell>}
 												</TableRow>
 											</TableHead>
 											<TableBody>
@@ -721,36 +725,6 @@ const DocCreateEditForm = () => {
 																value={item.itemName}
 																placeholder='Name/Description'
 															/>
-														</StyledTableCell>
-														{/* status */}
-														<StyledTableCell>
-															<TextField
-																variant='outlined'
-																className='prod-status'
-																sx={{
-																	width: '100%',
-																}}
-																select
-																id='production-status'
-																defaultValue={'Pre Production'}
-																value={item.productionStatus}
-																onChange={(e) => {
-																	const productionStatus = e.target.value
-																	setItems((currentItem) =>
-																		produce(currentItem, (v) => {
-																			v[index].productionStatus = productionStatus
-																		})
-																	)
-																}}>
-																{productionTypes.map((option, index) => (
-																	<MenuItem
-																		key={index}
-																		value={option}
-																		sx={{ padding: '16px' }}>
-																		{option}
-																	</MenuItem>
-																))}
-															</TextField>
 														</StyledTableCell>
 														{/* quantity */}
 														<StyledTableCell align='right'>
@@ -815,11 +789,11 @@ const DocCreateEditForm = () => {
 																value={(
 																	item?.quantity * item.unitPrice -
 																	(item.quantity * item.unitPrice * item.discount) / 100
-																).toFixed(2)}
+																)?.toFixed(2)}
 															/>
 														</StyledTableCell>
 
-														<StyledTableCell align='right'>
+														<StyledTableCell align='end'>
 															<IconButton
 																onClick={() => {
 																	setItems(items.filter((i) => i.itemName !== item.itemName))
@@ -836,23 +810,25 @@ const DocCreateEditForm = () => {
 																/>
 															</IconButton>
 														</StyledTableCell>
-														<StyledTableCell align='right'>
-															<IconButton
-																onClick={() => {
-																	setItems(items.filter((i) => i.itemName !== item.itemName))
-																	setSubTotal(0)
-																	setTotal(0)
-																	setSalesTax(0)
-																}}>
-																<BuildCircleOutlinedIcon
-																	style={{
-																		width: '20px',
-																		height: '20px',
-																	}}
-																	color='success'
-																/>
-															</IconButton>
-														</StyledTableCell>
+														{documentType === 'Order' && (
+															<StyledTableCell align='right'>
+																<IconButton
+																	onClick={() => {
+																		setItems(items.filter((i) => i.itemName !== item.itemName))
+																		setSubTotal(0)
+																		setTotal(0)
+																		setSalesTax(0)
+																	}}>
+																	<BuildCircleOutlinedIcon
+																		style={{
+																			width: '20px',
+																			height: '20px',
+																		}}
+																		color='success'
+																	/>
+																</IconButton>
+															</StyledTableCell>
+														)}
 													</StyledTableRow>
 												))}
 											</TableBody>
@@ -879,7 +855,7 @@ const DocCreateEditForm = () => {
 									<Grid
 										item
 										xs={12}>
-										<Typography variant='p'>DELIVERY DETAILS</Typography>
+										<Typography variant='p'>ADDRESS DETAILS</Typography>
 									</Grid>
 									<Grid
 										item
@@ -1043,12 +1019,12 @@ const DocCreateEditForm = () => {
 									<div className='billItem'>
 										<Typography variant='p'>Sub total:</Typography>
 										<p>
-											{currency} {subTotal.toFixed(2)}
+											{currency} {subTotal?.toFixed(2)}
 										</p>
 									</div>
 									<div className='billItem'>
 										<Typography variant='p'>Tax:</Typography>
-										<p>{salesTax.toFixed(1)}</p>
+										<p>{salesTax?.toFixed(1)}</p>
 									</div>
 									<div className='billItem'>
 										<Typography variant='p'>Total:</Typography>
@@ -1099,7 +1075,7 @@ const DocCreateEditForm = () => {
 											textTransform: 'uppercase',
 											fontSize: 'small',
 										}}>
-										Delivery Details
+										Address Details
 									</Typography>
 									<Typography
 										mt={3}

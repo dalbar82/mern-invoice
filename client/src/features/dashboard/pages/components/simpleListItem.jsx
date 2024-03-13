@@ -1,7 +1,6 @@
 import { Grid, Box, Typography } from '@mui/material'
 import Moment from 'react-moment'
 const simpleListItem = ({ data }) => {
-	console.log(data)
 	return (
 		<>
 			<Grid
