@@ -1,0 +1,61 @@
+.sortable-table {
+	width: 100%;
+	border-collapse: separate;
+	border-spacing: 0 9px;
+}
+.table-head {
+	background: linear-gradient(
+		194deg,
+		rgb(0, 117, 180) 0%,
+		rgb(65, 162, 215) 100%
+	);
+	height: 60px;
+	color: white;
+}
+.table-head-item {
+	text-align: start;
+	padding-left: 10px;
+}
+.table-rows {
+	height: 70px;
+	box-shadow: 1px 1px 4px 0px #00000026;
+	border-radius: 10px;
+}
+.table-rows > td {
+	text-align: start;
+	padding-left: 10px;
+}
+.header-rows > th:first-child {
+	border-radius: 10px 0 0 10px;
+}
+.header-rows > th:last-child {
+	border-radius: 0 10px 10px 0;
+}
+.table-rows > td:first-child {
+	border-radius: 10px 0 0 10px;
+}
+.table-rows > td:last-child {
+	border-radius: 0 10px 10px 0;
+}
+.table-data-true {
+	color: #4ab84a;
+}
+.table-data-false {
+	color: #e64d4d;
+}
+th.up,
+th.default,
+th.down {
+	cursor: pointer;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+th.up {
+	background-image: url('../../../images/up_arrow.png');
+}
+th.down {
+	background-image: url('../../../images/down_arrow.png');
+}
+th.default {
+	background-image: url('../../../images/default_arrows.png');
+}

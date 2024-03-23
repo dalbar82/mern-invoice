@@ -13,7 +13,9 @@ body {
 	);
 	color: rgb(31, 31, 31);
 }
-
+.basic-container {
+	width: 98%;
+}
 .footer {
 	position: fixed;
 	width: 100%;

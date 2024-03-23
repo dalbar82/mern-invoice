@@ -1,27 +1,18 @@
 import {
 	Box,
 	Container,
-	Paper,
-	Table,
-	TableBody,
-	TableCell,
-	TableContainer,
 	TableFooter,
-	TableHead,
 	TablePagination,
 	TableRow,
 	Typography,
 	Button,
 	Tooltip,
 } from '@mui/material'
-import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded'
+import SortableTable from '../../../components/Table/SortableTable/SortableTable'
 import GroupAddRoundedIcon from '@mui/icons-material/GroupAddRounded'
 import { useNavigate } from 'react-router-dom'
-import moment from 'moment'
 import { useState } from 'react'
 import Spinner from '../../../components/Spinner'
-import StyledTableRow from '../../../components/StyledTableRow'
-import StyledTableCell from '../../../components/StyledTableCell'
 import TablePaginationActions from '../../../components/TablePaginationActions'
 import useTitle from '../../../hooks/useTitle'
 import { useGetAllCustomersQuery } from '../customersApiSlice'
@@ -59,6 +50,42 @@ const CustomerListPage = () => {
 		return currentUser || ''
 	}
 
+	const headerDetails = [
+		{
+			accessor: 'name',
+			types: 'string',
+			sortable: true,
+			label: 'Name',
+		},
+		{
+			accessor: 'accountNo',
+			types: 'string',
+			sortable: true,
+			label: 'Account #',
+		},
+		{
+			accessor: 'createdAt',
+			types: 'date',
+			sortable: true,
+			label: 'Created',
+		},
+		{
+			accessor: 'city',
+			types: 'string',
+			sortable: true,
+			label: 'City',
+		},
+		{
+			accessor: '_id',
+			types: 'link',
+			sortable: false,
+			label: 'View',
+			navigateTo: (id) => {
+				navigate(`/single-customer/${id}`)
+			},
+		},
+	]
+
 	return (
 		<Container
 			component='main'
@@ -80,80 +107,10 @@ const CustomerListPage = () => {
 			{isLoading ? (
 				<Spinner />
 			) : (
-				<TableContainer component={Paper}>
-					<Table
-						sx={{ minWidth: 650 }}
-						aria-label='user table'>
-						<TableHead>
-							<TableRow>
-								<TableCell>Name</TableCell>
-								<StyledTableCell>Account #</StyledTableCell>
-								<StyledTableCell>Active Since</StyledTableCell>
-								<StyledTableCell>Contact Email</StyledTableCell>
-								<StyledTableCell>Account Manager</StyledTableCell>
-								<StyledTableCell>City</StyledTableCell>
-								<StyledTableCell>View</StyledTableCell>
-							</TableRow>
-						</TableHead>
-
-						<TableBody>
-							{rows && (
-								<>
-									{(rowsPerPage > 0
-										? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-										: rows
-									).map((row, index) => (
-										<StyledTableRow
-											key={row._id}
-											sx={{
-												'&:last-chid td, &:last-child th': { border: 0 },
-											}}>
-											{/* name */}
-											<StyledTableCell
-												component='th'
-												scope='row'
-												fontWeight='600'>
-												{row.name}
-											</StyledTableCell>
-											{/* account# */}
-											<StyledTableCell align='right'>{row.accountNo}</StyledTableCell>
-											{/* active since */}
-											<StyledTableCell align='right'>
-												{moment(row?.createdAt).format('DD-MM-YYYY')}
-											</StyledTableCell>
-											{/* Contact Email */}
-											<StyledTableCell align='left'>{row.email}</StyledTableCell>
-											{/* Account Manager */}
-											<StyledTableCell align='left'>
-												{userData ? retrieveUserName(row?.createdBy) : ''}
-											</StyledTableCell>
-											{/* City */}
-											<StyledTableCell align='left'>{row.city}</StyledTableCell>
-											{/* view */}
-											<StyledTableCell>
-												<Box>
-													<VisibilityRoundedIcon
-														color='success'
-														fontSize='medium'
-														sx={{
-															cursor: 'pointer',
-														}}
-														onClick={() => navigate(`/single-customer/${row._id}`)}
-													/>
-												</Box>
-											</StyledTableCell>
-										</StyledTableRow>
-									))}
-								</>
-							)}
-							{/* control how emptyRows are displayed */}
-							{emptyRows > 0 && (
-								<TableRow style={{ height: 53 * emptyRows }}>
-									<TableCell colSpan={6}>No data</TableCell>
-								</TableRow>
-							)}
-						</TableBody>
-						{/* footer with pagination */}
+				<div className='basic-container'>
+					<SortableTable
+						columnData={headerDetails}
+						rowData={rows}>
 						<TableFooter>
 							<TableRow>
 								<TablePagination
@@ -174,8 +131,8 @@ const CustomerListPage = () => {
 								/>
 							</TableRow>
 						</TableFooter>
-					</Table>
-				</TableContainer>
+					</SortableTable>
+				</div>
 			)}
 			{!data?.myCustomers.length && (
 				<Box mt={'20px'}>
