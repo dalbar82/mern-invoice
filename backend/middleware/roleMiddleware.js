@@ -1,9 +1,10 @@
-import { ADMIN, USER, INTERNAL_ADMIN } from '../constants/index.js'
+import { ADMIN, USER, BASIC, MOBILE } from '../constants/index.js'
 
 const ROLES = {
 	User: USER,
 	Admin: ADMIN,
-	Internal_admin: INTERNAL_ADMIN,
+	Basic: BASIC,
+	Mobile: MOBILE,
 }
 
 const checkRole = (...allowedRoles) => {

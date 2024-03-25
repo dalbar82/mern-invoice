@@ -1,26 +1,8 @@
-import {
-	Box,
-	Container,
-	Paper,
-	Table,
-	TableBody,
-	TableCell,
-	TableContainer,
-	TableFooter,
-	TableHead,
-	TablePagination,
-	TableRow,
-	Typography,
-	Checkbox,
-	Tooltip,
-} from '@mui/material'
-import moment from 'moment'
+import { Container, Paper, TableContainer } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import Spinner from '../../../components/Spinner'
-import StyledTableCell from '../../../components/StyledTableCell'
-import StyledTableRow from '../../../components/StyledTableRow'
-import TablePaginationActions from '../../../components/TablePaginationActions'
+import SortableTable from '../../../components/Table/SortableTable/SortableTable'
 import useTitle from '../../../hooks/useTitle'
 import {
 	useGetAllUsersQuery,
@@ -29,13 +11,21 @@ import {
 	useDeleteUserMutation,
 } from '../usersApiSlice'
 
+const userCosts = {
+	Admin: 50,
+	User: 20,
+	Basic: 10,
+	Mobile: 5,
+}
+
 const UserListPage = () => {
 	useTitle('Users')
 
 	const [page, setPage] = useState(0)
 	const [rowsPerPage, setRowsPerPage] = useState(10)
-
-	const { data, isLoading, isSuccess, isError, error } = useGetAllUsersQuery(
+	// const [totalCost, setTotalCost] = useState(0)
+	let totalCost = 0
+	const { data, isLoading, isError, error } = useGetAllUsersQuery(
 		'allUsersList',
 		{
 			pollingInterval: 600000,
@@ -47,6 +37,12 @@ const UserListPage = () => {
 	const [deactivateUser] = useDeactivateUserMutation()
 	const [reactivateUser] = useReactivateUserMutation()
 	const rows = data?.users
+
+	const getUserPrice = (role) => {
+		const price = userCosts[role]
+		totalCost += price
+		return price
+	}
 
 	const emptyRows =
 		page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows?.length) : 0
@@ -94,118 +90,87 @@ const UserListPage = () => {
 			const message = error.data.message
 			toast.error(message)
 		}
-	}, [error, isError])
+		// getRolesCount(rows)
+	}, [error, isError, rows])
+
+	const headerDetails = [
+		{
+			accessor: 'firstName',
+			types: 'string',
+			sortable: true,
+			label: 'First Name',
+		},
+		{
+			accessor: 'lastName',
+			types: 'string',
+			sortable: true,
+			label: 'Last Name',
+		},
+		{
+			accessor: 'roles',
+			types: 'string',
+			sortable: true,
+			label: 'Access',
+		},
+		{
+			accessor: 'createdAt',
+			types: 'date',
+			sortable: true,
+			label: 'Joined',
+		},
+		{
+			accessor: 'active',
+			types: 'boolean',
+			sortable: true,
+			label: 'Active',
+		},
+	]
 
 	return (
-		<Container
-			component='main'
-			maxWidth='xl'
-			sx={{ mt: 14, ml: 15, width: '90%' }}>
-			<Box
-				sx={{
-					display: 'flex',
-					flexDirection: 'row',
-					justifyContent: 'start',
-					alignItems: 'center',
-					borderBottom: '1px solid #e1e1e1',
-					paddingTop: '10px',
-					paddingBottom: '30px',
-					marginBottom: '20px',
-				}}>
-				<Typography variant='h6'>Users</Typography>
-			</Box>
-
-			{isLoading ? (
-				<Spinner />
-			) : (
-				<TableContainer component={Paper}>
-					<Table
-						sx={{ minWidth: 650 }}
-						aria-label='user table'>
-						<TableHead>
-							<TableRow>
-								<TableCell>Email</TableCell>
-								<StyledTableCell align='right'>Username</StyledTableCell>
-								<StyledTableCell align='right'>Roles</StyledTableCell>
-								<StyledTableCell align='right'>Joined</StyledTableCell>
-								<StyledTableCell align='right'>Active</StyledTableCell>
-							</TableRow>
-						</TableHead>
-
-						<TableBody>
-							{isSuccess && (
-								<>
-									{(rowsPerPage > 0
-										? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-										: rows
-									).map((row, index) => (
-										<StyledTableRow
-											key={row._id}
-											sx={{
-												'&:last-chid td, &:last-child th': { border: 0 },
-											}}>
-											<StyledTableCell
-												component='th'
-												scope='row'
-												fontWeight='600'>
-												{row.email}
-											</StyledTableCell>
-											<StyledTableCell align='right'>{row.username}</StyledTableCell>
-											<StyledTableCell align='right'>
-												{row.roles.toString().replace(',', ', ')}
-											</StyledTableCell>
-											<StyledTableCell align='right'>
-												{moment(row?.createdAt).format('DD-MM-YYYY')}
-											</StyledTableCell>
-											<StyledTableCell align='left'>
-												<Tooltip title='Uncheck to deactivate user'>
-													<Checkbox
-														color='success'
-														checked={row?.active}
-														onClick={() =>
-															row?.active === true
-																? deactivateUserHandler(row._id)
-																: reactivateUserHandler(row._id)
-														}
-													/>
-												</Tooltip>
-											</StyledTableCell>
-										</StyledTableRow>
-									))}
-								</>
-							)}
-							{/* control how emptyRows are displayed */}
-							{emptyRows > 0 && (
-								<TableRow style={{ height: 53 * emptyRows }}>
-									<TableCell colSpan={6} />
-								</TableRow>
-							)}
-						</TableBody>
-						{/* footer with pagination */}
-						<TableFooter>
-							<TableRow>
-								<TablePagination
-									rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-									colSpan={9}
-									count={rows?.length || 0}
-									rowsPerPage={rowsPerPage}
-									page={page}
-									SelectProps={{
-										inputProps: {
-											'aria-label': 'rows per page',
-										},
-										native: true,
-									}}
-									onPageChange={handleChangePage}
-									onRowsPerPageChange={handleChangeRowsPerPage}
-									ActionsComponent={TablePaginationActions}
-								/>
-							</TableRow>
-						</TableFooter>
-					</Table>
-				</TableContainer>
-			)}
-		</Container>
+		<div className='basic-container'>
+			<div style={{ display: 'grid', gap: '50px' }}>
+				<div
+					style={{
+						display: 'inline-grid',
+						gridColumnStart: 1,
+						gridColumnEnd: 9,
+					}}>
+					{isLoading ? (
+						<Spinner />
+					) : (
+						<SortableTable
+							columnData={headerDetails}
+							rowData={rows}></SortableTable>
+					)}
+				</div>
+				<div
+					style={{
+						display: 'inline-grid',
+						gridColumnStart: 9,
+						gridColumnEnd: 12,
+						backgroundColor: '#f6fafb',
+						borderRadius: '4px',
+						marginTop: '10px',
+						padding: '25px',
+					}}>
+					<h4>Payment summary</h4>
+					{rows?.map((row, i) => {
+						return (
+							<div
+								style={{ display: 'flex', justifyContent: 'space-between' }}
+								key={i}>
+								<div>{row?.roles[0]}</div>
+								<div>${getUserPrice(row?.roles[0])}</div>
+							</div>
+						)
+					})}
+					<div style={{ display: 'flex', justifyContent: 'space-between' }}>
+						<h4>Total monthly cost:</h4>
+						<p>${totalCost}</p>
+					</div>
+				</div>
+			</div>
+		</div>
 	)
 }
 
