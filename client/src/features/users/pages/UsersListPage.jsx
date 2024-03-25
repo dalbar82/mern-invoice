@@ -44,18 +44,6 @@ const UserListPage = () => {
 		return price
 	}
 
-	const emptyRows =
-		page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows?.length) : 0
-
-	const handleChangePage = (event, newPage) => {
-		setPage(newPage)
-	}
-
-	const handleChangeRowsPerPage = (event) => {
-		setRowsPerPage(parseInt(event.target.value, 10))
-		setPage(0)
-	}
-
 	const deactivateUserHandler = async (id) => {
 		try {
 			await deactivateUser(id).unwrap()
