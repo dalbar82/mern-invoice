@@ -12,6 +12,7 @@ import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'
 import CorporateFareIcon from '@mui/icons-material/CorporateFare'
 import DashboardSharpIcon from '@mui/icons-material/DashboardSharp'
 import PersonSearchSharpIcon from '@mui/icons-material/PersonSearchSharp'
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
 import WorkHistorySharpIcon from '@mui/icons-material/WorkHistorySharp'
 import useAuthUser from '../../hooks/useAuthUser'
 
@@ -63,6 +64,21 @@ const MenuList = () => {
 								/>
 							</ListItemIcon>
 							<MenuText text='Projects' />
+						</ListItemButton>
+					</ListItem>
+				</StyledList>
+
+				<StyledList>
+					<ListItem disablePadding>
+						<ListItemButton
+							onClick={() => navigate('/scheduler')}
+							style={{ paddingTop: '0', paddingBottom: '0' }}>
+							<ListItemIcon>
+								<CalendarMonthIcon
+									sx={{ margin: '25px 0', fontSize: 25, color: '#fff' }}
+								/>
+							</ListItemIcon>
+							<MenuText text='Scheduling' />
 						</ListItemButton>
 					</ListItem>
 				</StyledList>

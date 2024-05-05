@@ -1,3 +1,14 @@
+@import '../node_modules/@syncfusion/ej2-base/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-buttons/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-calendars/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-dropdowns/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-inputs/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-lists/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-navigations/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-popups/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-splitbuttons/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-react-schedule/styles/material.css';
+
 body {
 	margin: 0;
 	padding: 0;
@@ -15,6 +26,21 @@ body {
 }
 .basic-container {
 	width: 98%;
+}
+.grid-item-container {
+	overflow-y: auto;
+	border-radius: 8px;
+	height: 100%;
+}
+.two-column-grid-parent {
+	display: grid;
+	gap: 50px;
+	grid-template-columns: repeat(2, 1fr);
+}
+.three-column-grid-parent {
+	display: grid;
+	gap: 50px;
+	grid-template-columns: repeat(3, 1fr);
 }
 .footer {
 	position: fixed;

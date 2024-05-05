@@ -33,6 +33,8 @@ import DocumentsPage from './features/documents/pages/DocumentsPage'
 import SingleDocumentPage from './features/documents/pages/SingleDocumentPage'
 import OrganisationView from './features/organisation/pages/OrganisationView'
 import OrganisationEditForm from './features/organisation/pages/OrganisationEditForm'
+import SchedulerPage from './features/scheduler/pages/SchedulerPage'
+import React from 'react'
 
 const App = () => {
 	useTitle('Job Forge - Home')
@@ -71,7 +73,12 @@ const App = () => {
 						element={<PasswordResetPage />}
 					/>
 					{/* Private Routes - Users */}
-					<Route element={<AuthRequired allowedRoles={[ROLES.User]} />}>
+					<Route
+						element={
+							<AuthRequired
+								allowedRoles={[ROLES.Admin, ROLES.User, ROLES.Basic, ROLES.Mobile]}
+							/>
+						}>
 						<Route
 							path='profile'
 							element={<ProfilePage />}
@@ -80,6 +87,10 @@ const App = () => {
 						<Route
 							path='customers'
 							element={<CustomerListPage />}
+						/>
+						<Route
+							path='scheduler'
+							element={<SchedulerPage />}
 						/>
 						<Route
 							path='create-customer'

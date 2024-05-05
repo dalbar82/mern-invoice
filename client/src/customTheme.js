@@ -3,7 +3,7 @@ import { createTheme } from '@mui/material'
 export const customTheme = createTheme({
 	typography: {
 		fontFamily: ['Poppins'],
-		color: 'rgb(31, 31, 31)'
+		color: 'rgb(31, 31, 31)',
 	},
 	palette: {
 		background: {
@@ -34,9 +34,10 @@ export const customTheme = createTheme({
 				// Name of the slot
 				paper: {
 					// Some CSS
-					background: 'linear-gradient(94deg, rgba(0,117,180,1) 0%, rgba(65,162,215,1) 100%)',
+					background:
+						'linear-gradient(94deg, rgb(0 117 180) 0%, rgb(65 162 215 / 92%) 100%)',
 					color: '#fff',
-					borderRight: 'none'
+					borderRight: 'none',
 				},
 			},
 		},

@@ -32,12 +32,12 @@ const organisationSchema = new Schema(
 			],
 		},
 		settings: {
-			productionStatusTemplates: [
+			jobWorkflowTemplates: [
 				{
-					statusTemplateName: { type: String, default: 'Standard' },
-					statusTemplateList: {
+					workflowTemplateName: { type: String, default: 'Standard' },
+					workflowTemplateStagesList: {
 						type: Array,
-						default: ['Pre Production', 'Production', 'Complete'],
+						default: ['Ready', 'In Production', 'Complete'],
 					},
 				},
 			],

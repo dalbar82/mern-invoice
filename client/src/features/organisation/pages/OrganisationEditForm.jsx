@@ -1,33 +1,16 @@
-import { useEffect, useState, useRef } from 'react'
-import DoneIcon from '@mui/icons-material/Done'
-import axios from 'axios'
-import AccountCircleIcon from '@mui/icons-material/AccountCircle'
-import {
-	Box,
-	Button,
-	Container,
-	Tooltip,
-	Grid,
-	styled,
-	CircularProgress,
-	TextField,
-	Typography,
-} from '@mui/material'
+import { useEffect, useState } from 'react'
+import { Box, Button, Container, Grid, Typography } from '@mui/material'
 import UserListPage from '../../users/pages/UsersListPage'
+import Workflow from './Workflow'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-
 import Spinner from '../../../components/Spinner'
 import {
 	useGetSingleOrganisationQuery,
 	useUpdateOrganisationInfoMutation,
 } from '../organisationApiSlice'
-
 import '../../../styles/pageHeader.css'
-
-const Input = styled('input')({
-	display: 'none',
-})
+import OrganisationDetails from './OrganisationDetails'
 
 const OrganisationEditForm = () => {
 	const [loggedInUser, setLoggedInUser] = useState()
@@ -42,7 +25,9 @@ const OrganisationEditForm = () => {
 	const navigate = useNavigate()
 
 	const orgId = loggedInUser?.organisation
+
 	const { data, isLoading } = useGetSingleOrganisationQuery(orgId)
+
 	const [
 		updateOrg,
 		{
@@ -67,7 +52,6 @@ const OrganisationEditForm = () => {
 	const [country, setCountry] = useState('')
 	const [settings, setSettings] = useState('')
 	const [logo, setLogo] = useState('')
-	const [uploading, setUploading] = useState(false)
 
 	useEffect(() => {
 		if (updateOrgSuccess) {
@@ -94,32 +78,6 @@ const OrganisationEditForm = () => {
 			setSettings(organisation.settings)
 		}
 	}, [organisation])
-
-	const inputRef = useRef(null)
-
-	const handleOpenFileInput = () => {
-		inputRef.current.click()
-	}
-
-	const uploadFileHandler = async (e) => {
-		const file = e.target.files[0]
-		const formData = new FormData()
-		formData.append('logo', file)
-		setUploading(true)
-
-		try {
-			const config = {
-				headers: {
-					'Content-Type': 'multipart/form-data',
-				},
-			}
-			const { data } = await axios.patch('/api/v1/upload', formData, config)
-			setLogo(data)
-			setUploading(false)
-		} catch (error) {
-			setUploading(false)
-		}
-	}
 
 	const updateOrgHandler = async (e) => {
 		e.preventDefault()
@@ -167,9 +125,6 @@ const OrganisationEditForm = () => {
 			component='main'
 			maxWidth='xl'
 			sx={{ mt: 14, ml: 15, width: '90%' }}>
-			<Box className='page-header'>
-				<Typography variant='h6'>Organisation</Typography>
-			</Box>
 			{isLoading || updateOrgLoading ? (
 				<Spinner />
 			) : (
@@ -184,6 +139,27 @@ const OrganisationEditForm = () => {
 					noValidate
 					autoComplete='off'
 					onSubmit={updateOrgHandler}>
+					<div className='basic-container'>
+						<Box className='page-header'>
+							<Typography variant='h6'>Organisation</Typography>
+							<Button
+								variant='contained'
+								type='submit'
+								size='large'
+								sx={{
+									marginTop: '20px',
+									borderColor: 'rgb(17,65,141)',
+
+									'&:hover': {
+										bgcolor: 'rgb(17,65,141)',
+										color: 'white',
+										borderColor: 'rgb(17,65,141)',
+									},
+								}}>
+								SUBMIT
+							</Button>
+						</Box>
+					</div>
 					<Grid
 						container
 						sx={{
@@ -245,265 +221,31 @@ const OrganisationEditForm = () => {
 							{/* Project info */}
 
 							{viewOrganisationDetails && (
-								<Grid
-									rowSpacing={4}
-									container
-									sx={{
-										padding: '24px 24px',
-									}}
-									justifyContent='space-between'>
-									<Grid
-										style={{ paddingTop: '0', display: 'flex', flexDirection: 'column' }}
-										item
-										xs={6}
-										mt={3}>
-										<Grid
-											item
-											mt={3}
-											xs={12}>
-											{organisation && (
-												<Grid
-													container
-													rowSpacing={3}>
-													<Grid
-														item
-														xs={12}>
-														<TextField
-															required
-															sx={{ marginRight: '20px', width: '96%' }}
-															label='Name'
-															value={name}
-															onChange={(e) => {
-																setName(e.target.value)
-															}}
-														/>
-													</Grid>
-													<Grid
-														item
-														md={12}>
-														<TextField
-															required
-															sx={{ marginRight: '20px', width: '96%' }}
-															label='Billing email'
-															value={email}
-															onChange={(e) => {
-																setEmail(e.target.value)
-															}}
-														/>
-													</Grid>
-													<Grid
-														item
-														md={12}>
-														<TextField
-															required
-															sx={{ marginRight: '20px', width: '96%' }}
-															label='Billing phoneNumber number'
-															value={phoneNumber}
-															onChange={(e) => {
-																setPhoneNumber(e.target.value)
-															}}
-														/>
-													</Grid>
-													<Grid
-														item
-														md={12}>
-														<TextField
-															required
-															sx={{ marginRight: '20px', width: '96%' }}
-															label='Street'
-															value={streetAddress}
-															onChange={(e) => {
-																setStreetAddress(e.target.value)
-															}}
-														/>
-													</Grid>
-													<Grid
-														item
-														md={4}>
-														<TextField
-															required
-															sx={{ marginRight: '20px', width: '88%' }}
-															label='Suburb/Town'
-															value={city}
-															onChange={(e) => {
-																setCity(e.target.value)
-															}}
-														/>
-													</Grid>
-													<Grid
-														item
-														md={4}>
-														<TextField
-															required
-															sx={{ marginRight: '20px', width: '88%' }}
-															label='State'
-															value={state}
-															onChange={(e) => {
-																setState(e.target.value)
-															}}
-														/>
-													</Grid>
-													<Grid
-														item
-														md={4}>
-														<TextField
-															required
-															sx={{ marginRight: '20px', width: '88%' }}
-															label='Postcode'
-															value={postcode}
-															onChange={(e) => {
-																setPostcode(e.target.value)
-															}}
-														/>
-													</Grid>
-													<Grid
-														item
-														md={12}>
-														<TextField
-															required
-															sx={{ marginRight: '20px', width: '96%' }}
-															label='Country'
-															value={country}
-															onChange={(e) => {
-																setCountry(e.target.value)
-															}}
-														/>
-													</Grid>
-													<Grid
-														item
-														md={12}>
-														<Button
-															variant='contained'
-															type='submit'
-															size='large'
-															sx={{
-																marginTop: '20px',
-																borderColor: 'rgb(17,65,141)',
-
-																'&:hover': {
-																	bgcolor: 'rgb(17,65,141)',
-																	color: 'white',
-																	borderColor: 'rgb(17,65,141)',
-																},
-															}}>
-															SUBMIT
-														</Button>
-													</Grid>
-												</Grid>
-											)}
-										</Grid>
-									</Grid>
-									{/* logo box */}
-									<Grid
-										item
-										style={{ paddingTop: '23px' }}
-										md={6}
-										sm={12}>
-										<Box
-											sx={{
-												backgroundColor: '#f6fafb',
-												borderRadius: '4px',
-												margin: '0 0 0 20px',
-												width: '90%',
-												height: '100%',
-												padding: '25px',
-											}}>
-											<Box
-												borderRadius={1}
-												sx={{
-													display: 'flex',
-													alignContent: 'center',
-													justifyContent: 'center',
-												}}>
-												{logo ? (
-													<img
-														src={logo}
-														alt='logo'
-														style={{
-															width: '350px',
-															height: '350px',
-															objectFit: 'cover',
-															marginBotton: '20px',
-														}}
-													/>
-												) : (
-													<AccountCircleIcon
-														style={{
-															width: '350px',
-															height: '350px',
-															objectFit: 'cover',
-															marginBotton: '20px',
-														}}
-														color='info'
-													/>
-												)}
-											</Box>
-											<Box
-												sx={{
-													fontWeight: '400',
-													paddingBottom: '20px',
-													marginBottom: '20px',
-													display: 'flex',
-													flexDirection: 'column',
-													justifyContent: 'space-between',
-												}}>
-												<TextField
-													sx={{
-														marginTop: '20px',
-														marginBottom: '10px',
-													}}
-													variant='filled'
-													fullWidth
-													id='logo'
-													name='logo'
-													label='Logo Url'
-													value={logo}
-													onChange={(e) => {
-														setLogo(e.target.value)
-													}}
-												/>
-												<label
-													htmlFor='logo'
-													style={{
-														width: '100%',
-														display: 'flex',
-														flexDirection: 'column',
-													}}>
-													<input
-														accept='.jpg, .png'
-														id='logo'
-														name='logo'
-														type='file'
-														style={{ display: 'none' }}
-														ref={inputRef}
-														onChange={uploadFileHandler}
-													/>
-													{!uploading ? (
-														<label>
-															<Button
-																sx={{ mt: '5px' }}
-																fullWidth
-																size='large'
-																variant='contained'
-																component='span'
-																onClick={handleOpenFileInput}>
-																Upload Company Logo or Paste Url
-															</Button>
-														</label>
-													) : (
-														<CircularProgress
-															size={60}
-															sx={{ margin: 'auto' }}
-														/>
-													)}
-												</label>
-											</Box>
-										</Box>
-									</Grid>
-								</Grid>
+								<OrganisationDetails
+									organisation={organisation}
+									email={email}
+									emailUpdate={(v) => setEmail(v)}
+									phoneNumber={phoneNumber}
+									phoneNumberUpdate={(v) => setPhoneNumber(v)}
+									abn={abn}
+									abnUpdate={(v) => setAbn(v)}
+									name={name}
+									nameUpdate={(v) => setName(v)}
+									streetAddress={streetAddress}
+									streetAddressUpdate={(v) => setStreetAddress(v)}
+									city={city}
+									cityUpdate={(v) => setCity(v)}
+									state={state}
+									stateUpdate={(v) => setState(v)}
+									postcode={postcode}
+									postcodeUpdate={(v) => setPostcode(v)}
+									country={country}
+									countryUpdate={(v) => setCountry(v)}
+									logo={logo}
+									logoUpdate={(v) => setLogo(v)}
+								/>
 							)}
-
-							{/* items */}
+							{/* users */}
 							{viewOrganisationSettings && (
 								<Grid
 									rowSpacing={1}
@@ -514,75 +256,18 @@ const OrganisationEditForm = () => {
 									<UserListPage />
 								</Grid>
 							)}
-							{/*  details*/}
+							{/*workflow*/}
 							{viewOrganisationWorkflow && (
 								<Grid
-									rowSpacing={4}
+									rowSpacing={1}
 									container
 									sx={{
 										padding: '24px 24px',
 									}}>
-									<Grid
-										item
-										xs={12}>
-										<Typography variant='p'> DETAILS</Typography>
-									</Grid>
-									<Grid
-										item
-										xs={12}>
-										<TextField
-											fullWidth
-											variant='outlined'
-											label='Street Address'
-											value={streetAddress}
-											onChange={(e) => setStreetAddress(e.target.value)}
-										/>
-									</Grid>
-
-									<Grid
-										item
-										xs={12}>
-										<TextField
-											fullWidth
-											variant='outlined'
-											label='City/Suburb'
-											value={city}
-											onChange={(e) => setCity(e.target.value)}
-										/>
-									</Grid>
-									<Grid
-										item
-										xs={12}>
-										<TextField
-											fullWidth
-											variant='outlined'
-											label='State/Territory'
-											value={state}
-											onChange={(e) => setState(e.target.value)}
-										/>
-									</Grid>
-									<Grid
-										item
-										xs={12}>
-										<TextField
-											fullWidth
-											variant='outlined'
-											label='Postcode'
-											value={postcode}
-											onChange={(e) => setPostcode(e.target.value)}
-										/>
-									</Grid>
-									<Grid
-										item
-										xs={12}>
-										<TextField
-											fullWidth
-											variant='outlined'
-											label='Country'
-											value={country}
-											onChange={(e) => setCountry(e.target.value)}
-										/>
-									</Grid>
+									<Workflow
+										settings={settings}
+										settingsUpdate={(v) => setSettings(v)}
+									/>
 								</Grid>
 							)}
 						</Grid>
