@@ -17,6 +17,7 @@ import customerRoutes from './routes/customerRoutes.js'
 import documentRoutes from './routes/documentRoutes.js'
 import uploadRoutes from './routes/uploadRoutes.js'
 import organisationRoutes from './routes/organisationRoutes.js'
+import appointmentRoutes from './routes/appointmentRoutes.js'
 
 await connectionToDB()
 
@@ -51,6 +52,7 @@ app.use('/api/v1/user', apiLimiter, userRoutes)
 app.use('/api/v1/customer', apiLimiter, customerRoutes)
 app.use('/api/v1/document', apiLimiter, documentRoutes)
 app.use('/api/v1/upload', apiLimiter, uploadRoutes)
+app.use('/api/v1/appointment', apiLimiter, appointmentRoutes)
 
 app.use(notFound)
 app.use(errorHandler)
