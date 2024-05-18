@@ -1,5 +1,5 @@
 import asyncHandler from 'express-async-handler'
-import Appointments from '../../models/appointmentModel.js'
+import Appointment from '../../models/appointmentModel.js'
 
 // $-title   Create Appointment
 // $-path    POST /api/v1/appointment/create
@@ -9,13 +9,8 @@ const createAppointment = asyncHandler(async (req, res) => {
 	const {
 		subject,
 		description,
-		contactEmail,
-		contactName,
-		contactPhoneNumber,
-		streetAddress,
-		city,
-		country,
-		postcode,
+		contacts,
+		location,
 		startTime,
 		endTime,
 		assignedUsers,
@@ -36,17 +31,12 @@ const createAppointment = asyncHandler(async (req, res) => {
 		)
 	}
 
-	const newAppointment = new Appointments({
+	const newAppointment = new Appointment({
 		createdBy: req.user._id,
 		subject,
 		description,
-		contactEmail,
-		contactName,
-		contactPhoneNumber,
-		streetAddress,
-		city,
-		country,
-		postcode,
+		contacts,
+		location,
 		startTime,
 		endTime,
 		assignedUsers,
