@@ -10,6 +10,7 @@
     "@mui/material": "^5.13.5",
     "@mui/x-date-pickers": "^6.8.0",
     "@reduxjs/toolkit": "^1.9.5",
+    "@syncfusion/ej2-react-buttons": "^25.2.4",
     "@syncfusion/ej2-react-schedule": "^25.1.41",
     "@tanstack/react-table": "^8.13.2",
     "@testing-library/jest-dom": "^5.16.5",

@@ -1,5 +1,8 @@
-import { useState } from 'react'
-import { useGetAllAppointmentsQuery } from '../../schedulerApiSlice'
+import { useState, useRef } from 'react'
+import {
+	useGetAllAppointmentsQuery,
+	useCreateAppointmentMutation,
+} from '../../schedulerApiSlice'
 import { useGetAllUsersQuery } from '../../../users/usersApiSlice'
 
 import {
@@ -13,6 +16,18 @@ import {
 	ResourceDirective,
 } from '@syncfusion/ej2-react-schedule'
 import { registerLicense, createElement } from '@syncfusion/ej2-base'
+import { L10n } from '@syncfusion/ej2-base';
+
+L10n.load({
+  'en-US': {
+    'schedule': {
+      'saveButton': 'Add',
+      'cancelButton': 'Close',
+      'deleteButton': 'Remove',
+      'newEvent': 'Add Event',
+    },
+  }
+});
 
 // Registering Syncfusion license key
 registerLicense(
@@ -29,6 +44,10 @@ const fieldsData = {
 }
 function SchedulingWrapper() {
 	const { data: appointmentData } = useGetAllAppointmentsQuery()
+
+	const [createAppointment, { isLoading, isSuccess }] =
+		useCreateAppointmentMutation()
+
 	const { data: users } = useGetAllUsersQuery()
 
 	const eventSettings = {
@@ -41,9 +60,9 @@ function SchedulingWrapper() {
 		var value = e.target.value
 		console.log(value)
 	}
+
 	const onPopupOpen = (args) => {
 		if (args.type === 'Editor') {
-			console.log(args)
 			if (!args.element.querySelector('.custom-field-row')) {
 				let row = createElement('div', { className: 'custom-field-row' })
 				let formElement = args.element.querySelector('.e-schedule-form')
@@ -56,14 +75,31 @@ function SchedulingWrapper() {
 					attrs: {
 						type: 'text',
 						name: 'contactEmail',
-						value: args?.data?.contacts.map(contact => contact.contactEmail),
+						value: args?.data?.contacts?.map((contact) => contact.contactEmail) || '',
 					},
 				})
 				inputEle.oninput = validation
 				container.appendChild(inputEle)
 				row.appendChild(container)
-				// inputEle.setAttribute('name', 'EventType')
+				inputEle.setAttribute('name', 'EventType')
 			}
+		}
+	}
+	const saveUpdateAppointment = async (properties) => {
+		console.log('hjgjhhjjhjh', properties)
+		try {
+			const appointmentInfo = {
+				subject: properties?.data?.subject,
+				description: properties?.data?.description,
+				contacts: properties?.data?.contactEmail,
+				location: properties?.data?.location,
+				startTime: properties?.data?.startTime,
+				endTime: properties?.data?.endTime,
+				assignedUsers: properties?.data?.emails,
+			}
+			await createAppointment(appointmentInfo)
+		} catch (err) {
+			console.error(err)
 		}
 	}
 	return (
@@ -71,6 +107,7 @@ function SchedulingWrapper() {
 			<ScheduleComponent
 				eventSettings={eventSettings}
 				popupOpen={onPopupOpen}
+				popupClose={saveUpdateAppointment}
 				height='80vh'>
 				<ResourcesDirective>
 					<ResourceDirective
