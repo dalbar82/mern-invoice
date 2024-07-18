@@ -4,7 +4,7 @@ import handlebars from 'handlebars'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import transporter from '../helpers/emailTransport.js'
-import { systemLogs } from './logger.js'
+import { systemLogs } from './Logger.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)

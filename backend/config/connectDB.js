@@ -1,6 +1,6 @@
 import chalk from 'chalk'
 import mongoose from 'mongoose'
-import { systemLogs } from '../utils/logger.js'
+import { systemLogs } from '../utils/Logger.js'
 
 const connectionToDb = async () => {
 	try {
