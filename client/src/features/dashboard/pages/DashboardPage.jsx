@@ -63,7 +63,7 @@ const DashboardPage = () => {
 								<Typography
 									variant='h4'
 									style={{ padding: '10px 0px 10px 0px', fontWeight: '700' }}>
-									{user.firstName ? user.firstName.toUpperCase() : ''}
+									{user?.firstName ? user?.firstName?.toUpperCase() : ''}
 								</Typography>
 							</Box>
 							<Typography
