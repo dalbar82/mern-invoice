@@ -20,11 +20,11 @@ FROM base as build
 
 # Install packages needed to build node modules
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential node-gyp pkg-config python
+    apt-get install --no-install-recommends -y build-essential node-gyp pkg-config python 
 
 # Install node modules for backend
 COPY --link package-lock.json package.json ./backend/
-RUN npm ci --prefix ./backend
+RUN npm install --prefix ./backend
 
 # Copy backend application code
 COPY --link backend ./backend

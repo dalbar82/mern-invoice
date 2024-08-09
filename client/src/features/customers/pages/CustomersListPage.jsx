@@ -92,7 +92,7 @@ const CustomerListPage = () => {
 			maxWidth='xl'
 			sx={{ mt: 14, ml: 15, width: '90%' }}>
 			<Box className='page-header'>
-				<Typography variant='h6'>Customers</Typography>
+				<Typography variant='h6'>Customer</Typography>
 				<Box>
 					<Tooltip title='Add Customer'>
 						<Button
