@@ -97,8 +97,8 @@ const ProfileInfo = ({ user }) => {
 						sx={{ p: 0.5 }}>
 						<Avatar
 							sx={{ bgcolor: lightBlue[900], fontSize: '1rem', fontWeight: '500' }}>
-							{user?.firstName?.charAt(0).toUpperCase()}
-							{user?.lastName?.charAt(0).toUpperCase()}
+							{user?.firstName?.charAt(0)?.toUpperCase()}
+							{user?.lastName?.charAt(0)?.toUpperCase()}
 						</Avatar>
 					</Stack>
 				)}
@@ -154,8 +154,8 @@ const ProfileInfo = ({ user }) => {
 												/>
 												<Stack>
 													<Typography variant='h6'>
-														{user.firstName?.charAt(0).toUpperCase()}{' '}
-														{user.lastName?.charAt(0).toUpperCase()}
+														{user.firstName?.charAt(0)?.toUpperCase()}{' '}
+														{user.lastName?.charAt(0)?.toUpperCase()}
 													</Typography>
 												</Stack>
 											</Stack>
@@ -171,12 +171,12 @@ const ProfileInfo = ({ user }) => {
 														fontSize: '1rem',
 														fontWeight: '500',
 													}}>
-													{user?.firstName?.charAt(0).toUpperCase()}
-													{user?.lastName?.charAt(0).toUpperCase()}
+													{user?.firstName?.charAt(0)?.toUpperCase()}
+													{user?.lastName?.charAt(0)?.toUpperCase()}
 												</Avatar>
 												<Stack>
 													<Typography variant='h6'>
-														{user?.firstName.toUpperCase()} {user?.lastName.toUpperCase()}
+														{user?.firstName?.toUpperCase()} {user?.lastName?.toUpperCase()}
 													</Typography>
 												</Stack>
 											</Stack>

@@ -32,9 +32,7 @@ const CustomerListPage = () => {
 
 	const [page, setPage] = useState(0);
 	const [rowsPerPage, setRowsPerPage] = useState(10);
-
 	const { data, isLoading } = useGetAllCustomersQuery(page);
-
 	const rows = data?.myCustomers || [];
 
 	const handleChangePage = (event, newPage) => {
