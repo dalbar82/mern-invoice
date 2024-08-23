@@ -7,99 +7,116 @@ import {
 	Typography,
 	Button,
 	Tooltip,
-} from '@mui/material'
-import SortableTable from '../../../components/Table/SortableTable/SortableTable'
-import GroupAddRoundedIcon from '@mui/icons-material/GroupAddRounded'
-import { useNavigate } from 'react-router-dom'
-import { useState } from 'react'
-import Spinner from '../../../components/Spinner'
-import TablePaginationActions from '../../../components/TablePaginationActions'
-import useTitle from '../../../hooks/useTitle'
-import { useGetAllCustomersQuery } from '../customersApiSlice'
-import { useGetAllUsersQuery } from '../../users/usersApiSlice'
-import '../../../styles/pageHeader.css'
+} from '@mui/material';
+import GroupAddRoundedIcon from '@mui/icons-material/GroupAddRounded';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import { useNavigate } from 'react-router-dom';
+import { useMemo, useState } from 'react';
+import Spinner from '../../../components/Spinner';
+import TablePaginationActions from '../../../components/TablePaginationActions';
+import useTitle from '../../../hooks/useTitle';
+import { useGetAllCustomersQuery } from '../customersApiSlice';
+import { useGetAllUsersQuery } from '../../users/usersApiSlice';
+import '../../../styles/pageHeader.css';
+import '../../../styles/Table.css';
+import {
+	MaterialReactTable,
+	useMaterialReactTable,
+} from 'material-react-table';
 
 const CustomerListPage = () => {
-	const { data: userData } = useGetAllUsersQuery()
+	const { data: userData } = useGetAllUsersQuery();
 
-	useTitle('Customers')
-	const navigate = useNavigate()
+	useTitle('Customers');
+	const navigate = useNavigate();
 
-	const [page, setPage] = useState(0)
-	const [rowsPerPage, setRowsPerPage] = useState(10)
+	const [page, setPage] = useState(0);
+	const [rowsPerPage, setRowsPerPage] = useState(10);
 
-	const { data, isLoading } = useGetAllCustomersQuery(page)
+	const { data, isLoading } = useGetAllCustomersQuery(page);
 
-	const rows = data?.myCustomers
-
-	const emptyRows =
-		page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows?.length) : 0
+	const rows = data?.myCustomers || [];
 
 	const handleChangePage = (event, newPage) => {
-		setPage(newPage)
-	}
+		setPage(newPage);
+	};
 
 	const handleChangeRowsPerPage = (event) => {
-		setRowsPerPage(parseInt(event.target.value, 10))
-		setPage(0)
-	}
+		setRowsPerPage(parseInt(event.target.value, 10));
+		setPage(0);
+	};
 
 	const retrieveUserName = (id) => {
-		const currentUser = userData.users?.find((user) => user._id === id)?.username
+		const currentUser = userData?.users?.find((user) => user._id === id)?.username;
+		return currentUser || '';
+	};
 
-		return currentUser || ''
-	}
-
-	const headerDetails = [
-		{
-			accessor: 'name',
-			types: 'string',
-			sortable: true,
-			label: 'Name',
-		},
-		{
-			accessor: 'accountNo',
-			types: 'string',
-			sortable: true,
-			label: 'Account #',
-		},
-		{
-			accessor: 'createdAt',
-			types: 'date',
-			sortable: true,
-			label: 'Created',
-		},
-		{
-			accessor: 'city',
-			types: 'string',
-			sortable: true,
-			label: 'City',
-		},
-		{
-			accessor: '_id',
-			types: 'link',
-			sortable: false,
-			label: 'View',
-			navigateTo: (id) => {
-				navigate(`/single-customer/${id}`)
+	const columns = useMemo(
+		() => [
+			{
+				accessorKey: 'name',
+				header: 'Name',
 			},
-		},
-	]
+			{
+				accessorKey: 'accountNo',
+				header: 'Account #',
+			},
+			{
+				accessorKey: 'createdAt',
+				header: 'Created',
+				Cell: ({ cell }) => new Date(cell.getValue()).toLocaleDateString(),
+			},
+			{
+				accessorKey: 'city',
+				header: 'City',
+			},
+			{
+				accessorKey: '_id',
+				header: 'View',
+				Cell: ({ cell }) => (
+					<Button
+					sx={{color: '#2e7d32' }}
+					variant='text'
+					startIcon={<VisibilityIcon style={{fontSize:26}} />}
+					onClick={() => navigate(`/single-customer/${cell.getValue()}`)}
+				/>
+				),
+			},
+		],
+		[navigate],
+	);
+
+	const tableInstance = useMaterialReactTable({
+		columns,
+		data: rows,
+		enableGlobalFilter: true, // Only enable the global filter for search functionality
+		enableSorting: true, // Disable sorting
+		enableColumnFilters: false, // Disable column filters
+		enablePagination: true, // Disable pagination
+		enableColumnActions:false,
+		enableFullScreenToggle:false,
+		enableDensityToggle:false,
+		enableHiding:false
+
+		
+	});
 
 	return (
 		<Container
 			component='main'
 			maxWidth='xl'
-			sx={{ mt: 14, ml: 15, width: '90%' }}>
+			sx={{ mt: 14, ml: 15, width: '90%' }}
+		>
 			<Box className='page-header'>
-				<Typography variant='h6'>Customer</Typography>
+				<Typography variant='h6'>Customers</Typography>
 				<Box>
 					<Tooltip title='Add Customer'>
 						<Button
 							sx={{ p: '15px 0px 15px 10px', color: '#a6aeb3' }}
 							variant='text'
 							startIcon={<GroupAddRoundedIcon />}
-							onClick={() => navigate('/create-customer')}></Button>
+							onClick={() => navigate('/create-customer')}
+						/>
 					</Tooltip>
 				</Box>
 			</Box>
@@ -108,33 +125,11 @@ const CustomerListPage = () => {
 				<Spinner />
 			) : (
 				<div className='basic-container'>
-					<SortableTable
-						columnData={headerDetails}
-						rowData={rows}>
-						<TableFooter>
-							<TableRow>
-								<TablePagination
-									rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-									colSpan={9}
-									count={rows?.length || 0}
-									rowsPerPage={rowsPerPage}
-									page={page}
-									SelectProps={{
-										inputProps: {
-											'aria-label': 'rows per page',
-										},
-										native: true,
-									}}
-									onPageChange={handleChangePage}
-									onRowsPerPageChange={handleChangeRowsPerPage}
-									ActionsComponent={TablePaginationActions}
-								/>
-							</TableRow>
-						</TableFooter>
-					</SortableTable>
+					<MaterialReactTable table={tableInstance} />
 				</div>
 			)}
-			{!data?.myCustomers.length && (
+
+			{!rows.length && (
 				<Box mt={'20px'}>
 					<span>
 						No Customers. Click add icon above to begin inputting your first customer!
@@ -142,7 +137,7 @@ const CustomerListPage = () => {
 				</Box>
 			)}
 		</Container>
-	)
-}
+	);
+};
 
-export default CustomerListPage
+export default CustomerListPage;
