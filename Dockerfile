@@ -48,7 +48,7 @@ FROM base as frontend-build
 # Install node modules for frontend
 WORKDIR /app/client
 COPY --link client/package-lock.json client/package.json ./
-RUN npm ci
+RUN npm install
 
 # Copy frontend application code
 COPY --link client .
@@ -62,7 +62,7 @@ FROM nginx:alpine as frontend
 # Copy built frontend application
 COPY --from=frontend-build /app/client/build /usr/share/nginx/html
 
-# Expose port 3000
+# Expose port 80
 EXPOSE 80
 
 # Start Nginx server
