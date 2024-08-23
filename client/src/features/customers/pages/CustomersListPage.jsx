@@ -11,7 +11,7 @@ import {
 import GroupAddRoundedIcon from '@mui/icons-material/GroupAddRounded';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useNavigate } from 'react-router-dom';
-import { useMemo,useState } from 'react';
+import { useMemo, useState } from 'react';
 import Spinner from '../../../components/Spinner';
 import TablePaginationActions from '../../../components/TablePaginationActions';
 import useTitle from '../../../hooks/useTitle';
@@ -25,32 +25,29 @@ import {
 } from 'material-react-table';
 
 const CustomerListPage = () => {
-	const { data: userData } = useGetAllUsersQuery()
+	const { data: userData } = useGetAllUsersQuery();
 
-	useTitle('Customers')
-	const navigate = useNavigate()
+	useTitle('Customers');
+	const navigate = useNavigate();
 
-	const [page, setPage] = useState(0)
-	const [rowsPerPage, setRowsPerPage] = useState(10)
-
-	const { data, isLoading } = useGetAllCustomersQuery(page)
-
+	const [page, setPage] = useState(0);
+	const [rowsPerPage, setRowsPerPage] = useState(10);
+	const { data, isLoading } = useGetAllCustomersQuery(page);
 	const rows = data?.myCustomers || [];
 
 	const handleChangePage = (event, newPage) => {
-		setPage(newPage)
-	}
+		setPage(newPage);
+	};
 
 	const handleChangeRowsPerPage = (event) => {
-		setRowsPerPage(parseInt(event.target.value, 10))
-		setPage(0)
-	}
+		setRowsPerPage(parseInt(event.target.value, 10));
+		setPage(0);
+	};
 
 	const retrieveUserName = (id) => {
-		const currentUser = userData.users?.find((user) => user._id === id)?.username
-
-		return currentUser || ''
-	}
+		const currentUser = userData?.users?.find((user) => user._id === id)?.username;
+		return currentUser || '';
+	};
 
 	const columns = useMemo(
 		() => [
