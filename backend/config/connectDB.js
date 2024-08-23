@@ -15,7 +15,7 @@ const connectionToDb = async () => {
 		console.log(
 			`${chalk.blue.bold(`MongoDB Connected: ${connect.connection.host}`)}`
 		)
-		systemLogs.info(`MongoDB Connected: ${connect.connection.host}`)
+		systemLogs.info(`MongoB Connected: ${connect.connection.host}`)
 	} catch (error) {
 		console.error(`${chalk.red.bold(`Error: ${error.message}`)}`)
 		process.exit(1)

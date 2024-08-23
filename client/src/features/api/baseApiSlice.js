@@ -2,11 +2,12 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { logIn, logOut } from '../auth/authSlice'
 
 const baseQuery = fetchBaseQuery({
-	baseUrl: '/api/v1',
+	baseUrl: 'http://localhost:1997/api/v1',
 	credentials: 'include',
 	prepareHeaders: (headers, { getState }) => {
 		const token = getState().auth.user?.accessToken
 		const googleToken = getState().auth.googleToken
+		headers.set('Access-Control-Allow-Origin','*')
 		if (token) {
 			headers.set('authorization', `Bearer ${token}`)
 		} else if (googleToken) {

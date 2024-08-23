@@ -12,6 +12,7 @@ import authRoutes from './routes/authRoutes.js'
 import userRoutes from './routes/userRoutes.js'
 import { apiLimiter } from './middleware/apiLimiter.js'
 import passport from 'passport'
+import cors from 'cors';
 import googleAuth from './config/passsportSetup.js'
 import customerRoutes from './routes/customerRoutes.js'
 import documentRoutes from './routes/documentRoutes.js'
@@ -22,6 +23,14 @@ import appointmentRoutes from './routes/appointmentRoutes.js'
 await connectionToDB()
 
 const app = express()
+
+const corsOptions = {
+    origin: 'http://localhost:3000', // Your frontend address
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
+    credentials: true, // Allow cookies to be sent
+};
+
+app.use(cors(corsOptions));
 
 const __dirname = path.resolve()
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
