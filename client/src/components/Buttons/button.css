@@ -1,0 +1,24 @@
+.basic-button {
+    padding: 8px 15px;
+    border-radius: 3px;
+    font-size: 11px;
+    border: none;
+    margin-right: 3px;
+    cursor: pointer;
+}
+
+.green-button {
+    background-color: #63bf3c;
+    color: white;
+}
+.green-button:hover {
+    background-color: #63bf3caf;
+}
+
+.blue-button {
+    background-color: #5783db;
+    color: white;
+}
+.blue-button:hover {
+    background-color: #5783dbd3;
+}

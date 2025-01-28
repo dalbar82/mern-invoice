@@ -1,0 +1,107 @@
+.job-form {
+    margin: 0 auto;
+    padding: 20px;
+    
+  }
+.schedule-item-container {
+    display: flex;
+    justify-content: space-between;
+}
+.schedule-item-form-left {
+    width: 60%;
+    padding-right: 20px;
+}
+.schedule-item-form-right {
+    height: auto;
+    background-color: #f5f6f9;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    justify-content: space-between;
+    width: 33%;
+}
+  .job-form h1 {
+    text-align: left;
+    color: #333;
+    margin-bottom: 20px;
+    margin-top: 0;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+    padding-right: 20px;
+  }
+  
+  .group-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .group-column {
+    display: flex;
+    flex-direction: column;
+    
+  }
+  .count-button{
+    width: 30px;
+    height: 30px;
+    align-items: center;
+    background-color: #496a8e;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 50%;
+  }
+  .count-button:hover{
+    background-color: #0056b3;
+  }
+  .form-group label {
+    font-weight: bold;
+    color: #555;
+    font-size: 10px;
+    width: 20%;
+    text-align: left;
+  }
+  
+  .form-group input,
+  .form-group textarea {
+    width: 70%;
+    min-height: 22px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 10px
+  }
+  .address-header {
+    margin-bottom: 20px;
+    text-align: left;
+  }
+  .address-fieldset {
+    padding: 0;
+    border: none;
+  }
+  
+  .address-fieldset legend {
+    font-weight: bold;
+    padding: 0 5px;
+  }
+  
+  .submit-button {
+    display: block;
+    width: 100%;
+    background: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 10px;
+    cursor: pointer;
+  }
+  
+  .submit-button:hover {
+    background: #0056b3;
+  }
+  

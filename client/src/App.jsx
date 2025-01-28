@@ -1,3 +1,5 @@
+import { createContext, useState } from 'react'
+import './App.css'
 import { CssBaseline } from '@mui/material'
 import { ThemeProvider } from '@mui/material/styles'
 import { Route, Routes } from 'react-router-dom'
@@ -11,6 +13,7 @@ import { useSelector } from 'react-redux'
 import Navbar from './components/Navbar/Index'
 import HomePage from './pages/HomePage'
 import RegisterPage from './features/auth/pages/RegisterPage'
+import FrontPage from './pages/FrontPage'
 import VerifiedPage from './features/auth/pages/VerifiedPage'
 import LoginPage from './features/auth/pages/LoginPage'
 import ResendEmailTokenPage from './features/auth/pages/ResendEmailTokenPage'
@@ -33,125 +36,138 @@ import DocumentsPage from './features/documents/pages/DocumentsPage'
 import SingleDocumentPage from './features/documents/pages/SingleDocumentPage'
 import OrganisationView from './features/organisation/pages/OrganisationView'
 import OrganisationEditForm from './features/organisation/pages/OrganisationEditForm'
-import SchedulerPage from './features/scheduler/pages/SchedulerPage'
 import React from 'react'
+import scheduleItemList from './data/scheduleItems'
+
+export const configContext = createContext(null)
+export const scheduleItemsContext = createContext(null)
 
 const App = () => {
+	const defaultConfig = {
+		timezone: 'Australia/Sydney',
+	}
+	const [config, setConfig] = useState(defaultConfig)
+	const [scheduleItems, setScheduleItems] = useState(scheduleItemList || [])
+
 	useTitle('Job Forge - Home')
 	const { user } = useSelector((state) => state.auth)
 	return (
 		<ThemeProvider theme={customTheme}>
-			<CssBaseline />
-			{!user && <HomePageNav />}
-			{user && <Navbar />}
-			<Routes>
-				<Route
-					path='/'
-					element={<Layout />}>
-					<Route
-						index
-						element={<HomePage />}
-					/>
-					<Route
-						path='auth/verify'
-						element={<VerifiedPage />}
-					/>
-					<Route
-						path='login'
-						element={<LoginPage />}
-					/>
-					<Route
-						path='resend'
-						element={<ResendEmailTokenPage />}
-					/>
-					<Route
-						path='reset_password_request'
-						element={<PasswordResetRequestPage />}
-					/>
-					<Route
-						path='auth/reset_password'
-						element={<PasswordResetPage />}
-					/>
-					{/* Private Routes - Users */}
-					<Route
-						element={
-							<AuthRequired
-								allowedRoles={[ROLES.Admin, ROLES.User, ROLES.Basic, ROLES.Mobile]}
+			<configContext.Provider value={[config, setConfig]}>
+				<scheduleItemsContext.Provider value={[scheduleItems, setScheduleItems]}>
+					<CssBaseline />
+					{!user && <HomePageNav />}
+					{user && <Navbar />}
+					<Routes>
+						<Route
+							path='/'
+							element={<Layout />}>
+							<Route
+								index
+								element={<HomePage />}
 							/>
-						}>
-						<Route
-							path='profile'
-							element={<ProfilePage />}
-						/>
+							<Route
+								path='auth/verify'
+								element={<VerifiedPage />}
+							/>
+							<Route
+								path='login'
+								element={<LoginPage />}
+							/>
+							<Route
+								path='resend'
+								element={<ResendEmailTokenPage />}
+							/>
+							<Route
+								path='reset_password_request'
+								element={<PasswordResetRequestPage />}
+							/>
+							<Route
+								path='auth/reset_password'
+								element={<PasswordResetPage />}
+							/>
+							{/* Private Routes - Users */}
+							<Route
+								element={
+									<AuthRequired
+										allowedRoles={[ROLES.Admin, ROLES.User, ROLES.Basic, ROLES.Mobile]}
+									/>
+								}>
+								<Route
+									path='profile'
+									element={<ProfilePage />}
+								/>
 
-						<Route
-							path='customers'
-							element={<CustomerListPage />}
-						/>
-						<Route
-							path='scheduler'
-							element={<SchedulerPage />}
-						/>
-						<Route
-							path='create-customer'
-							element={<CustomerCreateForm />}
-						/>
-						<Route
-							path='edit-customer/:custId'
-							element={<CustomerEditForm />}
-						/>
-						<Route
-							path='single-customer/:custId'
-							element={<SingleCustomerPage />}
-						/>
-						<Route
-							path='*'
-							element={<NotFound />}
-						/>
-						<Route
-							path='documents'
-							element={<DocumentsPage />}
-						/>
-						<Route
-							path='create-doc'
-							element={<DocCreateEditForm />}
-						/>
-						<Route
-							path='edit-doc/:id'
-							element={<DocCreateEditForm />}
-						/>
-						<Route
-							path='document/:id'
-							element={<SingleDocumentPage />}
-						/>
-						<Route
-							path='dashboard'
-							element={<DashboardPage />}
-						/>
-					</Route>
+								<Route
+									path='customers'
+									element={<CustomerListPage />}
+								/>
+								<Route
+									path='scheduler'
+									element={<FrontPage />}
+								/>
+								<Route
+									path='create-customer'
+									element={<CustomerCreateForm />}
+								/>
+								<Route
+									path='edit-customer/:custId'
+									element={<CustomerEditForm />}
+								/>
+								<Route
+									path='single-customer/:custId'
+									element={<SingleCustomerPage />}
+								/>
+								<Route
+									path='*'
+									element={<NotFound />}
+								/>
+								<Route
+									path='documents'
+									element={<DocumentsPage />}
+								/>
+								<Route
+									path='create-doc'
+									element={<DocCreateEditForm />}
+								/>
+								<Route
+									path='edit-doc/:id'
+									element={<DocCreateEditForm />}
+								/>
+								<Route
+									path='document/:id'
+									element={<SingleDocumentPage />}
+								/>
+								<Route
+									path='dashboard'
+									element={<DashboardPage />}
+								/>
+							</Route>
 
-					{/* Private Routes - Admin Users only */}
-					<Route element={<AuthRequired allowedRoles={[ROLES.Admin]} />}>
-						<Route
-							path='edit-profile'
-							element={<EditProfileForm />}
-						/>
-						<Route
-							path='organisation'
-							element={<OrganisationView />}
-						/>
-						<Route
-							path='organisation-edit'
-							element={<OrganisationEditForm />}
-						/>
-						<Route
-							path='register'
-							element={<RegisterPage />}
-						/>
-					</Route>
-				</Route>
-			</Routes>
-			<ToastContainer theme='dark' />
+							{/* Private Routes - Admin Users only */}
+							<Route element={<AuthRequired allowedRoles={[ROLES.Admin]} />}>
+								<Route
+									path='edit-profile'
+									element={<EditProfileForm />}
+								/>
+								<Route
+									path='organisation'
+									element={<OrganisationView />}
+								/>
+								<Route
+									path='organisation-edit'
+									element={<OrganisationEditForm />}
+								/>
+								<Route
+									path='register'
+									element={<RegisterPage />}
+								/>
+							</Route>
+						</Route>
+					</Routes>
+					<ToastContainer theme='dark' />
+				</scheduleItemsContext.Provider>
+			</configContext.Provider>
 		</ThemeProvider>
 	)
 }

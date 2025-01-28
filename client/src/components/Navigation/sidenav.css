@@ -1,0 +1,8 @@
+.sidenav-container {
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    background-color: azure;
+    height: 100vh;
+    justify-content: center;
+}

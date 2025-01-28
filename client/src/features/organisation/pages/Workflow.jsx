@@ -81,7 +81,7 @@ const Workflow = ({ settings }) => {
 						/>
 					</div>
 					<div style={{ overflowY: 'auto' }}>
-						{workflowList.map((stage, i) => {
+						{workflowList?.map((stage, i) => {
 							return (
 								<FlowBadge
 									key={i}

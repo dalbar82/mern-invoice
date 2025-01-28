@@ -1,0 +1,83 @@
+.hours {
+	width: 60px;
+	background-color: rgb(241 241 241);
+	font-size: 10px;
+	font-weight: 600;
+	padding-left: 5px;
+	text-align: left;
+}
+.time-tail {
+	position: relative;
+	height: 35px;
+	background-color: #7fd7ff;
+	border-radius: 15px;
+	align-items: flex-start;
+	margin-left: 5px;
+}
+.item {
+	width: 100%;
+	color: white;
+	font-size: 10px;
+	font-weight: 600;
+	min-height: 50px;
+}
+.no-items {
+	background-color: #fafafa;
+	padding: 50px;
+	width: 100%;
+	justify-content: center;
+	align-items: center;
+	font-size: 11px;
+}
+.time-line {
+	background-color: rgb(252, 252, 252);
+	height: 100%;
+	width: 900px;
+	align-items: center;
+}
+.start-time {
+	color: black;
+	position: relative;
+	height: 35px;
+	width: 35px;
+	background-color: #7fd7ff;
+	border-radius: 50% 0 0 50%;
+}
+.end-time {
+	color: black;
+	position: relative;
+	height: 35px;
+	width: 35px;
+	background-color: #7fd7ff;
+	border-radius: 0 50% 50% 0;
+}
+.assignee-name {
+	background-color: #7fd7ff;
+	text-align: left;
+	padding: 10px;
+	width: 100px;
+	text-transform: uppercase;
+	font-weight: 600;
+}
+.sub-item {
+	height: 50px;
+	align-items: center;
+}
+.calendar-body {
+	margin: 0 auto;
+	overflow-x: auto;
+	scrollbar-color: rgb(184, 184, 184) rgb(236, 236, 236);
+	scrollbar-width: thin;
+	box-shadow: 2px 2px 3px 0px rgb(245, 245, 245);
+}
+.table-header {
+	margin-left: 120px;
+}
+.item-assignee {
+	width: 120px;
+	background-color: rgb(42 155 189);
+	/* border-radius: 3px 0 0 3px; */
+	height: 100%;
+	justify-content: center;
+	align-items: center;
+}

@@ -5,6 +5,7 @@ import {
 	ListItemButton,
 	ListItemIcon,
 	styled,
+	Tooltip,
 } from '@mui/material'
 import MenuText from '../MenuText'
 import { useNavigate } from 'react-router-dom'
@@ -40,61 +41,69 @@ const MenuList = () => {
 				{/* <Box height={'10px'}></Box> */}
 				<StyledList>
 					<ListItem disablePadding>
-						<ListItemButton
-							onClick={() => navigate('/dashboard')}
-							style={{ paddingTop: '0', paddingBottom: '0' }}>
-							<ListItemIcon>
-								<DashboardSharpIcon
-									sx={{ margin: '25px 0', fontSize: 25, color: '#fff' }}
-								/>
-							</ListItemIcon>
-							<MenuText text='Dashboard' />
-						</ListItemButton>
+						<Tooltip title='Dashboard'>
+							<ListItemButton
+								onClick={() => navigate('/dashboard')}
+								style={{ paddingTop: '0', paddingBottom: '0' }}>
+								<ListItemIcon>
+									<DashboardSharpIcon
+										sx={{ margin: '25px 0', fontSize: 25, color: '#fff' }}
+									/>
+								</ListItemIcon>
+								<MenuText text='Dashboard' />
+							</ListItemButton>
+						</Tooltip>
 					</ListItem>
 				</StyledList>
 
 				<StyledList>
 					<ListItem disablePadding>
-						<ListItemButton
-							onClick={() => navigate('/documents')}
-							style={{ paddingTop: '0', paddingBottom: '0' }}>
-							<ListItemIcon>
-								<WorkHistorySharpIcon
-									sx={{ margin: '25px 0', fontSize: 25, color: '#fff' }}
-								/>
-							</ListItemIcon>
-							<MenuText text='Projects' />
-						</ListItemButton>
+						<Tooltip title='Projects'>
+							<ListItemButton
+								onClick={() => navigate('/documents')}
+								style={{ paddingTop: '0', paddingBottom: '0' }}>
+								<ListItemIcon>
+									<WorkHistorySharpIcon
+										sx={{ margin: '25px 0', fontSize: 25, color: '#fff' }}
+									/>
+								</ListItemIcon>
+								<MenuText text='Projects' />
+							</ListItemButton>
+						</Tooltip>
 					</ListItem>
 				</StyledList>
 
 				<StyledList>
 					<ListItem disablePadding>
-						<ListItemButton
-							onClick={() => navigate('/scheduler')}
-							style={{ paddingTop: '0', paddingBottom: '0' }}>
-							<ListItemIcon>
-								<CalendarMonthIcon
-									sx={{ margin: '25px 0', fontSize: 25, color: '#fff' }}
-								/>
-							</ListItemIcon>
-							<MenuText text='Scheduling' />
-						</ListItemButton>
+						<Tooltip title='Customers'>
+							<ListItemButton
+								onClick={() => navigate('/customers')}
+								style={{ paddingTop: '0', paddingBottom: '0' }}>
+								<ListItemIcon>
+									<PersonSearchSharpIcon
+										sx={{ margin: '25px 0', fontSize: 25, color: '#fff' }}
+									/>
+								</ListItemIcon>
+								<MenuText text='Customers' />
+							</ListItemButton>
+						</Tooltip>
 					</ListItem>
 				</StyledList>
 
 				<StyledList>
 					<ListItem disablePadding>
-						<ListItemButton
-							onClick={() => navigate('/customers')}
-							style={{ paddingTop: '0', paddingBottom: '0' }}>
-							<ListItemIcon>
-								<PersonSearchSharpIcon
-									sx={{ margin: '25px 0', fontSize: 25, color: '#fff' }}
-								/>
-							</ListItemIcon>
-							<MenuText text='Customers' />
-						</ListItemButton>
+						<Tooltip title='Schedule'>
+							<ListItemButton
+								onClick={() => navigate('/scheduler')}
+								style={{ paddingTop: '0', paddingBottom: '0' }}>
+								<ListItemIcon>
+									<CalendarMonthIcon
+										sx={{ margin: '25px 0', fontSize: 25, color: '#fff' }}
+									/>
+								</ListItemIcon>
+								<MenuText text='Scheduling' />
+							</ListItemButton>
+						</Tooltip>
 					</ListItem>
 				</StyledList>
 			</Box>
@@ -103,16 +112,18 @@ const MenuList = () => {
 				<Box>
 					<StyledList>
 						<ListItem disablePadding>
-							<ListItemButton
-								onClick={() => navigate('/organisation-edit')}
-								style={{ paddingTop: '0', paddingBottom: '0' }}>
-								<ListItemIcon>
-									<CorporateFareIcon
-										sx={{ margin: '25px 0', fontSize: 25, color: '#fff' }}
-									/>
-								</ListItemIcon>
-								<MenuText text='Organisation' />
-							</ListItemButton>
+							<Tooltip title='Settings'>
+								<ListItemButton
+									onClick={() => navigate('/organisation-edit')}
+									style={{ paddingTop: '0', paddingBottom: '0' }}>
+									<ListItemIcon>
+										<CorporateFareIcon
+											sx={{ margin: '25px 0', fontSize: 25, color: '#fff' }}
+										/>
+									</ListItemIcon>
+									<MenuText text='Organisation' />
+								</ListItemButton>
+							</Tooltip>
 						</ListItem>
 					</StyledList>
 				</Box>

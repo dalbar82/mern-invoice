@@ -1,0 +1,10 @@
+.topnav-container {
+    height: 80px;
+    box-shadow: 1px 1px 3px #0000001c;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+.topnav-middle {
+    width: 40%;
+}
