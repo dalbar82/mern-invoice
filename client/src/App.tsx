@@ -1,3 +1,4 @@
+import React = require('react')
 import { createContext, useState } from 'react'
 import './App.css'
 import { CssBaseline } from '@mui/material'
@@ -36,12 +37,17 @@ import DocumentsPage from './features/documents/pages/DocumentsPage'
 import SingleDocumentPage from './features/documents/pages/SingleDocumentPage'
 import OrganisationView from './features/organisation/pages/OrganisationView'
 import OrganisationEditForm from './features/organisation/pages/OrganisationEditForm'
-import React from 'react'
 import scheduleItemList from './data/scheduleItems'
+
 
 export const configContext = createContext(null)
 export const scheduleItemsContext = createContext(null)
 
+type State = {
+	auth: {
+		user: Object
+	}
+}
 const App = () => {
 	const defaultConfig = {
 		timezone: 'Australia/Sydney',
@@ -50,7 +56,8 @@ const App = () => {
 	const [scheduleItems, setScheduleItems] = useState(scheduleItemList || [])
 
 	useTitle('Job Forge - Home')
-	const { user } = useSelector((state) => state.auth)
+
+	const { user } = useSelector((state: State) => state?.auth)
 	return (
 		<ThemeProvider theme={customTheme}>
 			<configContext.Provider value={[config, setConfig]}>

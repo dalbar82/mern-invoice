@@ -1,6 +1,6 @@
 import { createTheme } from '@mui/material'
 
-export const customTheme = createTheme({
+export const customTheme = {
 	typography: {
 		fontFamily: ['Poppins'],
 		color: 'rgb(31, 31, 31)',
@@ -57,4 +57,4 @@ export const customTheme = createTheme({
 			},
 		},
 	},
-})
+}

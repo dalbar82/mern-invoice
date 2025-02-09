@@ -1,5 +1,4 @@
 import {
-	Box,
 	List,
 	ListItem,
 	ListItemButton,
@@ -7,6 +6,7 @@ import {
 	styled,
 	Tooltip,
 } from '@mui/material'
+import Box from '../Box/Box'
 import MenuText from '../MenuText'
 import { useNavigate } from 'react-router-dom'
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'
@@ -30,8 +30,8 @@ const MenuList = () => {
 
 	return (
 		<Box
-			color='#c7cbd4'
-			sx={{
+			style={{
+				color: '#c7cbd4',
 				display: 'flex',
 				flexDirection: 'column',
 				justifyContent: 'space-between',

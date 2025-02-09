@@ -1,13 +1,13 @@
-import { Link } from '@mui/material'
+// import { Link } from '@mui/material'
+import Link from '../Links/pageLinks/Link'
 import { Link as RouterLink } from 'react-router-dom'
 
-const Logo = (fontSize) => {
+const Logo = (fontSize: number) => {
 	return (
 		<>
 			<Link
-				component={RouterLink}
-				to='/'
-				sx={{
+				name='EazyFlow'
+				styles={{
 					textDecoration: 'none',
 					color: '#c7cbd4',
 					cursor: 'pointer',
@@ -18,6 +18,7 @@ const Logo = (fontSize) => {
 					flexDirection: 'row',
 					alignItems: 'center',
 				}}>
+				<RouterLink to='/'/>
 				<div
 					style={{
 						transform: 'rotate(90deg)',

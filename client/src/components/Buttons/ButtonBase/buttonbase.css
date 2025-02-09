@@ -1,0 +1,5 @@
+.button-base {
+  .hover-bg:hover {
+    background-color: #555a64;
+  }
+}

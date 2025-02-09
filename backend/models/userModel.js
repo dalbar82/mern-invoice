@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs'
 import 'dotenv/config'
 import mongoose from 'mongoose'
 import validator from 'validator'
-import { USER, MOBILE, BASIC, ADMIN } from '../constants/index.js'
+import { USER, MOBILE, BASIC, ADMIN } from '../constants/index.ts'
 
 const { Schema } = mongoose
 

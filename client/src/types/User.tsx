@@ -10,6 +10,31 @@ export type Person = {
   subRows?: Person[]
 }
 
+export type User = {
+  _id: string;
+  email: string;
+  username: string;
+  firstName: string;
+  lastName: string;
+  password?: string; // Optional because `select: false` in Mongoose schema
+  passwordConfirm?: string;
+  isEmailVerified: boolean;
+  provider: "email" | "google";
+  googleID?: string;
+  avatar?: string;
+  businessName?: string;
+  phoneNumber?: string;
+  address?: string;
+  city?: string;
+  country?: string;
+  passwordChangedAt?: Date;
+  roles: string[];
+  organisation: string;
+  active: boolean;
+  refreshToken: string[];
+  createdAt: Date;
+  updatedAt: Date;
+}
 // export const newPerson = (): Person => {
 //   return {
 //     firstName,

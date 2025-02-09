@@ -3,17 +3,17 @@ import SentimentSatisfiedAltTwoToneIcon from '@mui/icons-material/SentimentSatis
 import SpeedTwoToneIcon from '@mui/icons-material/SpeedTwoTone'
 import {
 	Avatar,
-	Box,
-	ButtonBase,
 	Grid,
 	ListItemIcon,
-	Menu,
-	MenuItem,
 	Paper,
 	Stack,
 	styled,
-	Typography,
 } from '@mui/material'
+import Menu from '../Menu/Menu/Menu'
+import MenuItem from '../Menu/MenuItems/MenuItems'
+import Box from '../Box/Box'
+import Typography from '../Typography/Typography'
+import ButtonBase from '../Buttons/ButtonBase/ButtonBase'
 import { blueGrey, lightBlue } from '@mui/material/colors'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -21,6 +21,8 @@ import { toast } from 'react-toastify'
 import { useLogoutUserMutation } from '../../features/auth/authApiSlice'
 import useAuthUser from '../../hooks/useAuthUser'
 import MenuText from '../MenuText'
+import {User as USER} from '../../types/User'
+
 
 const StyledMenuItem = styled(MenuItem)({
 	'&:hover': {
@@ -29,18 +31,20 @@ const StyledMenuItem = styled(MenuItem)({
 	width: 240,
 	height: 50,
 })
+type ProfileInfoProps = {
+	user: USER
+}
 
-
-const ProfileInfo = ({ user }) => {
+const ProfileInfo:React.FC<ProfileInfoProps> = ({ user }) => {
 	const { isAdmin } = useAuthUser()
 	const navigate = useNavigate()
 
-	const [anchorEl, setAnchorEl] = useState(null)
+	const [anchorEl, setAnchorEl] = useState(null);
 	const open = Boolean(anchorEl)
 
-	const handleOpenUserMenu = (event) => {
-		setAnchorEl(event.currentTarget)
-	}
+	const handleOpenUserMenu = (event: any) => {
+		setAnchorEl(event.currentTarget);
+	};
 
 	const handleCloseUserMenu = () => {
 		setAnchorEl(null)
@@ -50,12 +54,20 @@ const ProfileInfo = ({ user }) => {
 
 	const handleLogout = async () => {
 		try {
-			await logoutUser().unwrap()
-			navigate('/login')
+			await logoutUser().unwrap();
+			navigate("/login");
 		} catch (err) {
-			toast.error(err)
+			// Ensure 'err' is handled correctly
+			const errorMessage =
+				err instanceof Error
+					? err.message
+					: typeof err === "string"
+					? err
+					: "An unexpected error occurred";
+	
+			toast.error(errorMessage);
 		}
-	}
+	};
 
 	useEffect(() => {
 		if (isSuccess) {
@@ -65,14 +77,13 @@ const ProfileInfo = ({ user }) => {
 	}, [isSuccess, data])
 
 	return (
-		<Box sx={{ flexShrink: 0, mr: 1.5 }}>
+		<Box style={{ flexShrink: 0, marginRight: 1.5 }}>
 			<ButtonBase
-				sx={{
-					bgColor: open ? '#E0E0E0' : 'transparent',
+				className='button-base'
+				style={{
+					backgroundColor: open ? '#E0E0E0' : 'transparent',
 					borderRadius: 10,
-					'&:hover': { bgcolor: '#555a64' },
 				}}
-				aria-label='open profile'
 				ref={anchorEl}
 				aria-controls={open ? 'profile-grow' : undefined}
 				aria-haspopup='true'
@@ -106,7 +117,6 @@ const ProfileInfo = ({ user }) => {
 
 			{/* Menu Items */}
 			<Menu
-				sx={{ mt: '50px' }}
 				id='account-menu'
 				anchorEl={anchorEl}
 				anchorOrigin={{
@@ -153,9 +163,13 @@ const ProfileInfo = ({ user }) => {
 													}}
 												/>
 												<Stack>
-													<Typography variant='h6'>
-														{user.firstName?.charAt(0)?.toUpperCase()}{' '}
-														{user.lastName?.charAt(0)?.toUpperCase()}
+													<Typography 
+														elementType='h6' 
+														text={
+															`${user.firstName?.charAt(0)?.toUpperCase()}{' '}
+															${user.lastName?.charAt(0)?.toUpperCase()}`
+														}>
+														
 													</Typography>
 												</Stack>
 											</Stack>
@@ -175,8 +189,8 @@ const ProfileInfo = ({ user }) => {
 													{user?.lastName?.charAt(0)?.toUpperCase()}
 												</Avatar>
 												<Stack>
-													<Typography variant='h6'>
-														{user?.firstName?.toUpperCase()} {user?.lastName?.toUpperCase()}
+													<Typography elementType='h6' text={`${user?.firstName?.toUpperCase()} {user?.lastName?.toUpperCase()}`}>
+														
 													</Typography>
 												</Stack>
 											</Stack>
@@ -193,11 +207,11 @@ const ProfileInfo = ({ user }) => {
 										spacing={2}>
 										<ListItemIcon>
 											<SentimentSatisfiedAltTwoToneIcon
-												color='iconsSideNav'
+												// color='iconsSideNav'
 												sx={{ fontSize: 20 }}
 											/>
 										</ListItemIcon>
-										<Typography variant='p'>View Profile</Typography>
+										<Typography elementType='p' text="View Profile" />
 									</Stack>
 								</Grid>
 							</StyledMenuItem>
@@ -210,11 +224,11 @@ const ProfileInfo = ({ user }) => {
 										spacing={2}>
 										<ListItemIcon>
 											<SpeedTwoToneIcon
-												color='iconsSideNav'
+												// color='iconsSideNav'
 												sx={{ fontSize: 20 }}
 											/>
 										</ListItemIcon>
-										<Typography variant='p'>Dashboard</Typography>
+										<Typography elementType='p' text="Dashboard"/>
 									</Stack>
 								</Grid>
 							</StyledMenuItem>
@@ -228,11 +242,11 @@ const ProfileInfo = ({ user }) => {
 										spacing={2}>
 										<ListItemIcon>
 											<Logout
-												color='iconsSideNav'
+												// color='iconsSideNav'
 												sx={{ fontSize: 20 }}
 											/>
 										</ListItemIcon>
-										<Typography variant='p'>Logout</Typography>
+										<Typography elementType='p' text="Logout" />
 									</Stack>
 								</Grid>
 							</StyledMenuItem>

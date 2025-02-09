@@ -1,6 +1,10 @@
 import { baseApiSlice } from '../api/baseApiSlice'
 import { logOut } from './authSlice'
 
+interface LogoutResponse {
+  message: string;
+}
+
 export const authApiSlice = baseApiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		registerUser: builder.mutation({
@@ -17,7 +21,7 @@ export const authApiSlice = baseApiSlice.injectEndpoints({
 				body: credentials,
 			}),
 		}),
-		logoutUser: builder.mutation({
+		logoutUser: builder.mutation<LogoutResponse, void>({
 			query: () => ({
 				url: '/auth/logout',
 				method: 'GET',

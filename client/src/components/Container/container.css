@@ -1,0 +1,9 @@
+.container {
+  max-width: 1200px;  /* Limits width on large screens */
+  width: 90%;         /* Ensures responsiveness */
+  margin: 0 auto;     /* Centers the container */
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+
+}
