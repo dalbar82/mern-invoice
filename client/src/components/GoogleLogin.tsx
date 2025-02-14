@@ -1,4 +1,5 @@
-import Button from '@mui/material/Button'
+import React from 'react'
+import Button from '../components/Buttons/Button/Button'
 import { FcGoogle } from 'react-icons/fc'
 
 const GoogleLogin = () => {
@@ -8,8 +9,7 @@ const GoogleLogin = () => {
 	}
 	return (
 		<Button
-			variant='filled'
-			sx={{
+			style={{
 				cursor: 'pointer',
 				width: '100%',
 				boxShadow: '-2px 2px 7px 0px #c8cdd2',

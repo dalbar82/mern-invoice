@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import { Link as RouterLink, useNavigate } from 'react-router-dom'
@@ -11,22 +11,20 @@ import {
 import { useRegisterUserMutation } from '../authApiSlice'
 
 import {
-	Box,
-	Button,
 	FormControl,
 	FormHelperText,
-	Grid,
 	IconButton,
 	InputAdornment,
 	InputLabel,
-	Link,
 	OutlinedInput,
 	Stack,
-	Typography,
 } from '@mui/material'
-
+import Box from '../../../components/Box/Box'
+import Button from '../../../components/Buttons/Button/Button'
+import Link from '../../../components/Links/pageLinks/Link'
+import Typography from '../../../components/Typography/Typography'
+import Grid from '../../../components/Grid/Grid'
 import { Formik } from 'formik'
-import AuthButtonAnimation from '../../../animations/authButtonAnimations'
 import Spinner from '../../../components/Spinner'
 import useTitle from '../../../hooks/useTitle'
 
@@ -36,7 +34,10 @@ const RegisterForm = () => {
 	useTitle('Sign Up - Job Forge')
 	const navigate = useNavigate()
 
-	const [level, setLevel] = useState()
+	const [level, setLevel] = useState({
+		color: '',
+		label: ''
+	})
 
 	const [showPassword, setShowPassword] = useState(false)
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false)
@@ -49,11 +50,11 @@ const RegisterForm = () => {
 		setShowConfirmPassword(!showConfirmPassword)
 	}
 
-	const handleMouseDownPassword = (event) => {
+	const handleMouseDownPassword = (event: React.MouseEvent) => {
 		event.preventDefault()
 	}
 
-	const changePassword = (value) => {
+	const changePassword = (value: string) => {
 		const temp = strengthIndicator(value)
 		setLevel(strengthColor(temp))
 	}
@@ -109,12 +110,14 @@ const RegisterForm = () => {
 						await registerUser(values).unwrap()
 						setStatus({ success: true })
 						setSubmitting(false)
-					} catch (err) {
-						const message = err.data.message
-						toast.error(message)
-						setStatus({ success: false })
-						setSubmitting(false)
+					} catch (err: unknown) {
+						if (err instanceof Error) {
+							console.error("Error message:", err.message);
+						} else {
+							console.error("Unknown error:", err);
+						}
 					}
+					
 				}}>
 				{({
 					errors,
@@ -291,11 +294,14 @@ const RegisterForm = () => {
 										<Grid
 											container
 											spacing={2}
-											alignItems='center'>
+											style={{
+												alignItems: 'center'
+											}}
+											>
 											<Grid item>
 												<Box
-													sx={{
-														bgcolor: level?.color,
+													style={{
+														backgroundColor: `${level?.color}`,
 														width: 350,
 														height: 8,
 														borderRadius: '7px',
@@ -304,9 +310,10 @@ const RegisterForm = () => {
 											</Grid>
 											<Grid item>
 												<Typography
-													variant='subtitle1'
-													fontSize='0.75rem'>
-													{level?.label}
+													elementType="h3"
+													text={`${level?.label}`}
+													>
+													
 												</Typography>
 											</Grid>
 										</Grid>
@@ -359,20 +366,20 @@ const RegisterForm = () => {
 								<Grid
 									item
 									xs={12}>
-									<Typography variant='body2'>
-										By Signing up, you agree to our &nbsp;
+									<Typography elementType='p' text='By Signing up, you agree to our &nbsp;'>
+										
 										<Link
-											variant='subtitle2'
 											component={RouterLink}
-											to='#'>
-											Terms of Service
+											linkTo='#'
+											name="Terms of Service">
+											
 										</Link>
 										&nbsp; and &nbsp;
 										<Link
-											variant='subtitle2'
 											component={RouterLink}
-											to='#'>
-											Privacy Policy
+											linkTo='#'
+											name="Privacy Policy">
+											
 										</Link>
 									</Typography>
 								</Grid>
@@ -388,9 +395,7 @@ const RegisterForm = () => {
 								<Grid
 									item
 									xs={12}>
-									<AuthButtonAnimation>
 										<Button
-											disableElevation
 											disabled={isSubmitting}
 											fullWidth
 											size='large'
@@ -399,7 +404,7 @@ const RegisterForm = () => {
 											color='secondary'>
 											Create Account
 										</Button>
-									</AuthButtonAnimation>
+								
 								</Grid>
 							</Grid>
 						)}

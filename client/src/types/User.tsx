@@ -34,7 +34,7 @@ export type User = {
   refreshToken: string[];
   createdAt: Date;
   updatedAt: Date;
-}
+}  
 // export const newPerson = (): Person => {
 //   return {
 //     firstName,

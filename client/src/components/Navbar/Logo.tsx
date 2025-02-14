@@ -2,7 +2,11 @@
 import Link from '../Links/pageLinks/Link'
 import { Link as RouterLink } from 'react-router-dom'
 
-const Logo = (fontSize: number) => {
+type LogoProps = {
+	fontSize: string
+}
+
+const Logo:React.FC<LogoProps> = ({fontSize}) => {
 	return (
 		<>
 			<Link

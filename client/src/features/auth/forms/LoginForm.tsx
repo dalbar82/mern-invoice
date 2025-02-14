@@ -13,13 +13,12 @@ import {
 	IconButton,
 	InputAdornment,
 	InputLabel,
-	Link,
 	TextField,
 	Stack,
-	Typography,
 } from '@mui/material'
+import Typography from '../../../components/Typography/Typography'
+import Link from '../../../components/Links/pageLinks/Link'
 import { Formik } from 'formik'
-import AuthButtonAnimation from '../../../animations/authButtonAnimations'
 import Spinner from '../../../components/Spinner'
 import useTitle from '../../../hooks/useTitle'
 import { useLoginUserMutation } from '../authApiSlice'
@@ -40,7 +39,7 @@ const LoginForm = () => {
 		setShowPassword(!showPassword)
 	}
 
-	const handleMouseDownPassword = (event) => {
+	const handleMouseDownPassword = (event: React.MouseEvent) => {
 		event.preventDefault()
 	}
 
@@ -73,11 +72,15 @@ const LoginForm = () => {
 						dispatch(logIn({ ...getUserCredentials }))
 						setStatus({ success: true })
 						setSubmitting(false)
-					} catch (err) {
-						const message = err.data.message
-						toast.error(message)
-						setStatus({ success: false })
-						setSubmitting(false)
+					} catch (err: unknown) {
+						if (err instanceof Error) {
+							const message = err?.message
+							toast.error(message)
+							setStatus({ success: false })
+							setSubmitting(false)
+						} else {
+							console.error("Unknown error:", err);
+						}
 					}
 				}}>
 				{({
@@ -189,16 +192,16 @@ const LoginForm = () => {
 											alignItems: 'center',
 										}}>
 										<Typography
-											variant='p'
-											sx={{ textDecoration: 'none', fontSize: 'small' }}>
-											Forgot Password?{' '}
+											elementType='p'
+											style={{ textDecoration: 'none', fontSize: 'small' }}
+											text='Forgot Password?'
+											>
+											
 											<Link
-												variant='p'
 												component={RouterLink}
-												to='/reset_password_request'
-												sx={{ textDecoration: 'none', fontSize: 'small' }}>
-												Click Here to Reset it
-											</Link>
+												linkTo='/reset_password_request'
+												styles={{ textDecoration: 'none', fontSize: 'small' }}
+												name='Click Here to Reset it'/>
 										</Typography>
 									</Box>
 								</Grid>
@@ -206,7 +209,6 @@ const LoginForm = () => {
 								<Grid
 									item
 									xs={12}>
-									<AuthButtonAnimation>
 										<Button
 											disableElevation
 											disabled={isSubmitting}
@@ -219,7 +221,7 @@ const LoginForm = () => {
 											}}>
 											Login
 										</Button>
-									</AuthButtonAnimation>
+
 								</Grid>
 							</Grid>
 						)}

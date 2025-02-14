@@ -7,10 +7,11 @@ interface LinkProps {
   className?: string;
   styles?: React.CSSProperties;
   linkTo?: string;
-  children: React.ReactNode
+  children?: React.ReactNode;
+  component?: React.ElementType;
 }
 
-const Link: React.FC<LinkProps> = ({ name, onClick, className, styles, linkTo }) => {
+const Link: React.FC<LinkProps> = ({ name, onClick, className, styles, linkTo, component }) => {
   return (
     <div className="link-container" style={styles} onClick={onClick}>
       <a className={className} href={linkTo}>

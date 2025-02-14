@@ -23,7 +23,7 @@ const googleToken = localStorage.getItem('googleToken')
 const decodedToken: string | null = googleToken ? decodeToken(googleToken) : null
 
 const initialState:AuthState = {
-	user: user ? user : decodedToken,
+	user: user || decodedToken || null,
 	isAuthenticated: false,
 	googleToken: googleToken,
 	users: []

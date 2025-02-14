@@ -32,7 +32,7 @@ const StyledMenuItem = styled(MenuItem)({
 	height: 50,
 })
 type ProfileInfoProps = {
-	user: USER
+	user?: USER | null;
 }
 
 const ProfileInfo:React.FC<ProfileInfoProps> = ({ user }) => {
@@ -88,7 +88,7 @@ const ProfileInfo:React.FC<ProfileInfoProps> = ({ user }) => {
 				aria-controls={open ? 'profile-grow' : undefined}
 				aria-haspopup='true'
 				onClick={handleOpenUserMenu}>
-				{user.avatar ? (
+				{user?.avatar ? (
 					<Stack
 						direction='row'
 						spacing={2}
@@ -148,7 +148,7 @@ const ProfileInfo:React.FC<ProfileInfoProps> = ({ user }) => {
 										direction='row'
 										alignItems='center'
 										onClick={() => {}}>
-										{user.avatar ? (
+										{user?.avatar ? (
 											<Stack
 												direction='row'
 												spacing={1.25}

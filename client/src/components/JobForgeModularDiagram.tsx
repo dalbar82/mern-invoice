@@ -1,9 +1,10 @@
 import '../styles/jobForgeModularDiagramStyles.css'
+import React from 'react'
 
 const JobForgeModularDiagram = () => {
 	return (
 		<>
-			<div className='diagram-container'>
+			<div className='diagram-container' style={{zIndex: 20}}>
 				<div className='services-container'>
 					<span
 						className='modules'

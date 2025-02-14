@@ -1,4 +1,8 @@
-import { Box, Button, Grid, Link, styled } from '@mui/material'
+import { styled } from '@mui/material'
+import Grid from '../components/Grid/Grid'
+import Box from '../components/Box/Box'
+import Link from '../components/Links/pageLinks/Link'
+import Button from '../components/Buttons/Button/Button'
 import { Link as RouterLink, useNavigate } from 'react-router-dom'
 import JobForgeModularDiagram from '../components/JobForgeModularDiagram'
 import '../styles/homepage.css'
@@ -21,59 +25,57 @@ const HomePage = () => {
 				style={{ height: '100vh' }}>
 				<Grid
 					container
-					pt={'12vh'}
+					// pt={'12vh'}
 					sx={{ lineHeight: '1.6' }}>
 					<Grid
 						item
 						xs={12}
 						sm={12}
 						md={6}
-						mt={10}
-						pl={'6.5%'}>
+						style={{marginTop: "10px", paddingLeft: '6.5%'}}
+						>
 						<Box
-							mb={'10%'}
-							sx={{ fontSize: '1.8rem', fontWeight: 600, color: '#dbd7d7' }}>
+							style={{ marginBottom: '10%', fontSize: '1.8rem', fontWeight: 600, color: '#dbd7d7' }}>
 							The ultimate management tool for your business. Use the app that grows
 							with your company.
 						</Box>
 						<Box
-							mb={'10%'}
-							sx={{ fontSize: '1.5rem', color: '#288bbf' }}>
+							style={{ marginBottom: '10%', fontSize: '1.5rem', color: '#288bbf' }}>
 							We work on the philosophy that not all businesses share the same
 							requirements, so why should you pay for things you don't need yet?
 						</Box>
 						<Box
-							mb={'25%'}
-							sx={{ fontSize: '1rem', color: '#dbd7d7' }}>
+							style={{ marginBottom: '25%', fontSize: '1rem', color: '#dbd7d7' }}>
 							Here at JobForge we have coined the acronym <u>NoPayN</u> which simply
 							means <strong>Now only Pay as you Need!</strong>
 						</Box>
-						<Box mt={15}>
+						<Box style={{ marginTop: '10%'}}>
 							<CreateAccountButton
 								variant='contained'
 								onClick={() => navigate('/login')}>
 								<Link
-									component={RouterLink}
-									to='/login'
-									sx={{
+									component={RouterLink as React.ElementType}
+									name = 'Login'
+									linkTo='/login'
+									styles={{
 										textDecoration: 'none',
 										color: 'white',
 									}}>
-									Login
+									
 								</Link>
 							</CreateAccountButton>
 							<CreateAccountButton
 								variant='contained'
-								color='info'
+								// color='info'
 								onClick={() => navigate('/login')}>
 								<Link
 									component={RouterLink}
-									to='/'
-									sx={{
+									name='Request Demo'
+									linkTo='/'
+									styles={{
 										textDecoration: 'none',
 										color: 'white',
 									}}>
-									Request Demo
 								</Link>
 							</CreateAccountButton>
 						</Box>
@@ -84,17 +86,16 @@ const HomePage = () => {
 						xs={12}
 						sm={12}
 						md={6}
-						pt={15}
-						sx={{ backgroundColor: ' #223a6a' }}>
-						<JobForgeModularDiagram sx={{ zIndex: 20 }} />
+						style={{ paddingTop: "15px", backgroundColor: ' #223a6a' }}>
+						<JobForgeModularDiagram />
 						<Box
-							ml={'3rem'}
-							pt={'10%'}
-							sx={{
+							style={{
 								color: '#dbd7d7',
 								marginBottom: '20px',
 								lineHeight: '2rem',
 								width: '80%',
+								marginLeft: '3rem',
+								paddingTop: '10%'
 							}}>
 							Using a modular approach you can pick and choose exactly what tools you
 							need for your business. <br />

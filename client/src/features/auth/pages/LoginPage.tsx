@@ -1,4 +1,6 @@
-import { Box, Container, Divider, Grid, Link, Typography } from '@mui/material'
+import { Box, Container, Divider, Grid } from '@mui/material'
+import Typography from '../../../components/Typography/Typography'
+import Link from '../../../components/Links/pageLinks/Link'
 import { Link as RouterLink } from 'react-router-dom'
 import GoogleLogin from '../../../components/GoogleLogin'
 import AuthWrapper from '../forms/AuthWrapper'
@@ -25,10 +27,10 @@ const LoginPage = () => {
 							}}>
 							<Logo fontSize='2rem' />
 							<Typography
-								variant='h6'
-								sx={{ fontWeight: 600, marginBottom: '20px', fontFamily: 'Quicksand' }}>
-								Sign-In
-							</Typography>
+								elementType='h6'
+								style={{ fontWeight: 600, marginBottom: '20px', fontFamily: 'Quicksand' }}
+								text='Sign-In'
+								/>
 						</Box>
 					</Grid>
 					{/* login form */}
@@ -49,12 +51,11 @@ const LoginPage = () => {
 							/>
 							<Typography
 								// variant="outlined"
-								sx={{
+								text='Or Sign-In with Google'
+								style={{
 									margin: '10px',
 									fontSize: 'small',
-								}}>
-								Or Sign-In with Google
-							</Typography>
+								}}/>
 							<Divider
 								sx={{ flexGrow: 1 }}
 								orientation='horizontal'
@@ -83,16 +84,17 @@ const LoginPage = () => {
 								alignItems: 'center',
 							}}>
 							<Typography
-								variant='p'
-								sx={{ fontSize: 'small' }}>
-								Didn't get the verification email?
+								elementType='p'
+								style={{ fontSize: 'small' }}
+								text="Didn't get the verification email?"
+								>
+								
 								<Link
-									variant='p'
 									component={RouterLink}
-									to='/resend'
-									sx={{ textDecoration: 'none', marginLeft: '5px' }}>
-									Resend Email
-								</Link>
+									linkTo='/resend'
+									styles={{ textDecoration: 'none', marginLeft: '5px' }}
+									name='Resend Email'
+									/>
 							</Typography>
 						</Box>
 					</Grid>

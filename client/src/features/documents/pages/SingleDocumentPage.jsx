@@ -26,7 +26,6 @@ import { FaUserSecret } from 'react-icons/fa'
 import { useNavigate, useParams } from 'react-router-dom'
 import Spinner from '../../../components/Spinner'
 import StyledContainer from '../../../components/StyledContainer'
-import StyledDivider from '../../../components/StyledDivider'
 import StyledTableCell from '../../../components/StyledTableCell'
 import StyledTableRow from '../../../components/StyledTableRow'
 import { useGetUserProfileQuery } from '../../users/usersApiSlice.js'
@@ -105,8 +104,6 @@ const SingleDocumentPage = () => {
 					Go Back
 				</Button>
 			</Box>
-
-			<StyledDivider />
 
 			<Grid
 				container
