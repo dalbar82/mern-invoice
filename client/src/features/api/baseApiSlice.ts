@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery, BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query/react'
 import { logIn, logOut } from '../auth/authSlice'
+import {User} from '../../types/User'
 
 import { RootState } from '../../app/store';
 
@@ -30,7 +31,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<
 > = async (args, api, extraOptions) => {
   let response = await baseQuery(args, api, extraOptions);
 
-  if ((response.error as FetchBaseQueryError)?.status === 403) { // ✅ Use 'status' instead of 'originalStatus'
+  if ((response.error as FetchBaseQueryError)?.status === 403) { 
     const refreshResponse = await baseQuery('/auth/new_access_token', api, extraOptions);
 
     if (refreshResponse?.data) {
@@ -47,6 +48,6 @@ const baseQueryWithRefreshToken: BaseQueryFn<
 export const baseApiSlice = createApi({
 	reducerPath: 'api',
 	baseQuery: baseQueryWithRefreshToken,
-	tagTypes: ['User', 'Customer', 'Document'],
+	tagTypes: ['User', 'Customer', 'Document', 'All Users'],
 	endpoints: (builder) => ({}),
 })

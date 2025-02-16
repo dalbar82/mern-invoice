@@ -35,7 +35,10 @@ const PasswordResetPage = () => {
 	const navigate = useNavigate()
 
 	// level state will help manage the color to display when passwordConfirm field is  changed
-	const [level, setLevel] = useState()
+	const [level, setLevel] = useState({
+		color: '',
+		label: ''
+	})
 
 	const [showPassword, setShowPassword] = useState(false)
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false)
@@ -49,13 +52,13 @@ const PasswordResetPage = () => {
 	}
 
 	// prevent default behavior when a mouse is pressed when the pointer is inside the passwordConfirm field
-	const handleMouseDownPassword = (event) => {
+	const handleMouseDownPassword = (event: React.MouseEvent) => {
 		event.preventDefault()
 	}
 
 	// when the password is typed/changed run this function to show the password strength
-	const changePassword = (value) => {
-		const temp = strengthIndicator(value)
+	const changePassword = (value: string) => {
+		const temp: number = strengthIndicator(value)
 		setLevel(strengthColor(temp))
 	}
 	useEffect(() => {
@@ -89,11 +92,15 @@ const PasswordResetPage = () => {
 						await resetPassword(values).unwrap()
 						setStatus({ success: true })
 						setSubmitting(false)
-					} catch (err) {
-						const message = err.data.message
-						toast.error(message)
-						setStatus({ success: false })
-						setSubmitting(false)
+					} catch (err: unknown) {
+						if (err instanceof Error) {
+							const message = err?.message
+							toast.error(message)
+							setStatus({ success: false })
+							setSubmitting(false)
+						} else {
+							console.error("Unknown error:", err);
+						}
 					}
 				}}>
 				{({
@@ -165,20 +172,22 @@ const PasswordResetPage = () => {
 														handleChange(e)
 														changePassword(e.target.value)
 													}}
-													endAdornment={
-														<InputAdornment position='end'>
-															<IconButton
-																aria-label='toggle password visibility'
-																onClick={handleShowHidePassword}
-																onMouseDown={handleMouseDownPassword}
-																edge='end'
-																size='large'>
-																{showPassword ? <Visibility /> : <VisibilityOff />}
-															</IconButton>
-														</InputAdornment>
-													}
 													placeholder='******'
-													inputProps={{}}
+													InputProps={{
+														endAdornment: (
+															<InputAdornment position="end">
+																<IconButton
+																	aria-label="toggle password visibility"
+																	onClick={handleShowHidePassword}
+																	onMouseDown={handleMouseDownPassword}
+																	edge="end"
+																	size="large"
+																>
+																	{showPassword ? <Visibility /> : <VisibilityOff />}
+																</IconButton>
+															</InputAdornment>
+														),
+													}}
 												/>
 												{touched.password && errors.password && (
 													<FormHelperText
@@ -239,20 +248,22 @@ const PasswordResetPage = () => {
 													onChange={(e) => {
 														handleChange(e)
 													}}
-													endAdornment={
-														<InputAdornment position='end'>
-															<IconButton
-																aria-label='toggle passwordConfirm visibility'
-																onClick={handleShowHideConfirmPassword}
-																onMouseDown={handleMouseDownPassword}
-																edge='end'
-																size='large'>
-																{showConfirmPassword ? <Visibility /> : <VisibilityOff />}
-															</IconButton>
-														</InputAdornment>
-													}
 													placeholder='******'
-													inputProps={{}}
+													InputProps={{
+														endAdornment: (
+															<InputAdornment position="end">
+																<IconButton
+																	aria-label="toggle password visibility"
+																	onClick={handleShowHidePassword}
+																	onMouseDown={handleMouseDownPassword}
+																	edge="end"
+																	size="large"
+																>
+																	{showPassword ? <Visibility /> : <VisibilityOff />}
+																</IconButton>
+															</InputAdornment>
+														),
+													}}
 												/>
 												{touched.passwordConfirm && errors.passwordConfirm && (
 													<FormHelperText

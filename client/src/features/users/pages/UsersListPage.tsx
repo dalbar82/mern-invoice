@@ -11,11 +11,13 @@ import {
 	useDeleteUserMutation,
 } from '../usersApiSlice'
 
-const userCosts = {
-	Admin: 50,
-	User: 20,
-	Basic: 10,
-	Mobile: 5,
+type UserRole = "Admin" | "User" | "Basic" | "Mobile"
+
+const userCosts: Record<UserRole, number> = {
+	"Admin": 50,
+	"User": 20,
+	"Basic": 10,
+	"Mobile": 5,
 }
 
 const UserListPage = () => {
@@ -26,7 +28,7 @@ const UserListPage = () => {
 	// const [totalCost, setTotalCost] = useState(0)
 	let totalCost = 0
 	const { data, isLoading, isError, error } = useGetAllUsersQuery(
-		'allUsersList',
+		'All Users',
 		{
 			pollingInterval: 600000,
 			refetchOnFocus: true,
@@ -38,45 +40,44 @@ const UserListPage = () => {
 	const [reactivateUser] = useReactivateUserMutation()
 	const rows = data?.users
 
-	const getUserPrice = (role) => {
+	const getUserPrice = (role: UserRole) => {
 		const price = userCosts[role]
 		totalCost += price
 		return price
 	}
 
-	const deactivateUserHandler = async (id) => {
-		try {
-			await deactivateUser(id).unwrap()
-			toast.success('User deactivated')
-		} catch (err) {
-			const message = err.data.message
-			toast.error(message)
-		}
-	}
-	const reactivateUserHandler = async (id) => {
-		try {
-			await reactivateUser(id).unwrap()
-			toast.success('User reactivated')
-		} catch (err) {
-			const message = err.data.message
-			toast.error(message)
-		}
-	}
-	//TODO: add delete modal
-	const deleteHandler = async (id) => {
-		try {
-			await deleteUser(id).unwrap()
-			toast.success('User deleted')
-		} catch (err) {
-			const message = err.data.message
-			toast.error(message)
-		}
-	}
+	// const deactivateUserHandler = async (id) => {
+	// 	try {
+	// 		await deactivateUser(id).unwrap()
+	// 		toast.success('User deactivated')
+	// 	} catch (err) {
+	// 		const message = err.data.message
+	// 		toast.error(message)
+	// 	}
+	// }
+	// const reactivateUserHandler = async (id) => {
+	// 	try {
+	// 		await reactivateUser(id).unwrap()
+	// 		toast.success('User reactivated')
+	// 	} catch (err) {
+	// 		const message = err.data.message
+	// 		toast.error(message)
+	// 	}
+	// }
+	// //TODO: add delete modal
+	// const deleteHandler = async (id) => {
+	// 	try {
+	// 		await deleteUser(id).unwrap()
+	// 		toast.success('User deleted')
+	// 	} catch (err) {
+	// 		const message = err.data.message
+	// 		toast.error(message)
+	// 	}
+	// }
 
 	useEffect(() => {
 		if (isError) {
-			const message = error.data.message
-			toast.error(message)
+			toast.error(error as string)
 		}
 		// getRolesCount(rows)
 	}, [error, isError, rows])
@@ -148,7 +149,7 @@ const UserListPage = () => {
 								style={{ display: 'flex', justifyContent: 'space-between' }}
 								key={i}>
 								<div>{row?.roles[0]}</div>
-								<div>${getUserPrice(row?.roles[0])}</div>
+								<div>${getUserPrice(row?.roles[0] as UserRole)}</div>
 							</div>
 						)
 					})}

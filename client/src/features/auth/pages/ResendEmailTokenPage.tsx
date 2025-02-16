@@ -6,8 +6,8 @@ import {
 	FormHelperText,
 	Grid,
 	InputLabel,
-	TextField,
 	Stack,
+	TextField,
 	Typography,
 } from '@mui/material'
 import { Formik } from 'formik'
@@ -15,24 +15,24 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import * as Yup from 'yup'
-import Logo from '../../../components/Navbar/Logo'
 import Spinner from '../../../components/Spinner'
 import useTitle from '../../../hooks/useTitle'
+import { useResendVerifyEmailMutation } from '../authApiSlice'
 import AuthWrapper from '../forms/AuthWrapper'
-import { usePasswordResetRequestMutation } from '../authApiSlice'
+import Logo from '../../../components/Navbar/Logo'
 
-const PasswordResetRequestPage = () => {
-	useTitle('Request Reset Password')
+const ResendEmailTokenPage = () => {
+	useTitle('Resend Verification Email')
+
 	const navigate = useNavigate()
-	// -1 means go back to the previous page where you came from
 	const goBack = () => navigate(-1)
 
-	const [passwordResetRequest, { data, isLoading, isSuccess }] =
-		usePasswordResetRequestMutation()
+	const [resendVerifyEmail, { data, isLoading, isSuccess }] =
+		useResendVerifyEmailMutation()
 
 	useEffect(() => {
 		if (isSuccess) {
-			navigate('/login')
+			navigate('/')
 			const message = data.message
 			toast.success(message)
 		}
@@ -50,14 +50,19 @@ const PasswordResetRequestPage = () => {
 				})}
 				onSubmit={async (values, { setStatus, setSubmitting }) => {
 					try {
-						await passwordResetRequest(values).unwrap()
+						await resendVerifyEmail(values).unwrap()
+
 						setStatus({ success: true })
 						setSubmitting(false)
-					} catch (err) {
-						const message = err.data.message
-						toast.error(message)
-						setStatus({ success: false })
-						setSubmitting(false)
+					} catch (err: unknown) {
+						if (err instanceof Error) {
+							const message = err?.message
+							toast.error(message)
+							setStatus({ success: false })
+							setSubmitting(false)
+						} else {
+							console.error("Unknown error:", err);
+						}
 					}
 				}}>
 				{({
@@ -90,13 +95,14 @@ const PasswordResetRequestPage = () => {
 												flexDirection: 'column',
 												justifyContent: 'center',
 												alignItems: 'center',
+												mb: '20px',
 											}}>
 											{' '}
 											<Logo fontSize='2rem' />
 											<Typography
 												variant='h6'
-												sx={{ marginBottom: '20px', fontFamily: 'Quicksand' }}>
-												Password Reset
+												sx={{ fontFamily: 'quicksand', fontWeight: '600' }}>
+												Resend Verification
 											</Typography>
 										</Box>
 									</Grid>
@@ -105,7 +111,6 @@ const PasswordResetRequestPage = () => {
 									<Spinner />
 								) : (
 									<Grid container>
-										{/* email */}
 										<Grid
 											item
 											xs={12}>
@@ -147,13 +152,14 @@ const PasswordResetRequestPage = () => {
 												type='submit'
 												fullWidth
 												variant='contained'
+												color='primary'
 												size='large'
 												endIcon={<SendIcon />}
 												disabled={!values.email}>
-												Send Password Reset Email
+												Resend Verification Email
 											</Button>
 										</Grid>
-										{/* Go back button */}
+										{/* go back button */}
 										<Grid
 											item
 											xs={12}>
@@ -177,4 +183,4 @@ const PasswordResetRequestPage = () => {
 	)
 }
 
-export default PasswordResetRequestPage
+export default ResendEmailTokenPage

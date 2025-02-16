@@ -1,4 +1,4 @@
-import GraphUp from '../../../icons/GraphUp.svg'
+import { ReactComponent as GraphUp } from "../../../icons/GraphUp.svg";
 import CustomersRound from '../../../icons/CustomersRound.svg'
 import profit from '../../../icons/profit.svg'
 import { Box, Container, Grid, Typography } from '@mui/material'
@@ -12,6 +12,7 @@ import '../../../styles/pageHeader.css'
 
 const DashboardPage = () => {
 	useTitle('My Dashboard')
+
 	const { data: customers } = useGetAllCustomersQuery()
 	const { data: documents } = useGetAllDocsQuery()
 
@@ -31,7 +32,6 @@ const DashboardPage = () => {
 	return (
 		<Container
 			component='main'
-			maxWidth='false'
 			sx={{ ml: 14, width: '90vw' }}
 			style={{ justifyContent: 'space-between', marginTop: '155px' }}>
 			<Box sx={{ flexGrow: 1 }}>

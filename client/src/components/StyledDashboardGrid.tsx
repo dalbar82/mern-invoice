@@ -1,4 +1,6 @@
-import { Box, Grid, styled } from '@mui/material'
+import { Box, styled } from '@mui/material'
+import Grid from '../components/Grid/Grid'
+import { FC } from 'react'
 
 const StyledBox = styled(Box)({
 	width: '92%',
@@ -10,13 +12,18 @@ const StyledBox = styled(Box)({
 	boxShadow: ' 1px 1px 4px #eaedee',
 })
 
-const StyledDashboardGrid = ({ children, boxColor }) => {
+type StyledDashboardGridProps = {
+	children: React.ReactNode,
+	boxColor: string
+}
+
+const StyledDashboardGrid: FC<StyledDashboardGridProps> = ({ children, boxColor }) => {
 	return (
 		<Grid
 			item
 			md={6}>
 			<StyledBox>{children}</StyledBox>
-			{/* <div
+			<div
 				style={{
 					height: '170px',
 					width: '92%',
@@ -24,7 +31,7 @@ const StyledDashboardGrid = ({ children, boxColor }) => {
 					borderRadius: '0 0 10px 10px',
 				}}>
 					
-				</div> */}
+				</div>
 		</Grid>
 	)
 }

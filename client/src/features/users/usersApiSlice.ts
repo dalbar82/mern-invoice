@@ -1,30 +1,45 @@
 import { baseApiSlice } from '../api/baseApiSlice'
+import {User} from '../../types/User'
+
+type GetAllUsersResponse = {
+  users: User[];
+  isError?: boolean; // Ensure this matches your API response
+
+};
 
 export const usersApiSlice = baseApiSlice.injectEndpoints({
 	endpoints: (builder) => ({
-		getAllUsers: builder.query({
-			query: () => ({
-				url: '/user/all',
-				method: 'GET',
-				validateStatus: (response, result) => {
-					return response.status === 200 && !result.isError
-				},
-			}),
-			providesTags: (result) =>
-				result
-					? [
-							...result.users.map(({ id }) => ({
-								type: 'User',
-								id,
-							})),
-							{ type: 'User', id: 'LIST' },
-					  ]
-					: [{ type: 'User', id: 'LIST' }],
+
+		getAllUsers: builder.query<GetAllUsersResponse, string | undefined>({
+				query: (filter) => ({
+					
+					url: `/user/all${filter ? `?filter=${encodeURIComponent(filter)}` : ""}`,
+					method: 'GET',
+					validateStatus: (response, result) => {
+						return response.status === 200 && !result.isError
+					},
+				}),
+			providesTags: (result): Array<{ type: "User" | "Customer" | "Document"; id: string | number }>  => {
+				if (result) {
+					return [
+						...result.users.map(({ _id }) => ({
+							type: "User" as const, // Ensures type is valid
+							id: _id, // Fixed incorrect key (_id → id)
+						})),
+						{ type: "User", id: "LIST" }, // Ensures consistency
+					];
+				} else {
+					return [{ type: "User", id: "LIST" }];
+				}
+			}
+
 		}),
+
 		getUserProfile: builder.query({
 			query: () => '/user/profile',
 			providesTags: [{ type: 'User', id: 'SINGLE_USER' }],
 		}),
+
 		updateUserProfile: builder.mutation({
 			query: (profileData) => ({
 				url: '/user/profile',
@@ -33,6 +48,7 @@ export const usersApiSlice = baseApiSlice.injectEndpoints({
 			}),
 			invalidatesTags: [{ type: 'User', id: 'SINGLE_USER' }],
 		}),
+
 		deleteMyAccount: builder.mutation({
 			query: () => ({
 				url: 'user/profile',
@@ -40,6 +56,7 @@ export const usersApiSlice = baseApiSlice.injectEndpoints({
 			}),
 			invalidatesTags: [{ type: 'User', id: 'LIST' }],
 		}),
+
 		deleteUser: builder.mutation({
 			query: (id) => ({
 				url: `/user/${id}`,
@@ -47,6 +64,7 @@ export const usersApiSlice = baseApiSlice.injectEndpoints({
 			}),
 			invalidatesTags: [{ type: 'User', id: 'LIST' }],
 		}),
+
 		deactivateUser: builder.mutation({
 			query: (id) => ({
 				url: `/user/${id}/deactivate`,
@@ -54,11 +72,13 @@ export const usersApiSlice = baseApiSlice.injectEndpoints({
 			}),
 			invalidatesTags: [{ type: 'User', id: 'LIST' }],
 		}),
+
 		reactivateUser: builder.mutation({
 			query: (id) => ({
 				url: `/user/${id}/reactivate`,
 				method: 'PATCH',
 			}),
+
 			invalidatesTags: [{ type: 'User', id: 'LIST' }],
 		}),
 	}),

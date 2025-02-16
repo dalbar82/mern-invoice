@@ -1,11 +1,25 @@
 import { useState } from 'react'
 import './table.css'
+import { boolean } from 'yup'
 
-const TableHead = ({ columns, handleSorting }) => {
+type ColumnData = {
+  accessor: string;
+  types: string;
+  sortable: boolean;
+  label: string;
+};
+
+type TableHeadProps = {
+	columns: ColumnData[]
+	,
+	handleSorting:(accessor: string, sortOrder: "asc" | "desc")=>void
+}
+
+const TableHead: React.FC<TableHeadProps> = ({ columns, handleSorting }) => {
 	const [sortField, setSortField] = useState('')
 	const [order, setOrder] = useState('')
 
-	const handleSortingChange = (accessor) => {
+	const handleSortingChange = (accessor: string) => {
 		const sortOrder = accessor === sortField && order === 'asc' ? 'desc' : 'asc'
 		setSortField(accessor)
 		setOrder(sortOrder)
@@ -26,7 +40,7 @@ const TableHead = ({ columns, handleSorting }) => {
 					return (
 						<th
 							key={accessor}
-							onClick={sortable ? () => handleSortingChange(accessor) : null}
+							onClick={sortable ? () => handleSortingChange(accessor) : undefined}
 							className={cl}>
 							{label}
 						</th>

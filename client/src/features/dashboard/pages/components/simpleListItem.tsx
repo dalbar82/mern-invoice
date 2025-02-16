@@ -1,6 +1,12 @@
 import { Grid, Box, Typography } from '@mui/material'
+import { FC } from 'react'
 import Moment from 'react-moment'
-const simpleListItem = ({ data }) => {
+
+type SimpleListItemProps = {
+	data?: any
+}
+
+const simpleListItem: FC<SimpleListItemProps> = ({ data }) => {
 	return (
 		<>
 			<Grid

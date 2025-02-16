@@ -1,6 +1,7 @@
 import asyncHandler from 'express-async-handler'
 import Document from '../../models/documentModel.js'
 
+
 // $-title   Get all documents belonging to a specific User
 // $-path    GET /api/v1/document/all
 // $-auth    Private

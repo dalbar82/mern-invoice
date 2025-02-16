@@ -3,10 +3,25 @@ import TableHead from './TableHead'
 import TableBody from './TableBody'
 import './table.css'
 
-const SortableTable = ({ children, rowData, columnData }) => {
+type ColumnData = {
+  accessor: string;
+  types: string;
+  sortable: boolean;
+  label: string;
+};
+
+
+
+type SortableTableProps = {
+	children?: React.ReactNode,
+	rowData: any,
+	columnData: ColumnData[]
+}
+
+const SortableTable: React.FC<SortableTableProps> = ({ children, rowData, columnData }) => {
 	const [tableData, setTableData] = useState(rowData)
 
-	const handleSorting = (sortField, sortOrder) => {
+	const handleSorting = (sortField: string, sortOrder: string) => {
 		if (sortField) {
 			const sorted = [...tableData].sort((a, b) => {
 				if (a[sortField] === null) return 1
