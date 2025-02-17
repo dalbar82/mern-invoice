@@ -13,8 +13,8 @@ const StyledBox = styled(Box)({
 })
 
 type StyledDashboardGridProps = {
-	children: React.ReactNode,
-	boxColor: string
+	children?: React.ReactNode,
+	boxColor?: string
 }
 
 const StyledDashboardGrid: FC<StyledDashboardGridProps> = ({ children, boxColor }) => {

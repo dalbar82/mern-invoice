@@ -3,16 +3,13 @@ import {User} from '../../types/User'
 
 type GetAllUsersResponse = {
   users: User[];
-  isError?: boolean; // Ensure this matches your API response
-
+  isError?: boolean; 
 };
 
 export const usersApiSlice = baseApiSlice.injectEndpoints({
 	endpoints: (builder) => ({
-
 		getAllUsers: builder.query<GetAllUsersResponse, string | undefined>({
 				query: (filter) => ({
-					
 					url: `/user/all${filter ? `?filter=${encodeURIComponent(filter)}` : ""}`,
 					method: 'GET',
 					validateStatus: (response, result) => {

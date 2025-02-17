@@ -1,6 +1,4 @@
-import { ReactComponent as GraphUp } from "../../../icons/GraphUp.svg";
-import CustomersRound from '../../../icons/CustomersRound.svg'
-import profit from '../../../icons/profit.svg'
+import {GraphUp, CustomersRound, Profit} from "../../../icons/components";
 import { Box, Container, Grid, Typography } from '@mui/material'
 import StyledDashboardGrid from '../../../components/StyledDashboardGrid'
 import { useGetAllCustomersQuery } from '../../customers/customersApiSlice'
@@ -9,25 +7,43 @@ import { addCurrencyCommas } from '../../documents/pages/components/addCurrencyC
 import useTitle from '../../../hooks/useTitle'
 import SimpleListItem from './components/simpleListItem'
 import '../../../styles/pageHeader.css'
+import { Customer } from "../../../types/Customers";
+import { JobDocument } from "../../../types/JobDocument";
+
+// Define types for API responses
+interface CustomerData {
+  totalCustomers: number;
+	customers: Customer[];
+}
+
+interface DocumentsData {
+  myDocuments?: JobDocument[];
+}
 
 const DashboardPage = () => {
 	useTitle('My Dashboard')
 
-	const { data: customers } = useGetAllCustomersQuery()
-	const { data: documents } = useGetAllDocsQuery()
+  const { customers } = useGetAllCustomersQuery<CustomerData>(undefined);
+  const { myDocuments } = useGetAllDocsQuery<DocumentsData>(undefined);
 
-	const date = new Date().toDateString()
+	const date = new Date().toDateString();
 
-	const docOverDue = documents?.myDocuments?.filter(
-		(doc) => doc.dueDate <= new Date().toISOString()
-	)
+  const docOverDue = myDocuments?.filter((doc: JobDocument) => {
+    const dueDate = doc.dueDate ? new Date(doc.dueDate) : null;
+    return dueDate && dueDate <= new Date();
+  });
 
-	const user = JSON.parse(localStorage.getItem('user')) || ''
+	const userString = localStorage.getItem("user");
+  const user = userString ? JSON.parse(userString) : null;
 
 	let totalAmount = 0
-	for (let i = 0; i < documents?.myDocuments?.length; i++) {
-		totalAmount += documents?.myDocuments[i]?.total
+
+	if (myDocuments && myDocuments.length > 0) {
+		for (let i = 0; i < myDocuments.length; i++) {
+			totalAmount += myDocuments[i]?.total ?? 0; 
+		}
 	}
+	
 
 	return (
 		<Container
@@ -89,11 +105,12 @@ const DashboardPage = () => {
 									${addCurrencyCommas(totalAmount?.toFixed(2))}
 								</Typography>
 							</Box>
-							<img
+							<GraphUp width='95%' height='120px' margin-top='20px'/>
+							{/* <img
 								src={GraphUp}
 								alt='Graph up icon'
 								style={{ width: '95%', height: '120px', marginTop: '20px' }}
-							/>
+							/> */}
 						</StyledDashboardGrid>
 						<StyledDashboardGrid>
 							<Typography variant='subtitle2'>Total Customers</Typography>
@@ -106,14 +123,15 @@ const DashboardPage = () => {
 								<Typography
 									variant='h5'
 									sx={{ marginLeft: 1, fontWeight: 700 }}>
-									{customers?.totalCustomers}
+									{customers.length}
 								</Typography>
 							</Box>
-							<img
+							<CustomersRound width='95%' height='120px' margin-top='20px'/>
+							{/* <img
 								src={CustomersRound}
 								alt='Graph up icon'
 								style={{ width: '95%', height: '120px', marginTop: '20px' }}
-							/>
+							/> */}
 						</StyledDashboardGrid>
 						<Grid
 							item
@@ -150,11 +168,12 @@ const DashboardPage = () => {
 								item
 								sm={12}
 								md={4}>
-								<img
+									<Profit width='95%' height='120px' margin-top='20px'/>
+								{/* <img
 									src={profit}
 									alt='Graph up icon'
 									style={{ width: '92%', height: '110px', marginTop: '20px' }}
-								/>
+								/> */}
 							</Grid>
 							<Grid
 								sm={12}
@@ -227,13 +246,9 @@ const DashboardPage = () => {
 										</Typography>
 									</Box>
 								</Grid>
-								{documents?.myDocuments &&
-									documents?.myDocuments?.map((item) => (
-										<SimpleListItem
-											key={item._id}
-											data={item}
-										/>
-									))}
+								{myDocuments?.map((item: JobDocument) => (
+                  <SimpleListItem key={item._id} data={item} />
+                ))}
 							</Grid>
 						</Box>
 					</Grid>

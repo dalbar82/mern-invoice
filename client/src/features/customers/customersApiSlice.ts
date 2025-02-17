@@ -1,6 +1,11 @@
 import { baseApiSlice } from '../api/baseApiSlice'
 
-export const usersApiSlice = baseApiSlice.injectEndpoints({
+// type GetAllCustomersProps = {
+//   users: User[];
+//   isError?: boolean; 
+// };
+
+export const customersApiSlice = baseApiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		getAllCustomers: builder.query({
 			query: (page = 1) => `/customer/all?page=${page}`,
@@ -42,4 +47,4 @@ export const {
 	useGetSingleCustomerQuery,
 	useUpdateCustomerInfoMutation,
 	useDeleteCustomerMutation,
-} = usersApiSlice
+} = customersApiSlice
