@@ -15,13 +15,13 @@ export interface PaymentRecord extends Document {
   createdAt: Date;
   updatedAt: Date;
 }
-
+type ProductionStatus = "Pre Production" | "Production" | "Complete";
 export interface BillingItem {
-  itemName: string;
+  name: string;
   unitPrice: number;
   quantity: number;
-  discount?: string;
-  productionStatus: "Pre Production" | "Production" | "Complete";
+  discount?: number;
+  productionStatus: ProductionStatus;
 }
 
 export interface Customer {

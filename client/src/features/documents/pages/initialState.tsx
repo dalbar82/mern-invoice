@@ -1,3 +1,5 @@
+import { BillingItem } from "../../../types/JobDocument"
+
 export const docInitialState = {
 	status: 'Not Paid',
 	additionalInfo: '',
@@ -10,12 +12,12 @@ export const docInitialState = {
 	documentType: '',
 }
 
-export const itemsInitialState = [
+export const itemsInitialState: BillingItem[] = [
 	{
 		name: '',
-		unitPrice: '',
-		quantity: '',
-		discount: '',
+		unitPrice: 0,
+		quantity: 0,
+		discount: 0,
 		productionStatus: 'Pre Production',
 	},
 ]

@@ -34,7 +34,7 @@ const TableCellStyled = styled(TableCell)<StyledTableCellProps>(
 );
 
 // Functional Component with Type Safety
-const StyledTableCell: React.FC<StyledTableCellProps & { children: ReactNode }> = ({
+const StyledTableCell: React.FC<StyledTableCellProps & { children?: ReactNode }> = ({
   width,
   children,
   fontWeight,
