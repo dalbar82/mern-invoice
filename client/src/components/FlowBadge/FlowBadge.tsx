@@ -1,7 +1,11 @@
 import React from 'react'
 import './flow-badge.css'
 
-const FlowBadge = ({ title }) => {
+interface FlowBadgeProps {
+	title: string
+}
+
+const FlowBadge: React.FC<FlowBadgeProps> = ({ title }) => {
 	return (
 		<div className='flow-badge-container'>
 			<h4>{title}</h4>

@@ -1,7 +1,19 @@
-import React from 'react'
+import React, { Dispatch, SetStateAction } from 'react'
 import FlowBadge from '../../../components/FlowBadge/FlowBadge'
 
-const exampleWorkflow = [
+interface WorkflowSettings {
+	jobWorkflowTemplates: {
+		workflowTemplateName: string
+		workflowTemplateStagesList: string[]
+	}[]
+}
+
+interface WorkflowProps {
+	settings: WorkflowSettings;
+	settingsUpdate: Dispatch<SetStateAction<WorkflowSettings>>;
+}
+
+const exampleWorkflow: string[] = [
 	'Inspection/Site Visit',
 	'Order parts',
 	'Awaiting parts',
@@ -10,8 +22,9 @@ const exampleWorkflow = [
 	'Ready',
 ]
 
-const Workflow = ({ settings }) => {
+const Workflow: React.FC<WorkflowProps> = ({ settings }) => {
 	const workflowList = settings?.jobWorkflowTemplates[0]?.workflowTemplateStagesList
+
 	return (
 		<div>
 			<div className='three-column-grid-parent'>
@@ -21,9 +34,6 @@ const Workflow = ({ settings }) => {
 						padding: '24px 24px',
 						backgroundColor: '#71cce8',
 						color: 'white',
-						// display: 'inline-grid',
-						// gridColumnStart: 1,
-						// gridColumnEnd: 4,
 					}}>
 					<div>
 						<h4>Workflow setup</h4>
@@ -38,7 +48,7 @@ const Workflow = ({ settings }) => {
 							to site/is delivered. You will be able to assign your workflow stages to
 							any line item on an order, as well as assign any team member to that
 							particular stage within a line item. This gives you absolute power over
-							you internal production management.
+							your internal production management.
 						</p>
 					</div>
 				</div>
@@ -61,8 +71,8 @@ const Workflow = ({ settings }) => {
 						</p>
 						<p>
 							For instance, let's say you offer carpentry services and part of a job
-							you have in the system requires custom cabinetry to be pre fabricated.
-							You would add most likely add each of these stages to the item and assign
+							you have in the system requires custom cabinetry to be pre-fabricated.
+							You would most likely add each of these stages to the item and assign
 							it to the relevant staff members to ensure the item will run smoothly and
 							there is accountability and transparency throughout.
 						</p>
@@ -70,25 +80,23 @@ const Workflow = ({ settings }) => {
 				</div>
 				<div className='grid-item-container'>
 					<div>
+						<label htmlFor='billing-email'>Billing Email</label>
 						<input
+							id='billing-email'
 							type='text'
 							style={{ marginRight: '20px', width: '96%', height: '50px' }}
-							label='Billing email'
-							// value={''}
 							onChange={(e) => {
 								console.log(e.target.value)
 							}}
 						/>
 					</div>
 					<div style={{ overflowY: 'auto' }}>
-						{workflowList?.map((stage, i) => {
-							return (
-								<FlowBadge
-									key={i}
-									title={stage}
-								/>
-							)
-						})}
+						{workflowList?.map((stage, i) => (
+							<FlowBadge
+								key={i}
+								title={stage}
+							/>
+						))}
 					</div>
 				</div>
 			</div>

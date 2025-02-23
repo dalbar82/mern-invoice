@@ -1,4 +1,7 @@
-const scheduleItemList = [
+import { AppointmentList } from "../types/Appointment";
+
+
+const scheduleItemList: AppointmentList = [
   {
     jobName: "Electrical Inspection",
     jobNumber: "E001",

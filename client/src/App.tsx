@@ -1,5 +1,5 @@
 import React = require('react')
-import { createContext, useState } from 'react'
+import { createContext, Dispatch, SetStateAction, useState  } from 'react'
 import './App.css'
 import { CssBaseline } from '@mui/material'
 import { ThemeProvider } from '@mui/material/styles'
@@ -20,7 +20,7 @@ import LoginPage from './features/auth/pages/LoginPage'
 import ResendEmailTokenPage from './features/auth/pages/ResendEmailTokenPage'
 import PasswordResetRequestPage from './features/auth/pages/PasswordResetRequestPage'
 import PasswordResetPage from './features/auth/pages/PasswordResetPage'
-import { ROLES } from './config/roles'
+// import { ROLES } from './config/roles'
 import UsersList from './features/users/pages/UsersListPage'
 import DashboardPage from './features/dashboard/pages/DashboardPage'
 import AuthRequired from './components/AuthRequired'
@@ -38,16 +38,45 @@ import SingleDocumentPage from './features/documents/pages/SingleDocumentPage'
 import OrganisationView from './features/organisation/pages/OrganisationView'
 import OrganisationEditForm from './features/organisation/pages/OrganisationEditForm'
 import scheduleItemList from './data/scheduleItems'
+import { AppointmentList, Appointment } from './types/Appointment'
 
+type ConfigType = { timezone: string };
+type ConfigContextType = [ConfigType, Dispatch<SetStateAction<ConfigType>>];
 
-export const configContext = createContext(null)
-export const scheduleItemsContext = createContext(null)
+type AppointmentItemType = Appointment
+
+type AppointmentItemsContextType = [
+  AppointmentItemType[],
+  Dispatch<SetStateAction<AppointmentItemType[]>>
+];
+
+export const configContext = createContext<ConfigContextType | null>(null)
+export const AppointmentItemsContext = createContext<AppointmentItemsContextType | null>(null);
 
 type State = {
 	auth: {
 		user: Object
 	}
 }
+
+type AuthRequiredProps = {
+	allowedRoles: {
+		includes(role?: string): unknown
+		User: 'User',
+		Admin: 'Admin',
+		Basic: 'Basic',
+		Mobile: 'Mobile',
+	}
+}
+
+const ROLES: AuthRequiredProps["allowedRoles"] = {
+  includes: (role?: string) => ["User", "Admin", "Basic", "Mobile"].includes(role ?? ""),
+  User: "User" as const,
+  Admin: "Admin" as const,
+  Basic: "Basic" as const,
+  Mobile: "Mobile" as const,
+};
+
 const App = () => {
 	const defaultConfig = {
 		timezone: 'Australia/Sydney',
@@ -61,7 +90,7 @@ const App = () => {
 	return (
 		<ThemeProvider theme={customTheme}>
 			<configContext.Provider value={[config, setConfig]}>
-				<scheduleItemsContext.Provider value={[scheduleItems, setScheduleItems]}>
+				<AppointmentItemsContext.Provider value={[scheduleItems, setScheduleItems]}>
 					<CssBaseline />
 					{!user && <HomePageNav />}
 					{user && <Navbar />}
@@ -97,7 +126,7 @@ const App = () => {
 							<Route
 								element={
 									<AuthRequired
-										allowedRoles={[ROLES.Admin, ROLES.User, ROLES.Basic, ROLES.Mobile]}
+										allowedRoles={ROLES}
 									/>
 								}>
 								<Route
@@ -152,7 +181,7 @@ const App = () => {
 							</Route>
 
 							{/* Private Routes - Admin Users only */}
-							<Route element={<AuthRequired allowedRoles={[ROLES.Admin]} />}>
+							<Route element={<AuthRequired allowedRoles={ROLES} />}>
 								<Route
 									path='edit-profile'
 									element={<EditProfileForm />}
@@ -173,7 +202,7 @@ const App = () => {
 						</Route>
 					</Routes>
 					<ToastContainer theme='dark' />
-				</scheduleItemsContext.Provider>
+				</AppointmentItemsContext.Provider>
 			</configContext.Provider>
 		</ThemeProvider>
 	)

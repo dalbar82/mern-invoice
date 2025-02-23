@@ -10,13 +10,19 @@ import {
 	useUpdateDocMutation,
 } from '../documentsApiSlice'
 
-const PaymentForm = ({ document }) => {
+import { JobDocument, PaymentRecord } from '../../../types/JobDocument'
+
+interface PaymentFormProps {
+	document: JobDocument
+}
+
+const PaymentForm: React.FC<PaymentFormProps> = ({ document }) => {
 	const [createPayment, { isLoading, isSuccess, data }] =
 		useCreatePaymentMutation()
 
 	const [updateDoc] = useUpdateDocMutation()
 
-	const paymentOptions = [
+	const paymentOptions: string[] = [
 		'Mobile Money',
 		'Cash',
 		'Bank Transfer',
@@ -25,15 +31,15 @@ const PaymentForm = ({ document }) => {
 		'Others',
 	]
 
-	const [datePaid, setDatePaid] = useState(new Date())
-	const [paymentMethod, setPaymentMethod] = useState('')
-	const [additionalInfo, setAdditionalInfo] = useState('')
-	const [amountPaid, setAmountPaid] = useState(0)
-	const [totalAmountReceived, setTotalAmountReceived] = useState(0)
+	const [datePaid, setDatePaid] = useState<Date>(new Date())
+	const [paymentMethod, setPaymentMethod] = useState<string>('')
+	const [additionalInfo, setAdditionalInfo] = useState<string>('')
+	const [amountPaid, setAmountPaid] = useState<number>(0)
+	const [totalAmountReceived, setTotalAmountReceived] = useState<number>(0)
 
 	useEffect(() => {
 		if (isSuccess) {
-			const message = data.message
+			const message = data?.message || 'Payment recorded successfully'
 			toast.success(message)
 			setAmountPaid(0)
 			setPaymentMethod('')
@@ -43,11 +49,11 @@ const PaymentForm = ({ document }) => {
 
 	useEffect(() => {
 		let totalReceived = 0
-		for (var i = 0; i < document?.paymentRecords?.length; i++) {
-			totalReceived += Number(document?.paymentRecords[i]?.amountPaid)
-			setTotalAmountReceived(totalReceived)
-		}
-	}, [document, totalAmountReceived])
+		document?.paymentRecords?.forEach((record: PaymentRecord) => {
+			totalReceived += Number(record.amountPaid)
+		})
+		setTotalAmountReceived(totalReceived)
+	}, [document])
 
 	const paymentHandler = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
@@ -55,7 +61,7 @@ const PaymentForm = ({ document }) => {
 		try {
 			await createPayment({
 				id: document._id,
-				paidBy: document.customer.name,
+				paidBy: document.customer?.name || 'Unknown',
 				datePaid,
 				paymentMethod,
 				additionalInfo,
@@ -64,14 +70,14 @@ const PaymentForm = ({ document }) => {
 
 			await updateDoc({
 				id: document._id,
-				totalAmountReceived: Number(totalAmountReceived) + Number(amountPaid),
+				totalAmountReceived: totalAmountReceived + amountPaid,
 				status:
-					Number(totalAmountReceived) + Number(amountPaid) >= document?.total
+					totalAmountReceived + amountPaid >= (document?.total || 0)
 						? 'Paid'
 						: 'Not Fully Paid',
 			}).unwrap()
-		} catch (err) {
-			const message = err.data.message
+		} catch (err: any) {
+			const message = err?.data?.message || 'An error occurred'
 			toast.error(message)
 		}
 	}
@@ -103,7 +109,7 @@ const PaymentForm = ({ document }) => {
 						type='number'
 						fullWidth
 						variant='standard'
-						onChange={(e) => setAmountPaid(e.target.value)}
+						onChange={(e) => setAmountPaid(Number(e.target.value))}
 						value={amountPaid}
 					/>
 
@@ -117,7 +123,7 @@ const PaymentForm = ({ document }) => {
 								variant='standard'
 							/>
 						)}
-						onChange={(event, value) => setPaymentMethod(value)}
+						onChange={(event, value) => setPaymentMethod(value || '')}
 					/>
 
 					<TextField
@@ -141,7 +147,7 @@ const PaymentForm = ({ document }) => {
 				color='success'
 				size='large'
 				startIcon={<PaidIcon />}
-				disabled={!amountPaid || !paymentMethod ? true : false}>
+				disabled={!amountPaid || !paymentMethod}>
 				<Typography variant='h5'>Record Payment</Typography>
 			</Button>
 		</Box>

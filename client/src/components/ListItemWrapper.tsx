@@ -2,7 +2,7 @@ import { ListItem, ListItemIcon, ListItemText, Typography } from '@mui/material'
 
 type ListItemWrapperProps = {
 label: string,
-text: string,
+text: string | string[],
 icon?: string
 }
 

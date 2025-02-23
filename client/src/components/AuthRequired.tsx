@@ -3,7 +3,7 @@ import useAuthUser from '../hooks/useAuthUser'
 
 type AuthRequiredProps = {
 	allowedRoles: {
-		includes(role: string): unknown
+		includes(role?: string): unknown
 		User: 'User',
 		Admin: 'Admin',
 		Basic: 'Basic',

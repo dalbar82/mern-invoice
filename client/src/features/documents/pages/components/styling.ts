@@ -1,4 +1,4 @@
-export const DocumentTypeStyling = (documentType) => {
+export const DocumentTypeStyling = (documentType: string): React.CSSProperties => {
 	return documentType === 'Order'
 		? {
 				border: 'solid 1px black',
@@ -15,8 +15,8 @@ export const DocumentTypeStyling = (documentType) => {
 		  }
 }
 
-export const statusColor = (totalAmountReceived, status) => {
-	return totalAmountReceived >= document?.total
+export const statusColor = (totalAmountReceived: number, status: string, documentTotal?: number): string => {
+	return totalAmountReceived >= (documentTotal ?? 0)
 		? '#ff9100'
 		: status === 'Paid'
 		? 'green'
@@ -24,3 +24,4 @@ export const statusColor = (totalAmountReceived, status) => {
 		? 'red'
 		: 'red'
 }
+

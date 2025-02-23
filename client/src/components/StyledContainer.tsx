@@ -1,4 +1,5 @@
 import { Box, styled } from '@mui/material'
+import { ReactNode } from 'react'
 
 const StyledBox = styled(Box)({
 	// width: '100%',
@@ -8,7 +9,11 @@ const StyledBox = styled(Box)({
 	// boxShadow: '0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.6)',
 })
 
-const StyledContainer = ({ children }) => {
+interface StyledContainerProps {
+	children: ReactNode
+}
+
+const StyledContainer: React.FC<StyledContainerProps> = ({ children }) => {
 	return <StyledBox>{children}</StyledBox>
 }
 

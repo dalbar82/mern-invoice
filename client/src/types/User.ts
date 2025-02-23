@@ -9,7 +9,13 @@ export type Person = {
   createdAt: Date
   subRows?: Person[]
 }
-
+export type UserRoles = {
+  includes(role: string): boolean; // includes method for checking roles
+  User: "User";
+  Admin: "Admin";
+  Basic: "Basic";
+  Mobile: "Mobile";
+};
 export type User = {
   _id: string;
   email: string;
@@ -28,7 +34,7 @@ export type User = {
   city?: string;
   country?: string;
   passwordChangedAt?: Date;
-  roles: string[];
+  roles: UserRoles;
   organisation: string;
   active: boolean;
   refreshToken: string[];

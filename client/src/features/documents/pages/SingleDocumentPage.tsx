@@ -7,7 +7,6 @@ import {
 	Button,
 	CircularProgress,
 	Container,
-	CssBaseline,
 	Grid,
 	InputBase,
 	Paper,
@@ -22,18 +21,18 @@ import {
 import axios from 'axios'
 import { format } from 'date-fns'
 import { useEffect, useState } from 'react'
-import { FaUserSecret } from 'react-icons/fa'
 import { useNavigate, useParams } from 'react-router-dom'
 import Spinner from '../../../components/Spinner'
 import StyledContainer from '../../../components/StyledContainer'
 import StyledTableCell from '../../../components/StyledTableCell'
 import StyledTableRow from '../../../components/StyledTableRow'
-import { useGetUserProfileQuery } from '../../users/usersApiSlice.js'
+import { useGetUserProfileQuery } from '../../users/usersApiSlice'
 import { useGetSingleDocQuery } from '../documentsApiSlice'
 import { addCurrencyCommas } from './components/addCurrencyCommas'
 import { statusColor } from './components/styling'
 import PaymentForm from './PaymentForm'
 import '../../../styles/pageHeader.css'
+import { JobDocument, BillingItem } from '../../../types/JobDocument'
 
 const SingleDocumentPage = () => {
 	const { id } = useParams()
@@ -41,15 +40,15 @@ const SingleDocumentPage = () => {
 
 	const goBack = () => navigate(-1)
 
-	const { data: docData, isLoading } = useGetSingleDocQuery(id)
-	const { data: profileData } = useGetUserProfileQuery()
+	const { data: docData, isLoading } = useGetSingleDocQuery(id!)
+	const { data: profileData } = useGetUserProfileQuery(undefined)
 
 	const [status, setStatus] = useState('')
 	const [totalAmountReceived, setTotalAmountReceived] = useState(0)
 
 	const [sendEmail, setSendEmail] = useState(false)
 
-	const document = docData?.document
+	const document: JobDocument = docData?.document
 
 	const profile = profileData?.userProfile
 
@@ -60,13 +59,14 @@ const SingleDocumentPage = () => {
 	}, [document])
 
 	useEffect(() => {
-		//Get the total amount paid
-		let totalReceived = 0
-		for (var i = 0; i < document?.paymentRecords?.length; i++) {
-			totalReceived += Number(document?.paymentRecords[i]?.amountPaid)
-			setTotalAmountReceived(totalReceived)
+		if (document?.paymentRecords) {
+			const totalReceived = document.paymentRecords.reduce(
+				(acc, record) => acc + Number(record.amountPaid),
+				0
+			);
+			setTotalAmountReceived(totalReceived);
 		}
-	}, [document])
+	}, [document]);
 
 	const sendPdfEmail = () => {
 		setSendEmail(true)
@@ -83,6 +83,9 @@ const SingleDocumentPage = () => {
 				console.log(error)
 			})
 	}
+	const formatTotal = (total?: number) => total !== undefined ? total : 0;
+	const formattedDate = document?.dueDate ? new Date(document.dueDate) : null;
+
 
 	return (
 		<Container
@@ -350,20 +353,20 @@ const SingleDocumentPage = () => {
 											color: statusColor(totalAmountReceived, status),
 											fontWeight: 'bold',
 										}}>
-										{totalAmountReceived >= document?.total ? 'Paid' : status}
+										{totalAmountReceived >= formatTotal(document?.total) ? 'Paid' : status}
 									</Typography>
 									<Typography
 										variant='body1'
 										gutterBottom>
 										<b>Issue Date:</b>{' '}
-										{format(new Date(document?.createdAt), 'do MMMM yyyy')}
+										{format(new Date(document?.createdAt), 'dd MMMM yyyy')}
 									</Typography>
 
 									<Typography
 										variant='body1'
 										gutterBottom>
 										<strong>Due Date:</strong>{' '}
-										{format(new Date(document?.dueDate), 'do MMMM yyyy')}
+										{formattedDate ? formattedDate.toLocaleDateString() : 'No Due Date'}
 									</Typography>
 
 									<Typography
@@ -375,7 +378,7 @@ const SingleDocumentPage = () => {
 										variant='h5'
 										gutterBottom
 										sx={{ color: '#2979ff' }}>
-										{document?.currency} {addCurrencyCommas(document?.total?.toFixed(2))}
+										{document?.currency} {addCurrencyCommas(formatTotal(document?.total).toFixed(2))}
 									</Typography>
 								</Box>
 							</Grid>
@@ -408,7 +411,7 @@ const SingleDocumentPage = () => {
 										</TableRow>
 									</TableHead>
 									<TableBody>
-										{document?.billingItems?.map((item, index) => (
+										{document?.billingItems?.map((item: BillingItem, index: number) => (
 											<StyledTableRow key={index}>
 												<StyledTableCell
 													component='th'
@@ -421,14 +424,14 @@ const SingleDocumentPage = () => {
 															width: '100%',
 														}}
 														readOnly
-														outline='none'
+														
 														sx={{
 															ml: 1,
 															flex: 1,
 														}}
 														type='text'
 														name='name'
-														value={item.itemName}
+														value={item.name}
 													/>
 												</StyledTableCell>
 
@@ -438,7 +441,7 @@ const SingleDocumentPage = () => {
 															width: '100%',
 														}}
 														readOnly
-														outline='none'
+														
 														sx={{
 															ml: 1,
 															flex: 1,
@@ -455,7 +458,7 @@ const SingleDocumentPage = () => {
 															width: '100%',
 														}}
 														readOnly
-														outline='none'
+														
 														sx={{
 															ml: 1,
 															flex: 1,
@@ -472,7 +475,7 @@ const SingleDocumentPage = () => {
 															width: '100%',
 														}}
 														readOnly
-														outline='none'
+														
 														sx={{
 															ml: 1,
 															flex: 1,
@@ -489,7 +492,7 @@ const SingleDocumentPage = () => {
 															width: '100%',
 														}}
 														readOnly
-														outline='none'
+														
 														sx={{
 															ml: 1,
 															flex: 1,
@@ -498,7 +501,7 @@ const SingleDocumentPage = () => {
 														name='amount'
 														value={(
 															item?.quantity * item.unitPrice -
-															(item.quantity * item.unitPrice * item.discount) / 100
+															(item.quantity * item.unitPrice * (item.discount || 0)) / 100
 														)?.toFixed(2)}
 													/>
 												</StyledTableCell>
@@ -524,7 +527,7 @@ const SingleDocumentPage = () => {
 								<Typography variant='subtitle1'>Sub total:</Typography>
 								<h4>
 									{' '}
-									{document?.currency} {addCurrencyCommas(document?.subTotal?.toFixed(2))}
+									{document?.currency} {addCurrencyCommas(formatTotal(document?.total)?.toFixed(2))}
 								</h4>
 							</Box>
 
@@ -539,7 +542,7 @@ const SingleDocumentPage = () => {
 								<Typography variant='subtitle1'>Cumulative Total :</Typography>
 								<h4>
 									{' '}
-									{document?.currency} {addCurrencyCommas(document?.total?.toFixed(2))}
+									{document?.currency} {addCurrencyCommas(formatTotal(document?.total)?.toFixed(2))}
 								</h4>
 							</Box>
 
@@ -558,7 +561,7 @@ const SingleDocumentPage = () => {
 									{' '}
 									{document?.currency}{' '}
 									{addCurrencyCommas(
-										Math.round(document?.total - totalAmountReceived)?.toFixed(2)
+										Math.round(formatTotal(document?.total) - totalAmountReceived)?.toFixed(2)
 									)}
 								</h4>
 							</Box>

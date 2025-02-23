@@ -25,7 +25,7 @@ export interface BillingItem {
 }
 
 export interface Customer {
-  name?: string;
+  name: string;
   email?: string;
   accountNo?: string;
   vatTinNo?: string;
@@ -33,6 +33,7 @@ export interface Customer {
   city?: string;
   country?: string;
   phoneNumber?: string;
+  abn?: number;
 }
 
 export interface JobDocument extends Document {

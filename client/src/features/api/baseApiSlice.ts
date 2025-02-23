@@ -48,6 +48,6 @@ const baseQueryWithRefreshToken: BaseQueryFn<
 export const baseApiSlice = createApi({
 	reducerPath: 'api',
 	baseQuery: baseQueryWithRefreshToken,
-	tagTypes: ['User', 'Customer', 'Document', 'All Users'],
+	tagTypes: ['User', 'Customer', 'Document', 'All Users', "Organisation"],
 	endpoints: (builder) => ({}),
 })
