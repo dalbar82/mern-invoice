@@ -13,8 +13,8 @@ import {
 	List,
 	Modal,
 	Stack,
-	Typography,
 } from '@mui/material'
+import Typography from '../../../components/Typography/Typography'
 import Tooltip from '@mui/material/Tooltip'
 import ListItemWrapper from '../../../components/ListItemWrapper'
 import { useEffect, useState } from 'react'
@@ -22,7 +22,7 @@ import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import Spinner from '../../../components/Spinner'
-import { logOut } from '../../../features/auth/authSlice'
+import { logOut } from '../../auth/authSlice'
 import {
 	useDeleteMyAccountMutation,
 	useGetUserProfileQuery,
@@ -44,7 +44,7 @@ const modalStyle = {
 
 const ProfilePage = () => {
 	const navigate = useNavigate()
-	const { data, error, isLoading, isError } = useGetUserProfileQuery()
+	const { data, error, isLoading, isError } = useGetUserProfileQuery(undefined)
 
 	const dispatch = useDispatch()
 
@@ -55,25 +55,30 @@ const ProfilePage = () => {
 
 	const [deleteMyAccount] = useDeleteMyAccountMutation()
 
-	const deleteHandler = async (e) => {
+	const deleteHandler = async (e: React.MouseEvent<HTMLButtonElement> ) => {
 		e.preventDefault()
 
 		try {
-			await deleteMyAccount().unwrap()
+			await deleteMyAccount(data._id).unwrap()
 			dispatch(logOut())
 			toast.success('Your account has been deleted.')
-		} catch (err) {
-			const message = err.data.message
+		} catch (err: unknown) {
+			if (err instanceof Error) {
+				const message = err?.message
 			toast.error(message)
+			} else {
+				console.error("Unknown error:", err);
+			}
+			
 		}
 	}
 
-	useEffect(() => {
-		if (isError) {
-			const message = error.data.message
-			toast.error(message)
-		}
-	}, [isError, error])
+	// useEffect(() => {
+	// 	if (isError) {
+	// 		const message = error.data.message
+	// 		toast.error(message)
+	// 	}
+	// }, [isError, error])
 
 	return (
 		<Container
@@ -90,7 +95,7 @@ const ProfilePage = () => {
 					paddingBottom: '20px',
 					marginBottom: '20px',
 				}}>
-				<Typography variant='h6'>Profile</Typography>
+				<Typography elementType='h6' text='Profile'/>
 			</Box>
 			{isLoading ? (
 				<Spinner />
@@ -127,8 +132,8 @@ const ProfilePage = () => {
 								/>
 							)}
 							<Box>
-								<Typography variant='h6'>{`${data.userProfile?.firstName} ${data.userProfile?.lastName}`}</Typography>
-								<Typography variant='p'>{`${data.userProfile?.email}`}</Typography>
+								<Typography text={`${data.userProfile?.firstName} ${data.userProfile?.lastName}`} elementType='h6'/>
+								<Typography text={`${data.userProfile?.email}`} elementType='p'/>
 							</Box>
 						</Box>
 
@@ -159,11 +164,13 @@ const ProfilePage = () => {
 							<Stack direction='column'>
 								<Stack>
 									<Typography
-										variant='span'
-										mt={'20px'}
-										mb={2}>
-										Information
-									</Typography>
+										elementType='span'
+										style={{
+											marginTop: '20px',
+											marginBottom: '20px'
+										}}
+										text='Information'
+										/>
 									<List
 										sx={{
 											backgroundColor: 'white',
@@ -238,10 +245,10 @@ const ProfilePage = () => {
 								}}>
 								<Typography
 									id='modal-modal-title'
-									variant='h6'
-									sx={{ fontSize: 'medium' }}>
-									Delete Account?
-								</Typography>
+									elementType='h6'
+									style={{ fontSize: 'medium' }}
+									text='Delete Account?'
+									/>
 								<Box>
 									<Tooltip title='Yes'>
 										<Button
@@ -281,9 +288,9 @@ const ProfilePage = () => {
 								}}>
 								<WarningAmberRoundedIcon sx={{ marginRight: '10px', color: 'red' }} />
 								<Typography
-									variant='p'
-									sx={{ fontSize: 'small', color: 'white' }}>
-									Please note you can't undo this action!
+									elementType='p'
+									text="Please note you can't undo this action!"
+									style={{ fontSize: 'small', color: 'white' }}>
 								</Typography>
 							</Box>
 						</Box>

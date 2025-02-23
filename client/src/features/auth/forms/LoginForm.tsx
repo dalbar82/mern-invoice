@@ -152,9 +152,7 @@ const LoginForm = () => {
 											value={values.password}
 											name='password'
 											onBlur={handleBlur}
-											onChange={(e) => {
-												handleChange(e)
-											}}
+											onChange={handleChange}
 											InputProps={{
 												endAdornment: (
 													<InputAdornment position='end'>

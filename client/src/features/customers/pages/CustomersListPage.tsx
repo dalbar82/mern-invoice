@@ -1,19 +1,15 @@
 import {
 	Box,
 	Container,
-	TableFooter,
-	TablePagination,
-	TableRow,
-	Typography,
 	Button,
 	Tooltip,
 } from '@mui/material';
+import Typography from '../../../components/Typography/Typography';
 import GroupAddRoundedIcon from '@mui/icons-material/GroupAddRounded';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useNavigate } from 'react-router-dom';
 import { useMemo, useState } from 'react';
 import Spinner from '../../../components/Spinner';
-import TablePaginationActions from '../../../components/TablePaginationActions';
 import useTitle from '../../../hooks/useTitle';
 import { useGetAllCustomersQuery } from '../customersApiSlice';
 import { useGetAllUsersQuery } from '../../users/usersApiSlice';
@@ -22,10 +18,11 @@ import '../../../styles/Table.css';
 import {
 	MaterialReactTable,
 	useMaterialReactTable,
+	MRT_ColumnDef
 } from 'material-react-table';
 
 const CustomerListPage = () => {
-	const { data: userData } = useGetAllUsersQuery();
+	const { data: userData } = useGetAllUsersQuery(undefined);
 
 	useTitle('Customers');
 	const navigate = useNavigate();
@@ -34,22 +31,24 @@ const CustomerListPage = () => {
 	const [rowsPerPage, setRowsPerPage] = useState(10);
 	const { data, isLoading } = useGetAllCustomersQuery(page);
 	const rows = data?.myCustomers || [];
+	interface RowData {
+		createdAt: string; // Ensure this matches the actual data structure
+	}
+	// const handleChangePage = (event, newPage) => {
+	// 	setPage(newPage);
+	// };
 
-	const handleChangePage = (event, newPage) => {
-		setPage(newPage);
-	};
+	// const handleChangeRowsPerPage = (event) => {
+	// 	setRowsPerPage(parseInt(event.target.value, 10));
+	// 	setPage(0);
+	// };
 
-	const handleChangeRowsPerPage = (event) => {
-		setRowsPerPage(parseInt(event.target.value, 10));
-		setPage(0);
-	};
+	// const retrieveUserName = (id) => {
+	// 	const currentUser = userData?.users?.find((user) => user._id === id)?.username;
+	// 	return currentUser || '';
+	// };
 
-	const retrieveUserName = (id) => {
-		const currentUser = userData?.users?.find((user) => user._id === id)?.username;
-		return currentUser || '';
-	};
-
-	const columns = useMemo(
+	const columns: MRT_ColumnDef<RowData>[] = useMemo(
 		() => [
 			{
 				accessorKey: 'name',
@@ -62,7 +61,7 @@ const CustomerListPage = () => {
 			{
 				accessorKey: 'createdAt',
 				header: 'Created',
-				Cell: ({ cell }) => new Date(cell.getValue()).toLocaleDateString(),
+				Cell: ({ cell }) => new Date(cell.getValue() as Date).toLocaleDateString(),
 			},
 			{
 				accessorKey: 'city',
@@ -106,7 +105,7 @@ const CustomerListPage = () => {
 			sx={{ mt: 14, ml: 15, width: '90%' }}
 		>
 			<Box className='page-header'>
-				<Typography variant='h6'>Customers</Typography>
+				<Typography elementType='h6' text='Customers'/>
 				<Box>
 					<Tooltip title='Add Customer'>
 						<Button

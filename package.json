@@ -21,6 +21,7 @@
   "author": "DLonel",
   "license": "MIT",
   "dependencies": {
+    "@types/validator": "^13.12.2",
     "bcryptjs": "^2.4.3",
     "chalk": "^5.2.0",
     "cloudinary": "^1.37.3",

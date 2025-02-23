@@ -79,7 +79,7 @@ const OrganisationEditForm = () => {
 		}
 	}, [organisation])
 
-	const updateOrgHandler = async (e) => {
+	const updateOrgHandler = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 		try {
 			await updateOrg({

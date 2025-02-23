@@ -67,11 +67,15 @@ const CustomerCreateForm = () => {
 						await createCustomer(values).unwrap()
 						setStatus({ success: true })
 						setSubmitting(false)
-					} catch (err) {
-						const message = err.data.message
-						toast.error(message)
-						setStatus({ success: false })
-						setSubmitting(false)
+					} catch (err: unknown) {
+						if (err instanceof Error) {
+							const message = err?.message
+							toast.error(message)
+							setStatus({ success: false })
+							setSubmitting(false)
+						} else {
+							console.error("Unknown error:", err);
+						}
 					}
 				}}>
 				{({

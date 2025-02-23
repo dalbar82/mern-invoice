@@ -1,6 +1,12 @@
 import { ListItem, ListItemIcon, ListItemText, Typography } from '@mui/material'
 
-const ListItemWrapper = ({ label, text, icon }) => {
+type ListItemWrapperProps = {
+label: string,
+text: string,
+icon?: string
+}
+
+const ListItemWrapper: React.FC<ListItemWrapperProps>= ({ label, text, icon }) => {
 	return (
 		<>
 			<ListItem

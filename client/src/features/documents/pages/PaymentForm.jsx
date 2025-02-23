@@ -49,7 +49,7 @@ const PaymentForm = ({ document }) => {
 		}
 	}, [document, totalAmountReceived])
 
-	const paymentHandler = async (e) => {
+	const paymentHandler = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 
 		try {

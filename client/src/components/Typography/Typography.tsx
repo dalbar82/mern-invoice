@@ -5,10 +5,12 @@ interface TypographyProps {
   elementType?: "h2" | "h1" | "h4" | "h3" | "p" | "span" | "h6" | "h5"
   color?: string; 
   text: string; 
-  children?: React.ReactNode
+  children?: React.ReactNode;
+  id?:string
 }
 
 const Typography: React.FC<TypographyProps> = ({
+  id,
   style,
   elementType = "span",
   color,
@@ -17,7 +19,7 @@ const Typography: React.FC<TypographyProps> = ({
 }) => {
   const Component = elementType
   return (
-    <Component style={{ ...style, color }}>
+    <Component id={id} style={{ ...style, color }}>
       {text}
       {children}
     </Component>

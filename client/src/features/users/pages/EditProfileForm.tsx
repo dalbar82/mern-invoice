@@ -32,7 +32,8 @@ const Input = styled('input')({
 })
 
 const EditProfileForm = () => {
-	useTitle('Edit Profile - MERN Invoice')
+	useTitle('Edit Profile')
+	
 	const navigate = useNavigate()
 	const goBack = () => navigate(-1)
 
@@ -52,7 +53,7 @@ const EditProfileForm = () => {
 	const [avatar, setAvatar] = useState('')
 	const [uploading, setUploading] = useState(false)
 
-	const { data } = useGetUserProfileQuery()
+	const { data } = useGetUserProfileQuery(undefined)
 
 	const [updateMyProfile, { data: updateData, isLoading, isSuccess }] =
 		useUpdateUserProfileMutation()
@@ -80,29 +81,35 @@ const EditProfileForm = () => {
 		}
 	}, [updateData, isSuccess, navigate])
 
-	const uploadFileHandler = async (e) => {
-		e.preventDefault()
-		const file = e.target.files[0]
-		const formData = new FormData()
-		formData.append('logo', file)
-		setUploading(true)
-
+	const uploadFileHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
+		e.preventDefault();
+	
+		if (!e.target.files || e.target.files.length === 0) {
+			console.warn("No file selected");
+			return; // ✅ Exit if no file is selected
+		}
+	
+		const file = e.target.files[0]; // ✅ Safe access
+		const formData = new FormData();
+		formData.append("logo", file);
+		setUploading(true);
+	
 		try {
 			const config = {
-				headers: {
-					'Content-Type': 'multipart/form-data',
-				},
-			}
-
-			const { data } = await axios.patch('/api/v1/upload', formData, config)
-			setAvatar(data)
-			setUploading(false)
+				headers: { "Content-Type": "multipart/form-data" },
+			};
+	
+			const { data } = await axios.patch("/api/v1/upload", formData, config);
+			setAvatar(data);
 		} catch (error) {
-			setUploading(false)
+			console.error("Upload failed:", error);
+		} finally {
+			setUploading(false);
 		}
-	}
+	};
+	
 
-	const updateHandler = async (e) => {
+	const updateHandler = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 		try {
 			const userData = {
@@ -117,9 +124,13 @@ const EditProfileForm = () => {
 				avatar,
 			}
 			await updateMyProfile(userData).unwrap()
-		} catch (err) {
-			const message = err.data.message
+		} catch (err: unknown) {
+			if (err instanceof Error) {
+			const message = err?.message
 			toast.error(message)
+		} else {
+			console.error("Unknown error:", err);
+		}
 		}
 	}
 

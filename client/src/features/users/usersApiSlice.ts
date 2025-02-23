@@ -29,7 +29,6 @@ export const usersApiSlice = baseApiSlice.injectEndpoints({
 					return [{ type: "User", id: "LIST" }];
 				}
 			}
-
 		}),
 
 		getUserProfile: builder.query({

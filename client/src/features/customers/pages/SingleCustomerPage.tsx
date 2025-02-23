@@ -8,15 +8,15 @@ import {
 	List,
 	Grid,
 	Stack,
-	Typography,
 	Tooltip,
 } from '@mui/material'
+import Typography from '../../../components/Typography/Typography'
 import { useNavigate, useParams } from 'react-router-dom'
 import Spinner from '../../../components/Spinner'
 import { useGetSingleCustomerQuery } from '../customersApiSlice'
 import '../../../styles/pageHeader.css'
 
-function capitalizeFirstLetter(string) {
+function capitalizeFirstLetter(string: string) {
 	return string?.charAt(0)?.toUpperCase() + string?.slice(1)
 }
 
@@ -35,7 +35,7 @@ const SingleCustomerPage = () => {
 			maxWidth='xl'
 			sx={{ mt: 14, ml: 15, width: '90%' }}>
 			<Box className='page-header'>
-				<Typography variant='h6'>{data?.customer.name}</Typography>
+				<Typography elementType='h6'text={data?.customer.name}/>
 				<Box sx={{}}>
 					<Tooltip title='Edit Profile'>
 						<Button
@@ -74,11 +74,13 @@ const SingleCustomerPage = () => {
 							<Stack direction='column'>
 								<Stack>
 									<Typography
-										variant='span'
-										mt={'10px'}
-										mb={2}>
-										Information
-									</Typography>
+										elementType='span'
+										text='Information'
+										style={{
+											marginTop: '10px',
+											marginBottom: '20px'
+										}}
+										/>
 									<List
 										sx={{
 											backgroundColor: 'white',

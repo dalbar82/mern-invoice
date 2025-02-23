@@ -18,7 +18,7 @@ function DayDateChooser() {
 
 	const yyyymmdd = dateSelected.toISOString().split('T')[0]
 
-	const onDateChange = (e) => {
+	const onDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const newSelectedDate = new Date(e.target.value)
 		setDateSelected(newSelectedDate)
 	}

@@ -245,9 +245,7 @@ const PasswordResetPage = () => {
 													value={values.passwordConfirm}
 													name='passwordConfirm'
 													onBlur={handleBlur}
-													onChange={(e) => {
-														handleChange(e)
-													}}
+													onChange={handleChange}
 													placeholder='******'
 													InputProps={{
 														endAdornment: (

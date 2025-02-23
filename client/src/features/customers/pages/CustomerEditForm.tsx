@@ -60,7 +60,7 @@ const CustomerEditForm = () => {
 		}
 	}, [isSuccess, navigate, updateData])
 
-	const updateHandler = async (e) => {
+	const updateHandler = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 
 		try {
@@ -192,7 +192,7 @@ const CustomerEditForm = () => {
 										name='abn'
 										margin='normal'
 										value={abn}
-										onChange={(e) => setAbn(e.target.value)}
+										onChange={(e) => setAbn(parseInt(e.target.value))}
 									/>
 								</Grid>
 								<Grid

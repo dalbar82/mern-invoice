@@ -29,7 +29,7 @@ const ScheduleItemForm = ({ id, title, onClose }) => {
 		jobDetails: '',
 	})
 
-	const handleInputChange = (e) => {
+	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target
 		
 		if (name == 'hourUp') {
@@ -85,7 +85,7 @@ const ScheduleItemForm = ({ id, title, onClose }) => {
 		getItemDetails()
 	}, [id])
 
-	const handleSubmit = (e) => {
+	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 		//console.log('Form submitted:', formData)
 		const updateData = scheduleItems.map(item => {
