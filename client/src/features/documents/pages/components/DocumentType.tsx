@@ -3,6 +3,8 @@ import FormControl from '@mui/material/FormControl'
 import FormHelperText from '@mui/material/FormHelperText'
 import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
+import { JobDocument } from '../../../../types/JobDocument'
+import { SelectChangeEvent } from "@mui/material";
 
 const StyledSelect = styled(Select)({
 	fontSize: '1rem',
@@ -10,9 +12,14 @@ const StyledSelect = styled(Select)({
 	fontWeight: 'bold',
 })
 
-const DocumentType = ({ documentType, setDocumentType }) => {
-	const handleChange = (e) => {
-		setDocumentType(e.target.value)
+type DocumentTypeProps = {
+	documentType: JobDocument;
+	setDocumentType: (e: string) => void;
+}
+
+const DocumentType: React.FC<DocumentTypeProps> = ({ documentType, setDocumentType }) => {
+	const handleChange = (e: SelectChangeEvent<unknown>) => {
+		setDocumentType(e.target.value as string)
 	}
 	return (
 		<Box>
@@ -21,7 +28,7 @@ const DocumentType = ({ documentType, setDocumentType }) => {
 					input={<Input />}
 					labelId='doc-helper-label'
 					id='doc-select-helper'
-					value={documentType}
+					value={documentType || ""}
 					label='Select Document'
 					onChange={handleChange}>
 					<MenuItem value=''>

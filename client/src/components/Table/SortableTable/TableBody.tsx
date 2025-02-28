@@ -3,15 +3,21 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import CancelIcon from '@mui/icons-material/Cancel'
 import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded'
 import './table.css'
+import { ColumnData } from '../../../types/TableTypes'
 
-const TableBody = ({ tableData, columns }) => {
+type TableBodyProps = {
+	tableData: [];
+	columns: ColumnData[];
+}
+
+const TableBody: React.FC<TableBodyProps> = ({ tableData, columns }) => {
 	return (
 		<tbody>
-			{tableData.map((data) => {
+			{tableData.map((data, i) => {
 				return (
 					<tr
 						className='table-rows'
-						key={data._id}>
+						key={i}>
 						{columns.map(({ accessor, types, navigateTo }) => {
 							const tData = data[accessor]
 							if (types === 'string') return <td key={accessor}>{tData}</td>
@@ -34,7 +40,7 @@ const TableBody = ({ tableData, columns }) => {
 												sx={{
 													cursor: 'pointer',
 												}}
-												onClick={() => navigateTo(data._id)}
+												// onClick={() => navigateTo(i)}
 											/>
 										</div>
 									</td>

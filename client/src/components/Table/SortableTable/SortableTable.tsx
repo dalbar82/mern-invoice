@@ -1,16 +1,8 @@
 import { useState } from 'react'
 import TableHead from './TableHead'
 import TableBody from './TableBody'
+import { ColumnData } from '../../../types/TableTypes'
 import './table.css'
-
-type ColumnData = {
-  accessor: string;
-  types: string;
-  sortable: boolean;
-  label: string;
-};
-
-
 
 type SortableTableProps = {
 	children?: React.ReactNode,

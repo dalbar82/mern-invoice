@@ -1,39 +1,40 @@
-import { useContext, useEffect, useState } from 'react'
-import { scheduleItemsContext } from '../../App'
+import { useCallback, useContext, useEffect, useState } from 'react'
+import { AppointmentItemsContext } from '../../App'
 import { dateContext } from '../../pages/FrontPage'
 import BasicModal from '../../components/Modals/BasicModal/BasicModal'
 import { RxViewNone } from 'react-icons/rx'
-import ScheduleItemForm from '../../components/Forms/ScheduleItemForm/ScheduleItemForm'
+import AppointmentItemsForm from '../../components/Forms/ScheduleItemForm/AppointmentItemsForm'
+import { Appointment } from '../../types/Appointment'
+import { User } from '../../types/User'
 import './dayview.css'
 
 function DayView() {
-	const [scheduleItems, setScheduleItems] = useContext(scheduleItemsContext)
-	const [dateSelected, setDateSelected] = useContext(dateContext)
+	const appointmentItemsContext = useContext(AppointmentItemsContext);
+  if (!appointmentItemsContext) {
+    throw new Error("AppointmentItemContext must be used within a Provider");
+  }
+  const { appointments, setAppointments } = appointmentItemsContext;
 
-	const [dateSelectedItemsArray, setDateSelectedItemsArray] = useState([])
-	const [itemsCountByAssigneeId, setItemsCountByAssigneeId] = useState([])
+	const dateSelectedContext = useContext(dateContext)
+	if (!dateSelectedContext) {
+    throw new Error("dateSelectedContext must be used within a Provider");
+  }
+	const [dateSelected, setDateSelected] = dateSelectedContext
+
+	const [dateSelectedItemsArray, setDateSelectedItemsArray] = useState<Appointment[]>([])
+	const [itemsCountByAssigneeId, setItemsCountByAssigneeId] = useState<Appointment[]>([])
 	const [isModalOpen, setIsModalOpen] = useState(false)
-	const [selectedItemId, setSelectedItemId] = useState()
+	const [selectedItemId, setSelectedItemId] = useState('')
 
-	const openModal = (e) => {
-		setSelectedItemId(e?.target?.id)
+	const openModal = (e: React.MouseEvent<HTMLElement>) => {
+		setSelectedItemId(e.currentTarget.id)
 		setIsModalOpen(true)
 	}
 	const closeModal = () => setIsModalOpen(false)
 
-	const getSelectedDateItems = () => {
-		let selectedItems = []
-
-		scheduleItems.map((item) => {
-			const date = new Date(item?.startDate).toDateString()
-
-			if (date === dateSelected?.toDateString()) {
-				selectedItems.push(item)
-			}
-			return selectedItems
-		})
-		return selectedItems
-	}
+	const getSelectedDateItems = useCallback((): Appointment[] => {
+		return appointments.filter((appointment) => appointment.startDate === dateSelected.toString());
+	}, [appointments, dateSelected]);
 
 	const hours = [
 		'05',
@@ -59,46 +60,46 @@ function DayView() {
 		45: 45,
 	}
 
-	const hoursObject = {
+	const hoursObject: Record<string, number> = {
 		'05': 0,
 		'06': 60,
 		'07': 120,
 		'08': 180,
 		'09': 240,
-		10: 300,
-		11: 360,
-		12: 420,
-		13: 480,
-		14: 540,
-		15: 600,
-		16: 660,
-		17: 720,
-		18: 780,
-		19: 840,
+		'10': 300,
+		'11': 360,
+		'12': 420,
+		'13': 480,
+		'14': 540,
+		'15': 600,
+		'16': 660,
+		'17': 720,
+		'18': 780,
+		'19': 840,
 	}
 
-	function getStartTime(time) {
-		// Getting minutes
-		const getTime = new Date(time)
-		let mins = getTime.getMinutes()
+	// function getStartTime(time) {
+	// 	// Getting minutes
+	// 	const getTime = new Date(time)
+	// 	let mins = getTime.getMinutes()
 
-		// Getting hours
-		let hrs = getTime.getHours()
-		let m = (parseInt((mins + 7.5) / 15) * 15) % 60
+	// 	// Getting hours
+	// 	let hrs = getTime.getHours()
+	// 	let m = (parseInt((mins + 7.5) / 15) * 15) % 60
 
-		// Converting '09:0' to '09:00'
-		m = m < 10 ? '0' + m : m
-		let h = mins > 52 ? (hrs === 23 ? 0 : ++hrs) : hrs
+	// 	// Converting '09:0' to '09:00'
+	// 	m = m < 10 ? '0' + m : m
+	// 	let h = mins > 52 ? (hrs === 23 ? 0 : ++hrs) : hrs
 
-		// Converting '9:00' to '09:00'
-		h = h < 10 ? '0' + h : h
-		return h + ':' + m
-	}
+	// 	// Converting '9:00' to '09:00'
+	// 	h = h < 10 ? '0' + h : h
+	// 	return h + ':' + m
+	// }
 
-	function getItemsListByAssigneeId(items) {
-		let flattenedList = []
-		items.map((item) => {
-			flattenedList.push(item?.assigneeId)
+	function getItemsListByAssigneeId(items: Appointment[]) {
+		let flattenedList: Appointment[] = []
+		items.map((item: Appointment) => {
+			flattenedList.push(item)
 		})
 		const sortedFlatList = flattenedList.sort().filter(function (item, pos, ary) {
 			return !pos || item !== ary[pos - 1]
@@ -112,26 +113,28 @@ function DayView() {
 	})
 	useEffect(() => {
 		setDateSelectedItemsArray(getSelectedDateItems())
-	}, [setDateSelectedItemsArray, scheduleItems, dateSelected])
+	}, [setDateSelectedItemsArray, appointments, dateSelected, getSelectedDateItems])
 
-	const getAssigneeListItems = (id) => {
-		const listItems = []
-		dateSelectedItemsArray.map((item) => {
-			listItems.push(item?.assigneeId === id ? item : false)
-		})
-		return listItems
+	const getAssigneeListItems = (id: string) => {
+		// const listItems: Appointment[] = []
+		const filteredItems: Appointment[] = dateSelectedItemsArray.filter((item) => item.assigneeId === id);
+
+		// dateSelectedItemsArray.map((item) => {
+		// 	listItems.push(item.assigneeId === id ? item : false)
+		// })
+		return filteredItems
 	}
 
 	useEffect(() => {
 		setItemsCountByAssigneeId(getItemsListByAssigneeId(dateSelectedItemsArray))
 	}, [setItemsCountByAssigneeId, dateSelectedItemsArray])
 
-	function findFirstNonNullArgument(args) {
-		return args.find((arg) => arg !== false)
+	function findFirstNonNullArgument(args: any[]) {
+		return args.find((arg: boolean) => arg !== false)
 	}
 
-	const getAssigneeName = (id) => {
-		const name = []
+	const getAssigneeName = (id: string) => {
+		const name: (string | boolean)[] = []
 		dateSelectedItemsArray.map((item) => {
 			name.push(item?.assigneeId === id ? item?.assigneeName : false)
 			return ''
@@ -139,7 +142,7 @@ function DayView() {
 		return name
 	}
 
-	function test(text) {
+	function test(text: string | any[]) {
 		var text_len = text.length
 		if (text_len % 2 != 0) {
 			let start = (text_len - 1) / 2
@@ -170,13 +173,13 @@ function DayView() {
 					{itemsCountByAssigneeId?.length > 0 ? (
 						<div className='table'>
 							{itemsCountByAssigneeId.map((assignee) => {
-								const assigneeListItems = getAssigneeListItems(assignee)
-								const assigneeName = getAssigneeName(assignee)
+								const assigneeListItems = getAssigneeListItems(assignee.assigneeId)
+								const assigneeName = getAssigneeName(assignee.assigneeId)
 
 								return (
 									<div
 										className='item'
-										key={assignee}>
+										key={assignee.assigneeId}>
 										<div className='assignee-name'>
 											{findFirstNonNullArgument(assigneeName)}
 										</div>
@@ -193,11 +196,11 @@ function DayView() {
 															<div className='time-line flex-row'>
 																<div
 																	className='time-tail flex-row'
-																	id={item?.itemId}
+																	id={item?.itemId.toString()}
 																	onClick={openModal}
 																	style={{
 																		left: `${
-																			parseInt(hoursObject[item?.startTime?.slice(0, 2)]) +
+																			(hoursObject[item?.startTime?.slice(0, 2)]) +
 																			parseInt(item?.startTime?.slice(3, 5))
 																		}px`,
 																		width: `${item?.duration}px`,
@@ -233,7 +236,7 @@ function DayView() {
 			<BasicModal
 				isOpen={isModalOpen}
 				onClose={closeModal}>
-				<ScheduleItemForm
+				<AppointmentItemsForm
 					id={selectedItemId}
 					onClose={closeModal}
 					title='Item Details'

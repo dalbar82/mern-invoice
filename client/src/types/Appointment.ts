@@ -16,9 +16,9 @@ export type Appointment = {
   itemId: number;
   assigneeId: string;
   assigneeName: string;
-  duration: string; // Consider changing to `number` if it's always numeric
-  due: string; // Consider `Date` type if working with actual date objects
-  startDate: string; // Consider `Date` if it's always a full date object
+  duration: string; // If duration is a number, change to `number`
+  due: string; // ISO Date String
+  startDate: string;
   startTime: string;
   jobDetails: string;
 };

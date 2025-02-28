@@ -15,6 +15,7 @@ import {
   TablePagination,
   TableRow,
   Typography,
+  TablePaginationOwnProps,
 } from "@mui/material";
 import EnhancedTableHead from "../../../components/Table/EnhancedTableHead";
 import moment from "moment";
@@ -28,6 +29,7 @@ import TablePaginationActions from "../../../components/TablePaginationActions";
 import { useGetAllDocsQuery } from "../documentsApiSlice";
 import "../../../styles/pageHeader.css";
 import { JobDocument } from "../../../types/JobDocument";
+
 
 
 const DocumentsPage: React.FC = () => {
@@ -190,7 +192,6 @@ const DocumentsPage: React.FC = () => {
                   page={page}
                   onPageChange={handleChangePage}
                   onRowsPerPageChange={handleChangeRowsPerPage}
-                  ActionsComponent={TablePaginationActions}
                 />
               </TableRow>
             </TableFooter>

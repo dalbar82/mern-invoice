@@ -3,7 +3,7 @@ import "./link.css";
 
 interface LinkProps {
   name: string;
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLElement>) => void;
   className?: string;
   styles?: React.CSSProperties;
   linkTo?: string;

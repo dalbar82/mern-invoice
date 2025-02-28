@@ -1,8 +1,13 @@
 import React from "react";
 import "../modal.css"; 
 
+interface BasicModalProps {
+  isOpen: boolean;
+  onClose: () => void; // Function that takes no arguments and returns void
+  children: React.ReactNode; // Allows passing JSX elements inside the modal
+}
 
-const BasicModal = ({ isOpen, onClose, children }) => {
+const BasicModal: React.FC<BasicModalProps> = ({ isOpen, onClose, children }) => {
   if (!isOpen) return null;
   
   return (

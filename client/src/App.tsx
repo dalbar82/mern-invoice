@@ -1,4 +1,5 @@
-import React = require('react')
+import React from 'react';
+
 import { createContext, Dispatch, SetStateAction, useState  } from 'react'
 import './App.css'
 import { CssBaseline } from '@mui/material'
@@ -43,12 +44,10 @@ import { AppointmentList, Appointment } from './types/Appointment'
 type ConfigType = { timezone: string };
 type ConfigContextType = [ConfigType, Dispatch<SetStateAction<ConfigType>>];
 
-type AppointmentItemType = Appointment
-
-type AppointmentItemsContextType = [
-  AppointmentItemType[],
-  Dispatch<SetStateAction<AppointmentItemType[]>>
-];
+interface AppointmentItemsContextType {
+  appointments: Appointment[];
+  setAppointments: React.Dispatch<React.SetStateAction<Appointment[]>>;
+}
 
 export const configContext = createContext<ConfigContextType | null>(null)
 export const AppointmentItemsContext = createContext<AppointmentItemsContextType | null>(null);
@@ -82,7 +81,7 @@ const App = () => {
 		timezone: 'Australia/Sydney',
 	}
 	const [config, setConfig] = useState(defaultConfig)
-	const [scheduleItems, setScheduleItems] = useState(scheduleItemList || [])
+	const [appointments, setAppointments] = useState(scheduleItemList || [])
 
 	useTitle('Job Forge - Home')
 
@@ -90,7 +89,7 @@ const App = () => {
 	return (
 		<ThemeProvider theme={customTheme}>
 			<configContext.Provider value={[config, setConfig]}>
-				<AppointmentItemsContext.Provider value={[scheduleItems, setScheduleItems]}>
+				<AppointmentItemsContext.Provider value={{appointments, setAppointments}}>
 					<CssBaseline />
 					{!user && <HomePageNav />}
 					{user && <Navbar />}

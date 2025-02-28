@@ -9,13 +9,8 @@ export type Person = {
   createdAt: Date
   subRows?: Person[]
 }
-export type UserRoles = {
-  includes(role: string): boolean; // includes method for checking roles
-  User: "User";
-  Admin: "Admin";
-  Basic: "Basic";
-  Mobile: "Mobile";
-};
+export type UserRoles = string[];
+
 export type User = {
   _id: string;
   email: string;
@@ -41,18 +36,3 @@ export type User = {
   createdAt: Date;
   updatedAt: Date;
 }  
-// export const newPerson = (): Person => {
-//   return {
-//     firstName,
-//     lastName: faker.person.lastName(),
-//     age: faker.number.int(40),
-//     visits: faker.number.int(1000),
-//     progress: faker.number.int(100),
-//     createdAt: faker.date.anytime(),
-//     status: faker.helpers.shuffle<Person['status']>([
-//       'relationship',
-//       'complicated',
-//       'single',
-//     ])[0]!,
-//   }
-// }

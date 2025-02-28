@@ -10,10 +10,11 @@ import {
 	useDeactivateUserMutation,
 	useDeleteUserMutation,
 } from '../usersApiSlice'
+import { ColumnData } from '../../../types/TableTypes'
 
 type UserRole = "Admin" | "User" | "Basic" | "Mobile"
 
-const userCosts: Record<UserRole, number> = {
+const userCosts: Record<string, number> = {
 	"Admin": 50,
 	"User": 20,
 	"Basic": 10,
@@ -40,8 +41,8 @@ const UserListPage = () => {
 	const [reactivateUser] = useReactivateUserMutation()
 	const rows = data?.users
 
-	const getUserPrice = (role: UserRole) => {
-		const price = userCosts[role]
+	const getUserPrice = (role: string) => {
+		const price = userCosts[role] || 0
 		totalCost += price
 		return price
 	}
@@ -82,7 +83,7 @@ const UserListPage = () => {
 		// getRolesCount(rows)
 	}, [error, isError, rows])
 
-	const headerDetails = [
+	const headerDetails: ColumnData[] = [
 		{
 			accessor: 'firstName',
 			types: 'string',
@@ -149,7 +150,7 @@ const UserListPage = () => {
 								style={{ display: 'flex', justifyContent: 'space-between' }}
 								key={i}>
 								<div>{row?.roles[0]}</div>
-								<div>${getUserPrice(row?.roles[0] as UserRole)}</div>
+								<div>${getUserPrice(row?.roles[0])}</div>
 							</div>
 						)
 					})}

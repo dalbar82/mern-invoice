@@ -6,16 +6,17 @@ import { Box } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import { useTheme } from "@mui/material/styles";
 import React from "react";
+import { TablePaginationOwnProps } from "@mui/material/TablePagination";
 
 // Define the prop types
-interface TablePaginationActionsProps {
-  count: number;
-  page: number;
-  rowsPerPage: number;
-  onPageChange: (event: React.MouseEvent<HTMLButtonElement>, newPage: number) => void;
-}
+// interface TablePaginationActionsProps {
+//   count: number;
+//   page: number;
+//   rowsPerPage: number;
+//   onPageChange: (event: React.MouseEvent<HTMLButtonElement>, newPage: number) => void;
+// }
 
-const TablePaginationActions: React.FC<TablePaginationActionsProps> = ({
+const TablePaginationActions: React.FC<TablePaginationOwnProps> = ({
   count,
   page,
   rowsPerPage,
