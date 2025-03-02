@@ -1,14 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { decodeToken } from 'react-jwt'
 import { RootState } from "../../app/store";
+import { User } from '../../types/User';
 
-interface User {
-  id: string;  // User ID (string assumed)
-  name: string; // User's name
-  email: string; // User's email
-  accessToken: string; // ✅ Access token
-  refreshToken?: string; // Optional refresh token
-}
+// interface User {
+//   id: string;  // User ID (string assumed)
+//   name: string; // User's name
+//   email: string; // User's email
+//   accessToken: string; // ✅ Access token
+//   refreshToken?: string; // Optional refresh token
+// }
 
 interface AuthState {
   isAuthenticated: boolean;
@@ -17,7 +18,7 @@ interface AuthState {
 	users: []
 }
 
-const user = JSON.parse(localStorage?.getItem('user') || '')
+const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') || '') : ''
 const googleToken = localStorage.getItem('googleToken')
 
 const decodedToken: string | null = googleToken ? decodeToken(googleToken) : null

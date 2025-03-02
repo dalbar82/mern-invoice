@@ -1,5 +1,4 @@
-// import { Box } from '@mui/material'
-import Box from '../components/Box/Box'
+import { Box } from '@mui/material'
 import { FC } from 'react'
 import { Outlet } from 'react-router-dom'
 

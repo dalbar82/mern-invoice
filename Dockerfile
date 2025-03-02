@@ -14,7 +14,7 @@ ENV NODE_ENV="production"
 COPY --link backend/.env .env
 
 # --------------------------------
-# Backend Build Stage
+# Backend Build Stage (with TypeScript)
 # --------------------------------
 FROM base as build
 
@@ -26,14 +26,17 @@ RUN apt-get update -qq && \
 WORKDIR /app/backend
 COPY --link backend/package.json backend/package-lock.json ./
 
-# Install dependencies
-RUN npm install --production
+# Install dependencies including TypeScript
+RUN npm install
+
+# Install TypeScript globally
+RUN npm install -g typescript
 
 # Copy backend application code
 COPY --link backend ./
 
-# Uncomment if you need to build TypeScript or other assets
-# RUN npm run build
+# Compile TypeScript (Outputs to `/app/backend/dist`)
+RUN npm run build
 
 # --------------------------------
 # Backend Final Stage
@@ -42,17 +45,17 @@ FROM base as backend
 
 # Copy built backend application and node_modules
 WORKDIR /app/backend
-COPY --from=build /app/backend /app/backend
+COPY --from=build /app/backend/dist /app/backend/dist
 COPY --from=build /app/backend/node_modules /app/backend/node_modules
 
 # Expose backend port
 EXPOSE 1997
 
 # Start the backend server
-CMD ["node", "server.js"]
+CMD ["node", "dist/server.js"]  # Run compiled TypeScript file
 
 # --------------------------------
-# Frontend Build Stage
+# Frontend Build Stage (with TypeScript)
 # --------------------------------
 FROM base as frontend-build
 
@@ -65,11 +68,13 @@ COPY --link client/package.json client/package-lock.json ./
 # Install frontend dependencies
 RUN npm install --legacy-peer-deps
 
+# Install TypeScript for frontend
+RUN npm install -g typescript
 
 # Copy frontend application code
 COPY --link client ./
 
-# Build the frontend
+# Compile TypeScript (Outputs to `/app/client/build`)
 RUN npm run build
 
 # --------------------------------

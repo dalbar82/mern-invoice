@@ -1,4 +1,4 @@
-import { Box, CssBaseline, Link, Typography } from '@mui/material'
+import { Box, Link, Typography } from '@mui/material'
 import { FaMoneyBillWave } from 'react-icons/fa'
 
 function Copyright() {
@@ -27,7 +27,6 @@ const Footer = () => {
 				bgcolor: '#202128',
 				marginTop: 'auto',
 			}}>
-			<CssBaseline />
 			<Box
 				component='footer'
 				sx={{

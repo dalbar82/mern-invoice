@@ -35,4 +35,5 @@ export type User = {
   refreshToken: string[];
   createdAt: Date;
   updatedAt: Date;
+  accessToken: string; // ✅ Access token
 }  

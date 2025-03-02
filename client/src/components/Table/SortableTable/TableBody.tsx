@@ -13,12 +13,12 @@ type TableBodyProps = {
 const TableBody: React.FC<TableBodyProps> = ({ tableData, columns }) => {
 	return (
 		<tbody>
-			{tableData.map((data, i) => {
+			{tableData?.map((data, i) => {
 				return (
 					<tr
 						className='table-rows'
 						key={i}>
-						{columns.map(({ accessor, types, navigateTo }) => {
+						{columns?.map(({ accessor, types, navigateTo }) => {
 							const tData = data[accessor]
 							if (types === 'string') return <td key={accessor}>{tData}</td>
 							if (types === 'date')

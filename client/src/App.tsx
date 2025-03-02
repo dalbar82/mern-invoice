@@ -90,7 +90,7 @@ const App = () => {
 		<ThemeProvider theme={customTheme}>
 			<configContext.Provider value={[config, setConfig]}>
 				<AppointmentItemsContext.Provider value={{appointments, setAppointments}}>
-					<CssBaseline />
+
 					{!user && <HomePageNav />}
 					{user && <Navbar />}
 					<Routes>

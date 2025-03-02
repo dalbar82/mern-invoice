@@ -9,7 +9,7 @@ const ButtonBase = React.forwardRef<HTMLElement, ButtonBaseProps>(
   ({ component: Component = "button", children, style, ...props }, ref) => {
     return (
       <Component
-      ref={ref as React.Ref<HTMLElement>} 
+      ref={ref as React.Ref<any>} 
       {...props}
         style={{
           background: "none",

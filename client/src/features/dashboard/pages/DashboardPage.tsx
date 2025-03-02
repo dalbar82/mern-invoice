@@ -54,11 +54,10 @@ const DashboardPage = () => {
 				<Grid container>
 					{/* Grid left */}
 					<Grid
-						container
-						sm={5}>
+						container>
 						<Grid
 							item
-							sm={12}
+							sm={6}
 							p={3}
 							sx={{
 								background:
@@ -123,7 +122,7 @@ const DashboardPage = () => {
 								<Typography
 									variant='h5'
 									sx={{ marginLeft: 1, fontWeight: 700 }}>
-									{customers.length}
+									{customers?.length}
 								</Typography>
 							</Box>
 							<CustomersRound width='95%' height='120px' margin-top='20px'/>
@@ -176,6 +175,7 @@ const DashboardPage = () => {
 								/> */}
 							</Grid>
 							<Grid
+								item
 								sm={12}
 								md={4}
 								style={{
