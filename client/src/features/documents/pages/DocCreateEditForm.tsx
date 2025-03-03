@@ -25,8 +25,9 @@ import {
 	TextareaAutosize,
 	TextField,
 	MenuItem,
+	Button
 } from '@mui/material'
-import Button from '../../../components/Buttons/Button/Button'
+// import Button from '../../../components/Buttons/Button/Button'
 import Typography from '../../../components/Typography/Typography'
 import Autocomplete from '@mui/material/Autocomplete'
 import GeoAutocomplete from 'react-google-autocomplete'
@@ -520,7 +521,7 @@ const DocCreateEditForm = () => {
 											mb={1}
 											sx={{
 												display: 'flex',
-												alignItems: 'flex-end',
+												alignItems: 'center',
 											}}>
 											<Typography
 												elementType='p'
@@ -550,7 +551,7 @@ const DocCreateEditForm = () => {
 														style={{ padding: '0', textTransform: 'none', marginBottom: '10px' }}
 														color='warning'
 														onClick={() => setCustomer(null)}
-														startIcon={<ChangeCircleIcon color='warning' />}
+														startIcon={<ChangeCircleIcon/>}
 													/>
 												</Tooltip>
 											)}

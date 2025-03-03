@@ -2,10 +2,10 @@
     height: 70px !important;
     vertical-align: middle !important;
 }
-.MuiTableHead-root > tr > .MuiTableCell-root{
+/* .MuiTableHead-root > tr > .MuiTableCell-root{
     background: rgb(0, 117, 180)!important;
     color: #fff !important;
-}
+} */
 
 .MuiTableRow-root{
     box-shadow: none !important;

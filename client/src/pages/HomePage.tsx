@@ -1,6 +1,6 @@
-import { styled } from '@mui/material'
+import { styled, Box } from '@mui/material'
 import Grid from '../components/Grid/Grid'
-import Box from '../components/Box/Box'
+// import Box from '../components/Box/Box'
 import Link from '../components/Links/pageLinks/Link'
 import Button from '../components/Buttons/Button/Button'
 import { Link as RouterLink, useNavigate } from 'react-router-dom'

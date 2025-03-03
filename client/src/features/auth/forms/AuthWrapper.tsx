@@ -1,5 +1,6 @@
 import React from 'react'
-import Box from '../../../components/Box/Box'
+import { Box } from '@mui/material'
+// import Box from '../../../components/Box/Box'
 
 type AuthWrapperProps = {
 	children: React.ReactNode
