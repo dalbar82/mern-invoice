@@ -35,7 +35,10 @@ const SingleCustomerPage = () => {
 			maxWidth='xl'
 			sx={{ mt: 14, ml: 15, width: '90%' }}>
 			<Box className='page-header'>
-				<Typography elementType='h6'text={data?.customer.name}/>
+				<Typography 
+					elementType='h3'
+					style={{ fontWeight: 600, marginBottom: '20px', fontFamily: 'Poppins' }}
+					text={data?.customer.name}/>
 				<Box sx={{}}>
 					<Tooltip title='Edit Profile'>
 						<Button

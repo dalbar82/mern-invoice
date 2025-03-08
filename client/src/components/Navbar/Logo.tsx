@@ -36,12 +36,12 @@ const Logo:React.FC<LogoProps> = ({fontSize}) => {
 						display: 'flex',
 						flexDirection: 'row',
 						fontWeight: '600',
-						fontFamily: 'Quicksand',
+						fontFamily: 'Poppins',
 						fontSize: fontSize,
 						margin: 0,
 					}}>
-					<p style={{ fontFamily: 'Quicksand', color: '#c7cbd4' }}>Eazy</p>
-					<p style={{ fontFamily: 'Quicksand', color: 'rgb(25 142 189)' }}>Flow</p>
+					<p style={{ fontFamily: 'Poppins', color: '#c7cbd4' }}>Eazy</p>
+					<p style={{ fontFamily: 'Poppins', color: 'rgb(25 142 189)' }}>Flow</p>
 				</div>
 			</Link>
 		</>

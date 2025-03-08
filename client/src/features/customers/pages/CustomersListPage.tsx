@@ -105,7 +105,10 @@ const CustomerListPage = () => {
 			sx={{ mt: 14, ml: 15, width: '90%' }}
 		>
 			<Box className='page-header'>
-				<Typography elementType='h6' text='Customers'/>
+				<Typography 
+					elementType='h3' 
+					style={{ fontWeight: 600, marginBottom: '20px', fontFamily: 'Poppins' }}
+					text='Customers'/>
 				<Box>
 					<Tooltip title='Add Customer'>
 						<Button

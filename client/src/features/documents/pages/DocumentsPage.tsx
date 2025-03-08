@@ -13,10 +13,9 @@ import {
   TableFooter,
   TableHead,
   TablePagination,
-  TableRow,
-  Typography,
-  TablePaginationOwnProps,
+  TableRow
 } from "@mui/material";
+import Typography from "../../../components/Typography/Typography";
 import EnhancedTableHead from "../../../components/Table/EnhancedTableHead";
 import moment from "moment";
 import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
@@ -122,7 +121,7 @@ const DocumentsPage: React.FC = () => {
   return (
     <Container component="main" maxWidth="xl" sx={{ mt: 14, ml: 15, width: "90%" }}>
       <Box className="page-header">
-        <Typography variant="h6">Projects</Typography>
+        <Typography elementType="h3" text="Projects" style={{ fontWeight: 600, marginBottom: '20px', fontFamily: 'Poppins' }}/>
         <Box>
           <Tooltip title="Add Job">
             <Button

@@ -17,7 +17,8 @@ const VerifiedPage = () => {
 			height='94vh'>
 			<FaCheckCircle className='verified' />
 			<Typography
-				elementType='h2'
+				elementType='h3'
+				style={{ fontWeight: 600, marginBottom: '20px', fontFamily: 'Poppins' }}
 				text='Account Verified'
 				/>
 

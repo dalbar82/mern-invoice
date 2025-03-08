@@ -25,6 +25,7 @@ interface WorkflowSettings {
 
 const OrganisationEditForm = () => {
 	const [loggedInUser, setLoggedInUser] = useState<IUser | null>(null)
+	const [organisation, setOrganisation] = useState<IOrganisation["organisation"]>();
 
 	useEffect(() => {
 		const userData = localStorage.getItem('user')
@@ -35,10 +36,14 @@ const OrganisationEditForm = () => {
 
 	const navigate = useNavigate()
 
-	const orgId = loggedInUser?.organisation ?? ''
-
+	const orgId = loggedInUser?.organisation ?? null
+	
 	const { data, isLoading } = useGetSingleOrganisationQuery(orgId)
-
+	
+	useEffect(() => {
+		setOrganisation(data?.organisation)
+	}, [data])
+	
 	const [
 		updateOrg,
 		{
@@ -66,14 +71,15 @@ const OrganisationEditForm = () => {
 	});
 	const [logo, setLogo] = useState<string>('')
 
-	const [organisation, setOrganisation] = useState<IOrganisation>();
+	
 
 	useEffect(() => {
 		if (updateOrgSuccess) {
+			setOrganisation(data?.organisation)
 			navigate('/organisation-edit')
 			toast.success('Organisation updated successfully!')
 		}
-	}, [navigate, updateOrgSuccess, updatedOrgData])
+	}, [data?.organisation, navigate, updateOrgSuccess, updatedOrgData])
 
 	
 
@@ -97,13 +103,14 @@ const OrganisationEditForm = () => {
 
 	const updateOrgHandler = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
+		
 		if (!organisation?._id) {
 			toast.error("Organisation ID is missing");
 			return;
 		}
 		try {
 			await updateOrg({
-				id: organisation._id.toString(),
+				id: organisation?._id.toString(),
 				email,
 				settings,
 				phoneNumber,
@@ -177,9 +184,9 @@ const OrganisationEditForm = () => {
 								</Button>
 							</Box>
 
-							{viewOrganisationDetails && organisation && (
+							{viewOrganisationDetails && (
 								<OrganisationDetails
-									organisation={organisation}
+									organisation={organisation!}
 									email={email}
 									emailUpdate={setEmail}
 									phoneNumber={phoneNumber}

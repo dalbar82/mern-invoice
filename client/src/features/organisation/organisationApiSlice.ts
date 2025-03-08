@@ -3,11 +3,11 @@ import { IOrganisation } from '../../types/Organisation';
 
 export const usersApiSlice = baseApiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getSingleOrganisation: builder.query<IOrganisation, string>({
+    getSingleOrganisation: builder.query({
       query: (orgId) => `/organisation/${orgId}`,
       providesTags: ['Organisation'],
     }),
-    updateOrganisationInfo: builder.mutation<IOrganisation, { id: string; [key: string]: any }>({
+    updateOrganisationInfo: builder.mutation({
       query: ({ id, ...otherFields }) => ({
         url: `/organisation/${id}`,
         method: 'PATCH',

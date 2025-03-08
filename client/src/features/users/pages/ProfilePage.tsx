@@ -73,13 +73,6 @@ const ProfilePage = () => {
 		}
 	}
 
-	// useEffect(() => {
-	// 	if (isError) {
-	// 		const message = error.data.message
-	// 		toast.error(message)
-	// 	}
-	// }, [isError, error])
-
 	return (
 		<Container
 			component='main'
@@ -95,7 +88,10 @@ const ProfilePage = () => {
 					paddingBottom: '20px',
 					marginBottom: '20px',
 				}}>
-				<Typography elementType='h6' text='Profile'/>
+				<Typography 
+					elementType='h3' 
+					style={{ fontWeight: 600, marginBottom: '20px', fontFamily: 'Poppins' }}
+					text='Profile'/>
 			</Box>
 			{isLoading ? (
 				<Spinner />
@@ -132,7 +128,7 @@ const ProfilePage = () => {
 								/>
 							)}
 							<Box>
-								<Typography text={`${data.userProfile?.firstName} ${data.userProfile?.lastName}`} elementType='h6'/>
+								<Typography text={`${data.userProfile?.firstName} ${data.userProfile?.lastName}`} elementType='h3'/>
 								<Typography text={`${data.userProfile?.email}`} elementType='p'/>
 							</Box>
 						</Box>
@@ -145,13 +141,13 @@ const ProfilePage = () => {
 									startIcon={<EditIcon />}
 									onClick={() => navigate('/edit-profile')}></Button>
 							</Tooltip>
-							<Tooltip title='Delete Profile'>
+							{/* <Tooltip title='Delete Profile'>
 								<Button
 									sx={{ p: '15px 0px 15px 10px', color: '#a6aeb3' }}
 									variant='text'
 									startIcon={<PersonRemoveAlt1Icon />}
 									onClick={handleOpen}></Button>
-							</Tooltip>
+							</Tooltip> */}
 						</Box>
 					</Box>
 
@@ -245,8 +241,8 @@ const ProfilePage = () => {
 								}}>
 								<Typography
 									id='modal-modal-title'
-									elementType='h6'
-									style={{ fontSize: 'medium' }}
+									elementType='h3'
+									style={{ fontWeight: 600, marginBottom: '20px', fontFamily: 'Poppins' }}
 									text='Delete Account?'
 									/>
 								<Box>

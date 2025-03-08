@@ -99,7 +99,7 @@ const PasswordResetRequestPage = () => {
 											<Logo fontSize='2rem' />
 											<Typography
 												variant='h6'
-												sx={{ marginBottom: '20px', fontFamily: 'Quicksand' }}>
+												sx={{ marginBottom: '20px', fontFamily: 'Poppins' }}>
 												Password Reset
 											</Typography>
 										</Box>

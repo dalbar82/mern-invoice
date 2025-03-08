@@ -6,7 +6,7 @@ import { IOrganisation } from '../../../types/Organisation'
 
 // Define Props Interface
 interface OrganisationDetailsProps {
-	organisation: IOrganisation
+	organisation: IOrganisation["organisation"]
 	email: string
 	emailUpdate: (value: string) => void
 	phoneNumber: string

@@ -54,7 +54,7 @@ const OrganisationView = () => {
 			maxWidth='xl'
 			sx={{ mt: 14, ml: 15, width: '90%' }}>
 			<Box className='page-header'>
-				<Typography elementType='h6' text={`${data?.name || 'Organisation'}`}/>
+				<Typography elementType='h3' text={`${data?.organisation?.name || 'Organisation'}`}/>
 				<Box>
 					<Tooltip title='Edit Profile'>
 						<Button
@@ -62,10 +62,10 @@ const OrganisationView = () => {
 							variant='text'
 							startIcon={<EditIcon />}
 							onClick={() =>
-								data?._id &&
-								navigate(`/edit-organisation/${data?._id}`)
+								data?.organisation?._id &&
+								navigate(`/edit-organisation/${data?.organisation?._id}`)
 							}
-							disabled={!data?._id}
+							disabled={!data?.organisation?._id}
 						/>
 					</Tooltip>
 					<Tooltip title='Back'>
@@ -108,40 +108,40 @@ const OrganisationView = () => {
 										{/* Name */}
 										<ListItemWrapper
 											label={'Name'}
-											text={capitalizeFirstLetter(data?.name || '')}
+											text={capitalizeFirstLetter(data?.organisation?.name || '')}
 										/>
 										{/* Email */}
 										<ListItemWrapper
 											label={'Contact Email'}
-											text={data?.email || 'N/A'}
+											text={data?.organisation?.email || 'N/A'}
 										/>
 										{/* ABN */}
 										<ListItemWrapper
 											label={'ABN'}
-											text={data?.abn ? `${data?.abn}` : 'N/A'}
+											text={data?.organisation?.abn ? `${data?.organisation?.abn}` : 'N/A'}
 										/>
 										{/* Phone */}
 										<ListItemWrapper
 											label={'Phone'}
-											text={data?.phoneNumber || 'N/A'}
+											text={data?.organisation?.phoneNumber || 'N/A'}
 										/>
 										{/* Address */}
 										<ListItemWrapper
 											label={'Address'}
 											text={
 												data
-													? `${data.address}, ${data.city} ${data.state} ${data.postcode}`
+													? `${data?.organisation?.address}, ${data?.organisation?.city} ${data?.organisation?.state} ${data?.organisation?.postcode}`
 													: 'N/A'
 											}
 										/>
 										{/* Production Status Templates */}
 										<ListItemWrapper
 											label={
-												data?.settings?.productionStatusTemplates?.[0]
+												data?.organisation?.settings?.productionStatusTemplates?.[0]
 													?.statusTemplateName || 'Production Status'
 											}
 											text={
-												data?.settings?.productionStatusTemplates?.[0]
+												data?.organisation?.settings?.productionStatusTemplates?.[0]
 													?.statusTemplateList || 'N/A'
 											}
 										/>

@@ -331,7 +331,9 @@ const DocCreateEditForm = () => {
 			maxWidth='xl'
 			sx={{ mt: 14, ml: 15, width: '90%' }}>
 			<Box className='page-header'>
-				<Typography elementType='h6' text='Project Details'/>
+				<Typography elementType='h3' 
+					style={{ fontWeight: 600, marginBottom: '20px', fontFamily: 'Poppins' }}
+					text='Project Details'/>
 				<Box>
 					{sendEmail ? (
 						<Box
@@ -1004,7 +1006,9 @@ const DocCreateEditForm = () => {
 										display: 'flex',
 										justifyContent: 'space-between',
 									}}>
-									<Typography elementType='h6' text='Summary'/>
+									<Typography elementType='h3' 
+										style={{ fontWeight: 600, marginBottom: '20px', fontFamily: 'Poppins' }}
+										text='Summary'/>
 									<Tooltip title='Submit'>
 										<Button
 											color='success'

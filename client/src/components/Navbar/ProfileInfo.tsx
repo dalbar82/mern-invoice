@@ -167,7 +167,8 @@ const ProfileInfo:React.FC<ProfileInfoProps> = ({ user }) => {
 												/>
 												<Stack>
 													<Typography 
-														elementType='h6' 
+														elementType='h3' 
+														style={{ fontWeight: 600, marginBottom: '20px', fontFamily: 'Poppins' }}
 														text={
 															`${user.firstName?.charAt(0)?.toUpperCase()}{' '}
 															${user.lastName?.charAt(0)?.toUpperCase()}`
@@ -192,7 +193,10 @@ const ProfileInfo:React.FC<ProfileInfoProps> = ({ user }) => {
 													{user?.lastName?.charAt(0)?.toUpperCase()}
 												</Avatar>
 												<Stack>
-													<Typography elementType='h6' text={`${user?.firstName?.toUpperCase()} {user?.lastName?.toUpperCase()}`}>
+													<Typography 
+														elementType='h3' 
+														style={{ fontWeight: 600, marginBottom: '20px', fontFamily: 'Poppins' }}
+														text={`${user?.firstName?.toUpperCase()} {user?.lastName?.toUpperCase()}`}>
 														
 													</Typography>
 												</Stack>

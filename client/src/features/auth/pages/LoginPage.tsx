@@ -27,8 +27,8 @@ const LoginPage = () => {
 							}}>
 							<Logo fontSize='2rem' />
 							<Typography
-								elementType='h6'
-								style={{ fontWeight: 600, marginBottom: '20px', fontFamily: 'Quicksand' }}
+								elementType='h3'
+								style={{ fontWeight: 600, marginBottom: '20px', fontFamily: 'Poppins' }}
 								text='Sign-In'
 								/>
 						</Box>
