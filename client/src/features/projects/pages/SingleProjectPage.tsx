@@ -34,7 +34,7 @@ import PaymentForm from './PaymentForm'
 import '../../../styles/pageHeader.css'
 import { JobDocument, BillingItem } from '../../../types/JobDocument'
 
-const SingleDocumentPage = () => {
+const SingleProjectPage = () => {
 	const { id } = useParams()
 	const navigate = useNavigate()
 
@@ -643,4 +643,4 @@ const SingleDocumentPage = () => {
 	)
 }
 
-export default SingleDocumentPage
+export default SingleProjectPage

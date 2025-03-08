@@ -62,7 +62,7 @@ const StyledItemButton = styled(Button)({
 	boxShadow: '0 0 0 0 #f0f0f0, 0 0 0 0 rgba(124, 105, 239, 1)',
 })
 
-const DocCreateEditForm = () => {
+const ProjectCreateEditForm = () => {
 	const { id } = useParams()
 	const navigate = useNavigate()
 
@@ -1125,4 +1125,4 @@ const DocCreateEditForm = () => {
 	)
 }
 
-export default DocCreateEditForm
+export default ProjectCreateEditForm

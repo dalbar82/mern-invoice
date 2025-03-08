@@ -33,9 +33,9 @@ import CustomerListPage from './features/customers/pages/CustomersListPage'
 import CustomerCreateForm from './features/customers/pages/CustomerCreateForm'
 import CustomerEditForm from './features/customers/pages/CustomerEditForm'
 import SingleCustomerPage from './features/customers/pages/SingleCustomerPage'
-import DocCreateEditForm from './features/documents/pages/DocCreateEditForm'
-import DocumentsPage from './features/documents/pages/DocumentsPage'
-import SingleDocumentPage from './features/documents/pages/SingleDocumentPage'
+import ProjectCreateEditForm from './features/projects/pages/ProjectCreateEditForm'
+import ProjectsPage from './features/projects/pages/ProjectsPage'
+import SingleProjectPage from './features/projects/pages/SingleProjectPage'
 import OrganisationView from './features/organisation/pages/OrganisationView'
 import OrganisationEditForm from './features/organisation/pages/OrganisationEditForm'
 import scheduleItemList from './data/scheduleItems'
@@ -159,19 +159,19 @@ const App = () => {
 								/>
 								<Route
 									path='documents'
-									element={<DocumentsPage />}
+									element={<ProjectsPage />}
 								/>
 								<Route
 									path='create-doc'
-									element={<DocCreateEditForm />}
+									element={<ProjectCreateEditForm />}
 								/>
 								<Route
 									path='edit-doc/:id'
-									element={<DocCreateEditForm />}
+									element={<ProjectCreateEditForm />}
 								/>
 								<Route
 									path='document/:id'
-									element={<SingleDocumentPage />}
+									element={<SingleProjectPage />}
 								/>
 								<Route
 									path='dashboard'

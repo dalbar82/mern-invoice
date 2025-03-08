@@ -31,7 +31,7 @@ import { JobDocument } from "../../../types/JobDocument";
 
 
 
-const DocumentsPage: React.FC = () => {
+const ProjectsPage: React.FC = () => {
   const navigate = useNavigate();
   const [page, setPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState<number>(10);
@@ -201,4 +201,4 @@ const DocumentsPage: React.FC = () => {
   );
 };
 
-export default DocumentsPage;
+export default ProjectsPage;

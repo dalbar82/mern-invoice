@@ -2,8 +2,8 @@ import {GraphUp, CustomersRound, Profit} from "../../../icons/components";
 import { Box, Container, Grid, Typography } from '@mui/material'
 import StyledDashboardGrid from '../../../components/StyledDashboardGrid'
 import { useGetAllCustomersQuery } from '../../customers/customersApiSlice'
-import { useGetAllDocsQuery } from '../../documents/documentsApiSlice'
-import { addCurrencyCommas } from '../../documents/pages/components/addCurrencyCommas'
+import { useGetAllDocsQuery } from '../../projects/documentsApiSlice'
+import { addCurrencyCommas } from '../../projects/pages/components/addCurrencyCommas'
 import useTitle from '../../../hooks/useTitle'
 import SimpleListItem from './components/simpleListItem'
 import '../../../styles/pageHeader.css'
@@ -17,18 +17,18 @@ interface CustomerData {
 }
 
 interface DocumentsData {
-  myDocuments?: JobDocument[];
+  myProjects?: JobDocument[];
 }
 
 const DashboardPage = () => {
 	useTitle('My Dashboard')
 
   const { customers } = useGetAllCustomersQuery<CustomerData>(undefined);
-  const { myDocuments } = useGetAllDocsQuery<DocumentsData>(undefined);
+  const { myProjects } = useGetAllDocsQuery<DocumentsData>(undefined);
 
 	const date = new Date().toDateString();
 
-  const docOverDue = myDocuments?.filter((doc: JobDocument) => {
+  const docOverDue = myProjects?.filter((doc: JobDocument) => {
     const dueDate = doc.dueDate ? new Date(doc.dueDate) : null;
     return dueDate && dueDate <= new Date();
   });
@@ -38,9 +38,9 @@ const DashboardPage = () => {
 
 	let totalAmount = 0
 
-	if (myDocuments && myDocuments.length > 0) {
-		for (let i = 0; i < myDocuments.length; i++) {
-			totalAmount += myDocuments[i]?.total ?? 0; 
+	if (myProjects && myProjects.length > 0) {
+		for (let i = 0; i < myProjects.length; i++) {
+			totalAmount += myProjects[i]?.total ?? 0; 
 		}
 	}
 	
@@ -246,7 +246,7 @@ const DashboardPage = () => {
 										</Typography>
 									</Box>
 								</Grid>
-								{myDocuments?.map((item: JobDocument) => (
+								{myProjects?.map((item: JobDocument) => (
                   <SimpleListItem key={item._id} data={item} />
                 ))}
 							</Grid>
