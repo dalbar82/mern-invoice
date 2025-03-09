@@ -29,7 +29,7 @@ import HomePageNav from './components/HomePageNav'
 import './styles/loggingPages.css'
 import EditProfileForm from './features/users/pages/EditProfileForm'
 import ProfilePage from './features/users/pages/ProfilePage'
-import CustomerListPage from './features/customers/pages/CustomersListPage'
+import CustomersPage from './features/customers/pages/CustomersPage'
 import CustomerCreateForm from './features/customers/pages/CustomerCreateForm'
 import CustomerEditForm from './features/customers/pages/CustomerEditForm'
 import SingleCustomerPage from './features/customers/pages/SingleCustomerPage'
@@ -135,7 +135,7 @@ const App = () => {
 
 								<Route
 									path='customers'
-									element={<CustomerListPage />}
+									element={<CustomersPage />}
 								/>
 								<Route
 									path='scheduler'

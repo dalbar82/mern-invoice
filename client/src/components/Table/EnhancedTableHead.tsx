@@ -15,6 +15,8 @@ interface HeadCell {
   label: string;
   numeric?: boolean;
   disablePadding?: boolean;
+  align?: string;
+  radius?: string;
 }
 
 // Define component props type
@@ -40,17 +42,18 @@ const EnhancedTableHead: React.FC<EnhancedTableHeadProps> = ({
     <TableHead>
       <TableRow
         style={{
-          background:
-            "linear-gradient(194deg, rgb(0, 117, 180) 0%, rgb(65, 162, 215) 100%)",
+          background:"linear-gradient(194deg, rgb(0, 117, 180) 0%, rgb(65, 162, 215) 100%)",
         }}
       >
         {headCells?.map((headCell) => (
           <StyledTableCell
+            radius={headCell.radius}
             key={headCell.id}
-            align={headCell.numeric ? "right" : "left"}
+            align={headCell.align ? "center" : "left"}
             padding={headCell.disablePadding ? "none" : "normal"}
             sortDirection={orderBy === headCell.id ? order : false}
             fontColor="#fff"
+          
           >
             <TableSortLabel
               active={orderBy === headCell.id}

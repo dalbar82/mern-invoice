@@ -23,7 +23,7 @@ const TableCellStyled = styled(TableCell)<StyledTableCellProps>(
       fontSize: 15,
       color: "#222222de",
       borderBottom: "1px solid #efefef",
-      height: "85px",
+      height: "65px",
       padding: "11px 16px",
       background: "white",
       borderRadius: radius, // ✅ Use value directly

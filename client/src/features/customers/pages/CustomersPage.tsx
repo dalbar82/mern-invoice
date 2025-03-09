@@ -14,6 +14,7 @@ import {
   TablePagination,
   TableRow
 } from "@mui/material";
+import useTitle from '../../../hooks/useTitle';
 import Typography from "../../../components/Typography/Typography";
 import EnhancedTableHead from "../../../components/Table/EnhancedTableHead";
 import moment from "moment";
@@ -23,18 +24,21 @@ import Spinner from "../../../components/Spinner";
 import GroupAddRoundedIcon from "@mui/icons-material/GroupAddRounded";
 import StyledTableCell from "../../../components/StyledTableCell";
 import StyledTableRow from "../../../components/StyledTableRow";
-import { useGetAllDocsQuery } from "../documentsApiSlice";
+import { useGetAllCustomersQuery } from '../customersApiSlice';
 import "../../../styles/pageHeader.css";
+import React from "react";
 
-const ProjectsPage: React.FC = () => {
+const CustomersPage: React.FC = () => {
+  useTitle('Customers');
   const navigate = useNavigate();
   const [page, setPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState<number>(10);
   const [order, setOrder] = useState<"asc" | "desc">("asc");
-  const [orderBy, setOrderBy] = useState("dueDate");
+  const [orderBy, setOrderBy] = useState("name");
 
-  const { data, isLoading } = useGetAllDocsQuery(page);
-  const rows = data?.myDocuments || [];
+  const { data, isLoading } = useGetAllCustomersQuery(page);
+  const rows = data?.myCustomers || [];
+  console.log("in customers",data?.myCustomers)
 
   function descendingComparator<T>(a: T, b: T, orderBy: keyof T): number {
     if (b[orderBy] < a[orderBy]) return -1;
@@ -76,12 +80,10 @@ const ProjectsPage: React.FC = () => {
   };
 
   const headerDetails = [
-    { id: "documentNumber", numeric: false, disablePadding: true, label: "Project #", align:"left", radius: "10px" },
+    { id: "accountNo", numeric: false, disablePadding: true, label: "Account #'", align:"left", radius: "10px" },
     { id: "name", numeric: false, disablePadding: true, label: "Name" },
-    { id: "customer", numeric: false, disablePadding: true, label: "Customer" },
-    { id: "documentType", numeric: false, disablePadding: true, label: "Status" },
-    { id: "dueDate", numeric: false, disablePadding: true, label: "Due" },
-    { id: "status", numeric: false, disablePadding: true, label: "Payment Status" },
+    { id: "city", numeric: false, disablePadding: true, label: "City" },
+    { id: "createdAt", numeric: false, disablePadding: true, label: "Created" },
     { id: "view", numeric: false, disablePadding: true, label: "View" },
   ];
 
@@ -96,34 +98,34 @@ const ProjectsPage: React.FC = () => {
     [order, orderBy, page, rowsPerPage, rows]
   );
 
-  const statusColour = (status: string): string => {
-    switch (status) {
-      case "Open":
-        return "#ffc356";
-      case "Quotation":
-        return "#69b5d8";
-      case "Order":
-        return "#4ab84a";
-      case "Invoice":
-        return "#e64d4d";
-      case "Paid":
-        return "#ca43ca";
-      default:
-        return "#eeeeee";
-    }
-  };
+  // const statusColour = (status: string): string => {
+  //   switch (status) {
+  //     case "Open":
+  //       return "#ffc356";
+  //     case "Quotation":
+  //       return "#69b5d8";
+  //     case "Order":
+  //       return "#4ab84a";
+  //     case "Invoice":
+  //       return "#e64d4d";
+  //     case "Paid":
+  //       return "#ca43ca";
+  //     default:
+  //       return "#eeeeee";
+  //   }
+  // };
 
   return (
     <Container component="main" maxWidth="xl" sx={{ mt: 14, ml: 15, width: "90%" }}>
       <Box className="page-header">
-        <Typography elementType="h3" text="Projects" style={{ fontWeight: 600, marginBottom: '20px', fontFamily: 'Poppins' }}/>
+        <Typography elementType="h3" text="Customers" style={{ fontWeight: 600, marginBottom: '20px', fontFamily: 'Poppins' }}/>
         <Box>
-          <Tooltip title="Add Job">
+          <Tooltip title="Add Customer">
             <Button
               sx={{ p: "15px 0px 15px 10px", color: "#a6aeb3" }}
               variant="text"
               startIcon={<GroupAddRoundedIcon />}
-              onClick={() => navigate("/create-doc")}
+              onClick={() => navigate("/create-customer")}
             ></Button>
           </Tooltip>
         </Box>
@@ -132,7 +134,7 @@ const ProjectsPage: React.FC = () => {
       {isLoading ? (
         <Spinner />
       ) : !rows.length ? (
-        <div>No projects</div>
+        <div>No Customers</div>
       ) : (
         <TableContainer component={Paper} sx={{ mt: 2, backgroundColor: "transparent", boxShadow: "none" }}>
           <Table sx={{ minWidth: 650 }} aria-label="simple-table">
@@ -144,26 +146,21 @@ const ProjectsPage: React.FC = () => {
             />
             <TableBody>
               {visibleRows.map((row) => (
-                <StyledTableRow key={row._id} sx={{ cursor: "pointer" }}>
+                <StyledTableRow key={row?._id} sx={{ cursor: "pointer" }}>
                   <StyledTableCell
                     fontWeight="600"
-                    leftborder={`2px solid ${statusColour(row.documentType)}`}
+                    // leftborder={`2px solid ${statusColour(row.documentType)}`}
                     scope="row"
                   >
-                    {row.documentNumber}
+                    {row?.accountNo}
                   </StyledTableCell>
-                  <StyledTableCell>{row.name}</StyledTableCell>
-                  <StyledTableCell>{row.customer?.name}</StyledTableCell>
-                  <StyledTableCell>
-                    <Chip sx={{ backgroundColor: "transparent", color: statusColour(row.documentType) }} label={row.documentType} />
-                  </StyledTableCell>
-                  <StyledTableCell>{moment(row.dueDate).format("DD-MM-YYYY")}</StyledTableCell>
-                  <StyledTableCell>
-                    <Chip sx={{ backgroundColor: "#eeeeee", color: "rgb(0 0 0 / 67%)" }} label={row.status} />
-                  </StyledTableCell>
+                  <StyledTableCell>{row?.name}</StyledTableCell>
+                  <StyledTableCell>{row?.city}</StyledTableCell>
+
+                  <StyledTableCell>{moment(row?.createdAt).format("DD-MM-YYYY")}</StyledTableCell>
                   <StyledTableCell >
                     <Box sx={{ cursor: "pointer" }}>
-                      <VisibilityRoundedIcon color="success" fontSize="medium" onClick={() => navigate(`/edit-doc/${row._id}`)} />
+                      <VisibilityRoundedIcon color="success" fontSize="medium" onClick={() => navigate(`/single-customer/${row?._id}`)} />
                     </Box>
                   </StyledTableCell>
                 </StyledTableRow>
@@ -199,4 +196,4 @@ const ProjectsPage: React.FC = () => {
   );
 };
 
-export default ProjectsPage;
+export default CustomersPage;
