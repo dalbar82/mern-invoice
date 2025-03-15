@@ -8,6 +8,8 @@ interface StyledTableCellProps extends TableCellProps {
   fontColor?: string;
   radius?: string;
   leftborder?: string;
+  key?: string;
+  
   align?: "left" | "center" | "right";
 }
 
@@ -42,10 +44,12 @@ const StyledTableCell: React.FC<StyledTableCellProps & { children?: ReactNode }>
   radius,
   leftborder,
   align,
+  key,
   ...props // ✅ Allow passing other TableCellProps (like `sx`)
 }) => {
   return (
     <TableCellStyled
+      key={key}
       width={width}
       radius={radius}
       leftborder={leftborder}

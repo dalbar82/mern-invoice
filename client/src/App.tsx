@@ -35,6 +35,7 @@ import CustomerEditForm from './features/customers/pages/CustomerEditForm'
 import SingleCustomerPage from './features/customers/pages/SingleCustomerPage'
 import ProjectCreateEditForm from './features/projects/pages/ProjectCreateEditForm'
 import ProjectsPage from './features/projects/pages/ProjectsPage'
+import ProjectManagement from './features/projects/pages/ProjectManagement';
 import SingleProjectPage from './features/projects/pages/SingleProjectPage'
 import OrganisationView from './features/organisation/pages/OrganisationView'
 import OrganisationEditForm from './features/organisation/pages/OrganisationEditForm'
@@ -159,7 +160,7 @@ const App = () => {
 								/>
 								<Route
 									path='documents'
-									element={<ProjectsPage />}
+									element={<ProjectManagement />}
 								/>
 								<Route
 									path='create-doc'

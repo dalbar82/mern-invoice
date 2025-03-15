@@ -196,7 +196,7 @@ const ProfileInfo:React.FC<ProfileInfoProps> = ({ user }) => {
 													<Typography 
 														elementType='h3' 
 														style={{ fontWeight: 600, marginBottom: '20px', fontFamily: 'Poppins' }}
-														text={`${user?.firstName?.toUpperCase()} {user?.lastName?.toUpperCase()}`}>
+														text={`${user?.firstName?.toUpperCase()} ${user?.lastName?.toUpperCase()}`}>
 														
 													</Typography>
 												</Stack>
