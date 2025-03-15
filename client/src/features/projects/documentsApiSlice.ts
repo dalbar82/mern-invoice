@@ -3,7 +3,21 @@ import { baseApiSlice } from '../api/baseApiSlice'
 export const documentsApiSlice = baseApiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		getAllDocs: builder.query({
-			query: (page = 1) => `/document/all?page=${page}`,
+			query: (lastCreatedAt = null) => ({
+				url: `/document/all`,
+				params: lastCreatedAt ? { lastCreatedAt } : {},
+			}),
+			serializeQueryArgs: ({ endpointName }) => endpointName, // Ensures correct caching behavior
+			merge: (currentCache, newItems) => {
+				if (newItems?.myDocuments?.length) {
+					currentCache.myDocuments.push(...newItems.myDocuments);
+				}
+				currentCache.hasMore = newItems.hasMore;
+				currentCache.lastCreatedAt = newItems.lastCreatedAt;
+			},
+			forceRefetch({ currentArg, previousArg }) {
+				return currentArg?.lastCreatedAt !== previousArg?.lastCreatedAt;
+			},
 			providesTags: ['Document'],
 		}),
 		getSingleDoc: builder.query({
