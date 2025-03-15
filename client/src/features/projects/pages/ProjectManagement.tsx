@@ -14,13 +14,8 @@ const ProjectManagement: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
   const [lastCreatedAt, setLastCreatedAt] = useState<string | null>(null);
-  console.log("lastCreatedAt before request:", lastCreatedAt);
-  const { data, isFetching } = useGetAllDocsQuery(lastCreatedAt);
+  const { data, isFetching, refetch } = useGetAllDocsQuery(lastCreatedAt);
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    console.log("API Response:", data);
-  }, [data]);
 
   useEffect(() => {
     if (data?.myDocuments?.length) {
@@ -38,18 +33,23 @@ const ProjectManagement: React.FC = () => {
 
   const handleScroll = useCallback(() => {
     if (!scrollContainerRef.current || isFetching || !data?.hasMore) return;
-
+  
     const { scrollTop, scrollHeight, clientHeight } = scrollContainerRef.current;
-    console.log(scrollTop);
-    
+  
     if (scrollHeight - (scrollTop + clientHeight) < 10) {
-      // User is at the bottom, fetch more data
-      setLastCreatedAt(projects[projects.length - 1]?.createdAt?.toISOString() || null);
-      console.log("inside useEffect", lastCreatedAt);
+      // Ensure projects array has data before accessing the last item
+      if (projects.length === 0) return;
+  
+      const lastCreatedAtScroll = new Date(projects[projects.length - 1]?.createdAt)
+      console.log("Updating lastCreatedAt:", lastCreatedAtScroll);
       
+      if (lastCreatedAtScroll) {
+        setLastCreatedAt(lastCreatedAt);
+      }
     }
   }, [isFetching, data?.hasMore, projects, lastCreatedAt]);
-
+  
+ 
   useEffect(() => {
     const scrollDiv = scrollContainerRef?.current;
     if (scrollDiv) {
@@ -78,7 +78,11 @@ const ProjectManagement: React.FC = () => {
         return "#eeeeee";
     }
   };
-
+  useEffect(() => {
+    if (lastCreatedAt) {
+      refetch();
+    }
+  }, [lastCreatedAt, refetch]);
   // **Filter Projects Based on Search Query**
   const filteredProjects = projects.filter((project) => {
     const searchLower = searchQuery.toLowerCase();
@@ -123,10 +127,10 @@ const ProjectManagement: React.FC = () => {
           sx={{ marginBottom: 2 }}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
-        <div ref={scrollContainerRef} id="scrollContainer" className="scroll-container" style={{height: "40%", display: "flex", flexDirection: "column"}}>
+        <div ref={scrollContainerRef} id="scrollContainer" className="scroll-container" style={{maxHeight: "50vh", display: "flex", flexDirection: "column", overflowY: "auto"}}>
           {isFetching && projects.length === 0 ? (
             <Spinner />
-          ) : filteredProjects.length > 0 ? (
+          ) : filteredProjects?.length > 0 ? (
             filteredProjects.map((project, index) => (
               <ProjectListItem
                 key={`${project?.documentNumber}-${index}`}
@@ -145,7 +149,6 @@ const ProjectManagement: React.FC = () => {
             </Typography>
           )}
         </div>
-        {/* <div ref={scrollContainerRef} style={{ height: "10px" }}></div> */}
 
         {isFetching && <Typography textAlign="center">Loading more...</Typography>}
       </Container>

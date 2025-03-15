@@ -9,7 +9,7 @@ const getOrganisations = asyncHandler(async (req, res) => {
 	const pageSize = 10
 	const page = Number(req.query.page) || 1
 
-	if (!req.user.roles.includes('Internal_admin')) {
+	if (!req.user.roles.includes('Admin')) {
 		res.status(400)
 		throw new Error('You are not authorised to complete this action')
 	}

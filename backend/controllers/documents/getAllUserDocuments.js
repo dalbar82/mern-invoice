@@ -7,7 +7,7 @@ import Document from '../../models/documentModel.js'
 
 
 const getAllUserDocuments = asyncHandler(async (req, res) => {
-  const limit = 10;
+  const limit = 7;
   const lastCreatedAt = req.query.lastCreatedAt;
 
   let query = { organisation: req.user.organisation };

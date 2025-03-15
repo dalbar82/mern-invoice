@@ -87,7 +87,7 @@ const userSchema = new Schema(
 
 		roles: {
 			type: [String], // Defines an array of strings
-			default: ["USER"], // Default value as an array containing "USER"
+			default: ["User"], // Default value as an array containing "USER"
 		},
 		
 		organisation: { type: String, required: true },
