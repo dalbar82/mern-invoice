@@ -45,6 +45,16 @@ export const customTheme = createTheme({
     },
   },
   components: {
+    MuiContainer: {
+      styleOverrides: {
+        root: {
+          [`@media (min-width:600px)`]: {
+            paddingLeft: 0, // Remove default padding
+            paddingRight: 0,
+          },
+        },
+      },
+    },
     MuiDrawer: {
       styleOverrides: {
         paper: {

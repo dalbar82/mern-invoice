@@ -61,15 +61,14 @@ import '../../../styles/pageHeader.css'
 const StyledItemButton = styled(Button)({
 	boxShadow: '0 0 0 0 #f0f0f0, 0 0 0 0 rgba(124, 105, 239, 1)',
 })
-interface ProjectCreateEditFormProps {
-	id?: string
-}
-const ProjectCreateEditForm: React.FC <ProjectCreateEditFormProps> = (id) => {
+
+const ProjectCreateEditForm = () => {
+	const { id } = useParams()
 	const navigate = useNavigate()
 
 	const { data: user } = useGetUserProfileQuery(undefined)
 	const { data: customers } = useGetAllCustomersQuery(undefined)
-	const { data: singleDoc } = useGetSingleDocQuery(id.id)
+	const { data: singleDoc } = useGetSingleDocQuery(id)
 
 	const [createDoc, { isLoading, isSuccess }] = useCreateDocMutation()
 	const [sendEmail, setSendEmail] = useState(false)
@@ -186,8 +185,10 @@ const ProjectCreateEditForm: React.FC <ProjectCreateEditFormProps> = (id) => {
 					subtotal += +input.value; // Convert value to number
 				}
 			});
+	
 			setSubTotal(subtotal);
 		};
+	
 		subTotal();
 	}, [docData, items]);
 	
@@ -327,12 +328,46 @@ const ProjectCreateEditForm: React.FC <ProjectCreateEditFormProps> = (id) => {
 	return (
 		<Container
 			component='main'
-			sx={{ ml: 2}}>
+			maxWidth='xl'
+			sx={{ mt: 14, ml: 15, width: '90%' }}>
+			<Box className='page-header'>
+				<Typography elementType='h3' 
+					style={{ fontWeight: 600, marginBottom: '20px', fontFamily: 'Poppins' }}
+					text='Project Details'/>
+				<Box>
+					{sendEmail ? (
+						<Box
+							sx={{
+								display: 'flex',
+								flexDirection: 'row',
+								justifyContent: 'center',
+							}}>
+							<CircularProgress />
+						</Box>
+					) : (
+						<Tooltip title='Email'>
+							<Button
+								style={{ padding: '15px 0px 15px 10px', color: '#a6aeb3' }}
+								variant='text'
+								startIcon={<SendSharpIcon />}
+								onClick={sendPdfEmail}></Button>
+						</Tooltip>
+					)}
+					<Tooltip title='Close'>
+						<Button
+							style={{ padding: '15px 0px 15px 10px', color: '#a6aeb3' }}
+							variant='text'
+							startIcon={<ClearIcon />}
+							onClick={goBack}></Button>
+					</Tooltip>
+				</Box>
+			</Box>
 			{isLoading || updateDocLoading ? (
 				<Spinner />
 			) : (
-			<Box
+				<Box
 					sx={{
+						mt: '1rem',
 						display: 'flex',
 						flexDirection: 'column',
 						alignItems: 'center',
@@ -352,7 +387,9 @@ const ProjectCreateEditForm: React.FC <ProjectCreateEditFormProps> = (id) => {
 						}}>
 						<Grid
 							item
-							>
+							md={9}
+							sm={12}
+							pl={3}>
 							<Box
 								sx={{
 									marginTop: '30px',
@@ -397,44 +434,6 @@ const ProjectCreateEditForm: React.FC <ProjectCreateEditFormProps> = (id) => {
 									}}>
 									03. Address Details
 								</Button>
-								<Box>
-									{sendEmail ? (
-										<Box
-											sx={{
-												display: 'flex',
-												flexDirection: 'row',
-												justifyContent: 'center',
-											}}>
-											<CircularProgress />
-										</Box>
-									) : (
-										<Tooltip title='Email'>
-											<Button
-												style={{ padding: '15px 0px 15px 10px', color: '#a6aeb3' }}
-												variant='text'
-												startIcon={<SendSharpIcon />}
-												onClick={sendPdfEmail}></Button>
-										</Tooltip>
-									)}
-									<Tooltip title='Close'>
-										<Button
-											style={{ padding: '15px 0px 15px 10px', color: '#a6aeb3' }}
-											variant='text'
-											startIcon={<ClearIcon />}
-											onClick={goBack}></Button>
-									</Tooltip>
-									<Tooltip title='Submit'>
-										<Button
-											color='success'
-											style={{
-												padding: '0 0 0 10px',
-												color: '#a6aeb3',
-											}}
-											variant='text'
-											startIcon={<DoneIcon />}
-											type='submit'></Button>
-									</Tooltip>
-								</Box>
 							</Box>
 
 							{/* Project info */}
@@ -985,7 +984,140 @@ const ProjectCreateEditForm: React.FC <ProjectCreateEditFormProps> = (id) => {
 						</Grid>
 
 						{/* summary section */}
-						
+						<Grid
+							item
+							md={3}
+							sm={12}>
+							<Box
+								sx={{
+									backgroundColor: '#f6fafb',
+									borderRadius: '4px',
+									margin: '20px',
+									width: '90%',
+									height: '95%',
+									padding: '25px',
+								}}>
+								<Box
+									sx={{
+										fontWeight: '400',
+										borderBottom: '1px solid #e1e1e1',
+										paddingBottom: '20px',
+										marginBottom: '20px',
+										display: 'flex',
+										justifyContent: 'space-between',
+									}}>
+									<Typography elementType='h3' 
+										style={{ fontWeight: 600, marginBottom: '20px', fontFamily: 'Poppins' }}
+										text='Summary'/>
+									<Tooltip title='Submit'>
+										<Button
+											color='success'
+											style={{
+												padding: '0 0 0 10px',
+												color: '#a6aeb3',
+											}}
+											variant='text'
+											startIcon={<DoneIcon />}
+											type='submit'></Button>
+									</Tooltip>
+								</Box>
+
+								<Box
+									sx={{
+										textAlign: 'left',
+										borderBottom: '1px solid #e1e1e1',
+										fontSize: 'small',
+									}}>
+									<div className='billItem'>
+										<Typography elementType='p' text='Sub total:'/>
+										<p>
+											{currency} {subTotal?.toFixed(2)}
+										</p>
+									</div>
+									<div className='billItem'>
+										<Typography elementType='p' text='Tax:'/>
+										<p>{salesTax?.toFixed(1)}</p>
+									</div>
+									<div className='billItem'>
+										<Typography elementType='p' text='Total:'/>
+										<h4>
+											{currency}
+											{addCurrencyCommas(total.toFixed(2))}
+										</h4>
+									</div>
+								</Box>
+								{/* dates */}
+								<Grid
+									item
+									sx={{
+										borderBottom: '1px solid #e1e1e1',
+										fontSize: 'small',
+									}}>
+									<Typography
+										text={`Date Created: ${format(new Date(), 'do MMMM yyyy')}`}
+										style={{
+											marginTop: '10px',
+											display: 'flex',
+											textTransform: 'uppercase',
+											fontSize: 'small',
+										}}/>
+									<Typography
+									text={`Due Date: ${dueDate && format(dueDate, 'do MMMM yyyy')}`}
+										style={{
+											marginBottom: '10px',
+											marginTop: '10px',
+											display: 'flex',
+											textTransform: 'uppercase',
+											fontSize: 'small',
+										}}/>
+								</Grid>
+								<Grid
+									item
+									sx={{
+										borderBottom: '1px solid #e1e1e1',
+										fontSize: 'small',
+									}}>
+									<Typography
+										text='Address Details'
+										style={{
+											marginTop:'20px',
+											marginBottom:'20px',
+											display: 'flex',
+											textTransform: 'uppercase',
+											fontSize: 'small',
+										}}/>
+									<Typography
+										elementType='span'
+										text={deliveryAddress}
+										style={{marginBottom:'20px'}}/>
+									<Typography
+										text={`${deliveryCity} ${deliveryState} ${deliveryPostcode}`}
+										style={{
+											marginTop:'20px',
+											marginBottom:'20px',
+										}}
+										elementType='span'/>
+								</Grid>
+								<Box sx={{ display: 'flex', justifyContent: 'center' }}>
+									<Button
+										variant='contained'
+										type='submit'
+										size='large'
+										style={{
+											marginTop: '20px',
+											borderColor: 'rgb(17,65,141)',
+
+											// '&:hover': {
+											// 	bgcolor: 'rgb(17,65,141)',
+											// 	color: 'white',
+											// 	borderColor: 'rgb(17,65,141)',
+											// },
+										}}>
+										SUBMIT
+									</Button>
+								</Box>
+							</Box>
+						</Grid>
 					</Grid>
 				</Box>
 			)}

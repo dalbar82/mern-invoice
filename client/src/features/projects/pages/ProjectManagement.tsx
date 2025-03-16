@@ -4,16 +4,19 @@ import GroupAddRoundedIcon from "@mui/icons-material/GroupAddRounded";
 import { useNavigate } from "react-router-dom";
 import { useGetAllDocsQuery } from "../documentsApiSlice";
 import ProjectListItem from "../../../components/ListItems/ProjectListItem";
+import ProjectCreateEditForm from "./ProjectCreateEditForm";
 import "../../../styles/pageHeader.css";
 import Spinner from "../../../components/Spinner";
 import { JobDocument } from "../../../types/JobDocument";
+import { RxViewNone } from 'react-icons/rx'
 
 const ProjectManagement: React.FC = () => {
   const navigate = useNavigate();
   const [projects, setProjects] = useState<JobDocument[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
+  const [selectedProjectNumber, setSelectedProjectNumber] = useState<string | null>(null);
   const [lastCreatedAt, setLastCreatedAt] = useState<string | null>(null);
+  const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null)
   const { data, isFetching, refetch } = useGetAllDocsQuery(lastCreatedAt);
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
@@ -41,7 +44,6 @@ const ProjectManagement: React.FC = () => {
       if (projects.length === 0) return;
   
       const lastCreatedAtScroll = new Date(projects[projects.length - 1]?.createdAt)
-      console.log("Updating lastCreatedAt:", lastCreatedAtScroll);
       
       if (lastCreatedAtScroll) {
         setLastCreatedAt(lastCreatedAt);
@@ -117,42 +119,76 @@ const ProjectManagement: React.FC = () => {
       </Grid>
 
       {/* Project List */}
-      <Grid item xs={4} xl={4} sx={{height: "45%"}}>
-      <Container>
-        <TextField
-          fullWidth
-          label="Search"
-          placeholder="Search projects..."
-          value={searchQuery}
-          sx={{ marginBottom: 2 }}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-        <div ref={scrollContainerRef} id="scrollContainer" className="scroll-container" style={{maxHeight: "50vh", display: "flex", flexDirection: "column", overflowY: "auto"}}>
-          {isFetching && projects.length === 0 ? (
-            <Spinner />
-          ) : filteredProjects?.length > 0 ? (
-            filteredProjects.map((project, index) => (
-              <ProjectListItem
-                key={`${project?.documentNumber}-${index}`}
-                projectNumber={project?.documentNumber?.toString() || "No Job #"}
-                projectTitle={project?.name || "No Description"}
-                dueDate={project?.dueDate ? new Date(project.dueDate) : null}
-                customer={project?.customer?.name || "No Customer"}
-                borderColor={getStatusColor(project?.documentType)}
-                isSelected={selectedProjectId === project?.documentNumber}
-                onClick={() => setSelectedProjectId(project.documentNumber ?? null)}
-              />
-            ))
-          ) : (
-            <Typography variant="body1" color="textSecondary">
-              No projects found.
-            </Typography>
-          )}
+      <Grid item sx={{ml: 0, pl: 0}}>
+        <Container sx={{ml: 0, pl: 0}}>
+          <TextField
+            fullWidth
+            label="Search"
+            placeholder="Search projects..."
+            value={searchQuery}
+            sx={{ marginBottom: 2 }}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <div ref={scrollContainerRef} 
+            id="scrollContainer" 
+            className="scroll-container" 
+            style={{
+              maxHeight: "69vh", 
+              display: "flex", 
+              flexDirection: "column", 
+              overflowY: "auto"}}>
+            {isFetching && projects.length === 0 ? (
+              <Spinner />
+            ) : filteredProjects?.length > 0 ? (
+              filteredProjects.map((project, index) => (
+                <ProjectListItem
+                  key={`${project?.documentNumber}-${index}`}
+                  projectNumber={project?.documentNumber?.toString() || "No Job #"}
+                  projectTitle={project?.name || "No Description"}
+                  dueDate={project?.dueDate ? new Date(project.dueDate) : null}
+                  customer={project?.customer?.name || "No Customer"}
+                  borderColor={getStatusColor(project?.documentType)}
+                  isSelected={selectedProjectNumber === project?.documentNumber}
+                  onClick={() => {
+                    setSelectedProjectNumber(project.documentNumber ?? null);
+                    setSelectedProjectId(project._id);
+                  }}
+                />
+              ))
+            ) : (
+              <Typography variant="body1" color="textSecondary">
+                No projects found.
+              </Typography>
+            )}
+          </div>
+
+          {isFetching && <Typography textAlign="center">Loading more...</Typography>}
+        </Container>
+      </Grid>
+
+      <Grid >
+        {selectedProjectId ? <ProjectCreateEditForm id={selectedProjectId}/> : 
+        <div style={{
+          marginLeft: "16px",
+          width: "69vw",
+          height: "100%",
+          background: "white"
+        }}>
+          <div style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            paddingTop: "140px"
+          }}>
+            <RxViewNone
+              size='80px'
+              color='#f0f0f0'
+            />
+            <h3>No Project selected</h3>
+            <p>Click item to display project details</p>
         </div>
-
-        {isFetching && <Typography textAlign="center">Loading more...</Typography>}
-      </Container>
-
+      </div>}
       </Grid>
     </Grid>
   );

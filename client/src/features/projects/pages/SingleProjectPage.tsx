@@ -34,8 +34,12 @@ import PaymentForm from './PaymentForm'
 import '../../../styles/pageHeader.css'
 import { JobDocument, BillingItem } from '../../../types/JobDocument'
 
-const SingleProjectPage = () => {
-	const { id } = useParams()
+interface SingleProjectPageProps {
+	id?: string
+}
+
+const SingleProjectPage: React.FC<SingleProjectPageProps> = ({id}) => {
+	// const { id } = useParams()
 	const navigate = useNavigate()
 
 	const goBack = () => navigate(-1)
@@ -358,8 +362,8 @@ const SingleProjectPage = () => {
 									<Typography
 										variant='body1'
 										gutterBottom>
-										<b>Issue Date:</b>{' '}
-										{format(new Date(document?.createdAt), 'dd MMMM yyyy')}
+										<b>Issue Date:</b>
+										{new Date(document?.createdAt).getDate()}
 									</Typography>
 
 									<Typography

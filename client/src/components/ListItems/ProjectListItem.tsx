@@ -24,13 +24,13 @@ const ProjectListItem = forwardRef<HTMLDivElement, ProjectListItemProps>(
           borderLeft: `4px solid ${borderColor}`,
           padding: "16px",
           marginBottom: "12px",
-          backgroundColor: isSelected ? "#f0f8ff" : "#fff", // Light blue when selected
+          backgroundColor: isSelected ? "#77777742" : "#fff", // Light blue when selected
           boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.1)",
           borderRadius: "6px",
           maxWidth: "550px",
           cursor: "pointer",
           "&:hover": {
-            backgroundColor: "#f9f9f9",
+            backgroundColor: "#77777742",
           },
         }}
       >
