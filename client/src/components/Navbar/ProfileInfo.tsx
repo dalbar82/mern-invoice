@@ -223,7 +223,7 @@ const ProfileInfo:React.FC<ProfileInfoProps> = ({ user }) => {
 								</Grid>
 							</StyledMenuItem>
 							{/* Dashboard */}
-							<StyledMenuItem onClick={() => navigate('/dashboard')}>
+							{/* <StyledMenuItem onClick={() => navigate('/dashboard')}>
 								<Grid item>
 									<Stack
 										direction='row'
@@ -238,7 +238,7 @@ const ProfileInfo:React.FC<ProfileInfoProps> = ({ user }) => {
 										<Typography elementType='p' text="Dashboard"/>
 									</Stack>
 								</Grid>
-							</StyledMenuItem>
+							</StyledMenuItem> */}
 
 							{/* logout */}
 							<StyledMenuItem onClick={handleLogout}>
