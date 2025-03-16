@@ -1,0 +1,6 @@
+.box {
+  display: flex;
+  flex-direction: row;
+  padding: 20px;
+  box-shadow: 1px 1px black;
+}

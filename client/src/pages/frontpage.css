@@ -1,0 +1,6 @@
+.frontpage-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 91vw;
+    overflow-x: auto;
+}

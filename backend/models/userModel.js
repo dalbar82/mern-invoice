@@ -86,9 +86,10 @@ const userSchema = new Schema(
 		passwordChangedAt: Date,
 
 		roles: {
-			type: [String],
-			default: [USER],
+			type: [String], // Defines an array of strings
+			default: ["User"], // Default value as an array containing "USER"
 		},
+		
 		organisation: { type: String, required: true },
 		active: {
 			type: Boolean,

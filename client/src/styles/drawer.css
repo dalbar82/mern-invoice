@@ -1,5 +1,5 @@
 .drawer {
-	background-color: rgba(0, 0, 0, 0.5);
+	background-color: rgba(0, 0, 0, 0.187);
 	height: 100vh; 
 	position: relative;
 	z-index: 100;
@@ -10,9 +10,11 @@
 	top: 43%;
 	left: 45%;
 	transform: translate(-50%, -50%);
-	height: 85%;
-	width: 90% !important;
+	height: 75%;
+	width: 60% !important;
 	max-width: 90% !important;
 	background-color: white;
 	padding-top: 28px;
+	border-radius: 4px;
+	padding: 30px !important;
 }

@@ -1,12 +1,10 @@
-# syntax = docker/dockerfile:1
-
-# Adjust NODE_VERSION as desired
-ARG NODE_VERSION=16.20.0
+# Use a newer Node.js version for compatibility
+ARG NODE_VERSION=20.17.0
 FROM node:${NODE_VERSION}-slim as base
 
 LABEL fly_launch_runtime="Node.js"
 
-# Node.js app lives here
+# Set working directory for the app
 WORKDIR /app
 
 # Set production environment
@@ -15,54 +13,79 @@ ENV NODE_ENV="production"
 # Copy .env file for backend
 COPY --link backend/.env .env
 
-# Throw-away build stage to reduce size of final image
+# --------------------------------
+# Backend Build Stage (with TypeScript)
+# --------------------------------
 FROM base as build
 
-# Install packages needed to build node modules
+# Install dependencies required for building native modules
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y build-essential node-gyp pkg-config python 
 
-# Install node modules for backend
-COPY --link package-lock.json package.json ./backend/
-RUN npm install --prefix ./backend
+# Copy backend package files
+WORKDIR /app/backend
+COPY --link backend/package.json backend/package-lock.json ./
 
-# Copy backend application code
-COPY --link backend ./backend
-
-# Build the backend (if you have a build step, if not, remove this)
-# RUN npm run build --prefix backend
-
-# Final stage for app image
-FROM base as backend
-
-# Copy built backend application
-COPY --from=build /app/backend /app/backend
-
-# Start the backend server by default, this can be overwritten at runtime
-EXPOSE 1997
-CMD ["node", "backend/server.js"]
-
-# Throw-away build stage for frontend
-FROM base as frontend-build
-
-# Install node modules for frontend
-WORKDIR /app/client
-COPY --link client/package-lock.json client/package.json ./
+# Install dependencies including TypeScript
 RUN npm install
 
-# Copy frontend application code
-COPY --link client .
+# Install TypeScript globally
+RUN npm install -g typescript
 
-# Build the frontend
+# Copy backend application code
+COPY --link backend ./
+
+# Compile TypeScript (Outputs to `/app/backend/dist`)
 RUN npm run build
 
-# Final stage for frontend image
+# --------------------------------
+# Backend Final Stage
+# --------------------------------
+FROM base as backend
+
+# Copy built backend application and node_modules
+WORKDIR /app/backend
+COPY --from=build /app/backend/dist /app/backend/dist
+COPY --from=build /app/backend/node_modules /app/backend/node_modules
+
+# Expose backend port
+EXPOSE 1997
+
+# Start the backend server
+CMD ["node", "dist/server.js"]  # Run compiled TypeScript file
+
+# --------------------------------
+# Frontend Build Stage (with TypeScript)
+# --------------------------------
+FROM base as frontend-build
+
+# Set working directory for frontend
+WORKDIR /app/client
+
+# Copy frontend package files
+COPY --link client/package.json client/package-lock.json ./
+
+# Install frontend dependencies
+RUN npm install --legacy-peer-deps
+
+# Install TypeScript for frontend
+RUN npm install -g typescript
+
+# Copy frontend application code
+COPY --link client ./
+
+# Compile TypeScript (Outputs to `/app/client/build`)
+RUN npm run build
+
+# --------------------------------
+# Frontend Final Stage
+# --------------------------------
 FROM nginx:alpine as frontend
 
-# Copy built frontend application
+# Copy built frontend application to Nginx directory
 COPY --from=frontend-build /app/client/build /usr/share/nginx/html
 
-# Expose port 80
+# Expose frontend port
 EXPOSE 80
 
 # Start Nginx server

@@ -26,7 +26,7 @@ const app = express()
 
 const corsOptions = {
     origin: 'http://localhost:3000', // Your frontend address
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], // Allowed methods
     credentials: true, // Allow cookies to be sent
 };
 

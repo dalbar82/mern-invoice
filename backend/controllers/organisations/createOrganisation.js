@@ -37,7 +37,7 @@ const createOrganisation = asyncHandler(async (req, res) => {
 		)
 	}
 
-	if (!req.user.roles.includes('Internal_admin')) {
+	if (!req.user.roles.includes('Admin')) {
 		res.status(400)
 		throw new Error('You are not authorised to complete this action')
 	}
