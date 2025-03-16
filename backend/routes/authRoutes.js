@@ -69,7 +69,7 @@ router.get(
     <html>
     <script>
     window.localStorage.setItem("googleToken",'${jwt}')
-    window.location.href='/dashboard'
+    window.location.href='/documents'
     </script>
 
     </html>

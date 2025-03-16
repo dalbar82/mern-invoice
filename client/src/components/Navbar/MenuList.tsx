@@ -40,22 +40,6 @@ const MenuList = () => {
 			}}>
 			<Box>
 				{/* <Box height={'10px'}></Box> */}
-				<StyledList>
-					<ListItem disablePadding>
-						<Tooltip title='Dashboard'>
-							<ListItemButton
-								onClick={() => navigate('/dashboard')}
-								style={{ paddingTop: '0', paddingBottom: '0' }}>
-								<ListItemIcon>
-									<DashboardSharpIcon
-										sx={{ margin: '25px 0', fontSize: 25, color: '#fff' }}
-									/>
-								</ListItemIcon>
-								<MenuText text='Dashboard' />
-							</ListItemButton>
-						</Tooltip>
-					</ListItem>
-				</StyledList>
 
 				<StyledList>
 					<ListItem disablePadding>
@@ -110,7 +94,24 @@ const MenuList = () => {
 			</Box>
 
 			{isAdmin && (
+				
 				<Box>
+					<StyledList>
+						<ListItem disablePadding>
+							<Tooltip title='Reports'>
+								<ListItemButton
+									onClick={() => navigate('/dashboard')}
+									style={{ paddingTop: '0', paddingBottom: '0' }}>
+									<ListItemIcon>
+										<DashboardSharpIcon
+											sx={{ margin: '25px 0', fontSize: 25, color: '#fff' }}
+										/>
+									</ListItemIcon>
+									<MenuText text='Reports' />
+								</ListItemButton>
+							</Tooltip>
+						</ListItem>
+					</StyledList>
 					<StyledList>
 						<ListItem disablePadding>
 							<Tooltip title='Settings'>
