@@ -34,6 +34,7 @@ import CustomerCreateForm from './features/customers/pages/CustomerCreateForm'
 import CustomerEditForm from './features/customers/pages/CustomerEditForm'
 import SingleCustomerPage from './features/customers/pages/SingleCustomerPage'
 import ProjectCreateEditForm from './features/projects/pages/ProjectCreateEditForm'
+import ProjectCreateForm from './features/projects/pages/ProjectCreateForm'
 import ProjectsPage from './features/projects/pages/ProjectsPage'
 import ProjectManagement from './features/projects/pages/ProjectManagement';
 import SingleProjectPage from './features/projects/pages/SingleProjectPage'
@@ -164,7 +165,7 @@ const App = () => {
 								/>
 								<Route
 									path='create-doc'
-									element={<ProjectCreateEditForm />}
+									element={<ProjectCreateForm />}
 								/>
 								<Route
 									path='edit-doc/:id'
@@ -201,7 +202,7 @@ const App = () => {
 							</Route>
 						</Route>
 					</Routes>
-					<ToastContainer theme='dark' />
+				<ToastContainer theme='dark' />
 				</AppointmentItemsContext.Provider>
 			</configContext.Provider>
 		</ThemeProvider>

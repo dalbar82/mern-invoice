@@ -113,7 +113,6 @@ const ProjectCreateEditForm: React.FC <ProjectCreateEditFormProps> = (id) => {
 
 	const today = new Date()
 	const docTypes = ['Invoice', 'Order', 'Quotation', 'Open', 'Paid']
-	const productionTypes = ['Pre Production', 'Production', 'Complete']
 
 	const [dueDate, setDueDate] = useState(
 		today.getTime() + 7 * 24 * 60 * 60 * 1000 || null

@@ -62,7 +62,7 @@ const StyledItemButton = styled(Button)({
 	boxShadow: '0 0 0 0 #f0f0f0, 0 0 0 0 rgba(124, 105, 239, 1)',
 })
 
-const ProjectCreateEditForm = () => {
+const ProjectCreateForm = () => {
 	const { id } = useParams()
 	const navigate = useNavigate()
 
@@ -333,7 +333,7 @@ const ProjectCreateEditForm = () => {
 			<Box className='page-header'>
 				<Typography elementType='h3' 
 					style={{ fontWeight: 600, marginBottom: '20px', fontFamily: 'Poppins' }}
-					text='Project Details'/>
+					text='Create Project'/>
 				<Box>
 					{sendEmail ? (
 						<Box
@@ -1027,6 +1027,7 @@ const ProjectCreateEditForm = () => {
 										textAlign: 'left',
 										borderBottom: '1px solid #e1e1e1',
 										fontSize: 'small',
+										width: "inherit"
 									}}>
 									<div className='billItem'>
 										<Typography elementType='p' text='Sub total:'/>
@@ -1106,12 +1107,6 @@ const ProjectCreateEditForm = () => {
 										style={{
 											marginTop: '20px',
 											borderColor: 'rgb(17,65,141)',
-
-											// '&:hover': {
-											// 	bgcolor: 'rgb(17,65,141)',
-											// 	color: 'white',
-											// 	borderColor: 'rgb(17,65,141)',
-											// },
 										}}>
 										SUBMIT
 									</Button>
@@ -1125,4 +1120,4 @@ const ProjectCreateEditForm = () => {
 	)
 }
 
-export default ProjectCreateEditForm
+export default ProjectCreateForm
