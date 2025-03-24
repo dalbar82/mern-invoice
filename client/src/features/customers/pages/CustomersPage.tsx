@@ -38,7 +38,6 @@ const CustomersPage: React.FC = () => {
 
   const { data, isLoading } = useGetAllCustomersQuery(page);
   const rows = data?.myCustomers || [];
-  console.log("in customers",data?.myCustomers)
 
   function descendingComparator<T>(a: T, b: T, orderBy: keyof T): number {
     if (b[orderBy] < a[orderBy]) return -1;

@@ -68,7 +68,8 @@ export const customTheme = createTheme({
     MuiAppBar: {
       styleOverrides: {
         root: {
-          backgroundColor: "#202128",
+          backgroundColor: "#383d44",
+          // backgroundColor: "#202128",
           color: "#fff",
         },
       },

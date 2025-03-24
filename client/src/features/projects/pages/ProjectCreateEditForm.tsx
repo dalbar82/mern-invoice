@@ -5,7 +5,6 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import BuildCircleOutlinedIcon from '@mui/icons-material/BuildCircleOutlined'
 import ClearIcon from '@mui/icons-material/Clear'
 import { produce } from 'immer'
-import axios from 'axios'
 import { splitAddress } from '../../../utils/googleAddressSplit'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 import {
@@ -17,7 +16,6 @@ import {
 	InputBase,
 	Paper,
 	Table,
-	CircularProgress,
 	TableBody,
 	TableContainer,
 	TableHead,
@@ -27,17 +25,14 @@ import {
 	MenuItem,
 	Button
 } from '@mui/material'
-// import Button from '../../../components/Buttons/Button/Button'
 import Typography from '../../../components/Typography/Typography'
 import Autocomplete from '@mui/material/Autocomplete'
 import GeoAutocomplete from 'react-google-autocomplete'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
-import SendSharpIcon from '@mui/icons-material/SendSharp'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
-import { format } from 'date-fns'
 import { useEffect, useState } from 'react'
-import { useNavigate, useParams, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { Customer } from '../../../types/Customers'
 import { BillingItem } from '../../../types/JobDocument'
@@ -45,17 +40,12 @@ import { BillingItem } from '../../../types/JobDocument'
 import Spinner from '../../../components/Spinner'
 import StyledTableCell from '../../../components/StyledTableCell'
 import StyledTableRow from '../../../components/StyledTableRow'
-import currencies from '../../../world_currencies.json'
 import {
 	useCreateDocMutation,
-	useGetSingleDocQuery,
 	useUpdateDocMutation,
 } from '../documentsApiSlice'
 import { useGetUserProfileQuery } from '../../users/usersApiSlice'
-
 import { useGetAllCustomersQuery } from '../../customers/customersApiSlice'
-import { addCurrencyCommas } from './components/addCurrencyCommas'
-import { docInitialState, itemsInitialState } from './initialState'
 import '../../../styles/pageHeader.css'
 
 const StyledItemButton = styled(Button)({
@@ -63,16 +53,94 @@ const StyledItemButton = styled(Button)({
 })
 interface ProjectCreateEditFormProps {
 	id?: string
+	docData: any
+	setDocData: React.Dispatch<React.SetStateAction<any>>
+	items: BillingItem[]
+	setItems: React.Dispatch<React.SetStateAction<BillingItem[]>>
+	documentType: string
+	setDocumentType: React.Dispatch<React.SetStateAction<string>>
+	currency: string
+	setCurrency: React.Dispatch<React.SetStateAction<string>>
+	name: string
+	setName: React.Dispatch<React.SetStateAction<string>>
+	organisation?: string
+	customer: Customer | null
+	setCustomer: React.Dispatch<React.SetStateAction<Customer | null>>
+	salesTax: number
+	setSalesTax: React.Dispatch<React.SetStateAction<number>>
+	total: number
+	setTotal: React.Dispatch<React.SetStateAction<number>>
+	subTotal: number
+	setSubTotal: React.Dispatch<React.SetStateAction<number>>
+	rates: number
+	setRates: React.Dispatch<React.SetStateAction<number>>
+	status: string
+	setStatus: React.Dispatch<React.SetStateAction<string>>
+	autoCompleteAddress: string
+	setAutoCompleteAddress: React.Dispatch<React.SetStateAction<string>>
+	deliveryAddress: string
+	setDeliveryAddress: React.Dispatch<React.SetStateAction<string>>
+	deliveryCity: string
+	setDeliveryCity: React.Dispatch<React.SetStateAction<string>>
+	deliveryState: string
+	setDeliveryState: React.Dispatch<React.SetStateAction<string>>
+	deliveryPostcode: string
+	setDeliveryPostcode: React.Dispatch<React.SetStateAction<string>>
+	deliveryCountry: string
+	setDeliveryCountry: React.Dispatch<React.SetStateAction<string>>
+	deliveryNotes: string
+	setDeliveryNotes: React.Dispatch<React.SetStateAction<string>>
+	totalAmountReceived: number
+	setTotalAmountReceived: React.Dispatch<React.SetStateAction<number>>
 }
-const ProjectCreateEditForm: React.FC <ProjectCreateEditFormProps> = (id) => {
+
+const ProjectCreateEditForm: React.FC <ProjectCreateEditFormProps> = ({
+	id,
+	docData,
+	setDocData,
+	items,
+	setItems,
+	documentType,
+	setDocumentType,
+	currency,
+	setCurrency,
+	name,
+	setName,
+	organisation,
+	customer,
+	setCustomer,
+	salesTax,
+	setSalesTax,
+	total,
+	setTotal,
+	subTotal,
+	setSubTotal,
+	rates,
+	setRates,
+	status,
+	setStatus,
+	autoCompleteAddress,
+	setAutoCompleteAddress,
+	deliveryAddress,
+	setDeliveryAddress,
+	deliveryCity,
+	setDeliveryCity,
+	deliveryState,
+	setDeliveryState,
+	deliveryPostcode,
+	setDeliveryPostcode,
+	deliveryCountry,
+	setDeliveryCountry,
+	deliveryNotes,
+	setDeliveryNotes,
+}) => {
 	const navigate = useNavigate()
 
 	const { data: user } = useGetUserProfileQuery(undefined)
 	const { data: customers } = useGetAllCustomersQuery(undefined)
-	const { data: singleDoc } = useGetSingleDocQuery(id.id)
+	// const { data: singleDoc } = useGetSingleDocQuery(id.id)
 
 	const [createDoc, { isLoading, isSuccess }] = useCreateDocMutation()
-	const [sendEmail, setSendEmail] = useState(false)
 
 	const [
 		updateDoc,
@@ -85,32 +153,10 @@ const ProjectCreateEditForm: React.FC <ProjectCreateEditFormProps> = (id) => {
 
 	const goBack = () => navigate(-1)
 
-	const [docData, setDocData] = useState(docInitialState)
-	const [items, setItems] = useState<BillingItem[]>(itemsInitialState)
-	const [documentType, setDocumentType] = useState('Quotation')
 	const [viewProjectDetails, setViewProjectDetails] = useState(true)
 	const [viewItemDetails, setViewItemDetails] = useState(false)
 	const [viewShippingDetails, setViewShippingDetails] = useState(false)
-
-	const [currency, setCurrency] = useState(currencies[0].code)
-
-	const [name, setName] = useState('')
-	const [organisation, setOrganisation] = useState()
-	const [customer, setCustomer] = useState<Customer | null>(null)
-	const [salesTax, setSalesTax] = useState(10)
-	const [total, setTotal] = useState(0)
-	const [subTotal, setSubTotal] = useState(0)
-	const [rates, setRates] = useState(0)
-	const [status, setStatus] = useState('Not Paid')
-	const [autoCompleteAddress, setAutoCompleteAddress] = useState('')
-	const [deliveryAddress, setDeliveryAddress] = useState('')
-	const [deliveryCity, setDeliveryCity] = useState('')
-	const [deliveryState, setDeliveryState] = useState('')
-	const [deliveryPostcode, setDeliveryPostcode] = useState('')
-	const [deliveryCountry, setDeliveryCountry] = useState('')
-	const [deliveryNotes, setDeliveryNotes] = useState('')
-	const [totalAmountReceived, setTotalAmountReceived] = useState(0)
-
+	
 	const today = new Date()
 	const docTypes = ['Invoice', 'Order', 'Quotation', 'Open', 'Paid']
 
@@ -129,30 +175,6 @@ const ProjectCreateEditForm: React.FC <ProjectCreateEditFormProps> = (id) => {
 			toast.success(message)
 		}
 	}, [navigate, isSuccess, updateDocSuccess, updateDocData])
-
-	const doc = singleDoc?.document
-
-	useEffect(() => {
-		if (doc) {
-			setName(doc.name)
-			setOrganisation(doc.organisation)
-			setDocData(doc)
-			setDocumentType(doc.documentType)
-			setItems(doc.billingItems)
-			setSubTotal(doc.subTotal)
-			setSalesTax(doc.salesTax)
-			setTotal(doc.total)
-			setCurrency(doc.currency)
-			setRates(doc.rates)
-			setCustomer(doc.customer)
-			setDeliveryAddress(doc.deliveryAddress)
-			setDeliveryCity(doc.deliveryCity)
-			setDeliveryState(doc.deliveryState)
-			setDeliveryPostcode(doc.deliveryPostcode)
-			setDeliveryCountry(doc.deliveryCountry)
-			setDeliveryNotes(doc.deliveryNotes)
-		}
-	}, [doc])
 
 	const handleAddBillingItemsRow = (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault()
@@ -175,39 +197,23 @@ const ProjectCreateEditForm: React.FC <ProjectCreateEditFormProps> = (id) => {
 	// 	setRates(e.target.value)
 	// }
 
-	useEffect(() => {
-		const subTotal = () => {
-			const amtArr = document.getElementsByName("amount") as NodeListOf<HTMLInputElement>;
-			let subtotal = 0;
-	
-			amtArr.forEach((input) => {
-				if (input.value) {
-					subtotal += +input.value; // Convert value to number
-				}
-			});
-			setSubTotal(subtotal);
-		};
-		subTotal();
-	}, [docData, items]);
-	
+	// useEffect(() => {
+	// 	const total = () => {
+	// 		const finalTotal = (rates / 100) * subTotal + subTotal
+	// 		setSalesTax((rates / 100) * subTotal)
+	// 		setTotal(finalTotal)
+	// 	}
+	// 	total()
+	// }, [items, rates, subTotal])
 
-	useEffect(() => {
-		const total = () => {
-			const finalTotal = (rates / 100) * subTotal + subTotal
-			setSalesTax((rates / 100) * subTotal)
-			setTotal(finalTotal)
-		}
-		total()
-	}, [items, rates, subTotal])
-
-	useEffect(() => {
-		//Get the total amount paid
-		let totalReceived = 0
-		for (var i = 0; i < doc?.paymentRecords?.length; i++) {
-			totalReceived += Number(doc?.paymentRecords[i]?.amountPaid)
-			setTotalAmountReceived(totalReceived)
-		}
-	}, [doc])
+	// useEffect(() => {
+	// 	//Get the total amount paid
+	// 	let totalReceived = 0
+	// 	for (var i = 0; i < paymentRecords?.length; i++) {
+	// 		totalReceived += Number(doc?.paymentRecords[i]?.amountPaid)
+	// 		setTotalAmountReceived(totalReceived)
+	// 	}
+	// }, [doc])
 
 	const location = useLocation()
 
@@ -224,10 +230,10 @@ const ProjectCreateEditForm: React.FC <ProjectCreateEditFormProps> = (id) => {
 	}
 	const createUpdateDocHandler = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
-		if (doc) {
+		if (id) {
 			try {
 				await updateDoc({
-					id: doc._id,
+					id: id,
 					...docData,
 					billingItems: [...items],
 					documentType,
@@ -308,20 +314,20 @@ const ProjectCreateEditForm: React.FC <ProjectCreateEditFormProps> = (id) => {
 		}
 	}
 
-	const sendPdfEmail = () => {
-		setSendEmail(true)
-		axios
-			.post(`/api/v1/document/send-pdf`, {
-				user,
-				doc,
-				status,
-				totalAmountReceived,
-			})
-			.then(() => setSendEmail(false))
-			.catch((error) => {
-				console.log(error)
-			})
-	}
+	// const sendPdfEmail = () => {
+	// 	setSendEmail(true)
+	// 	axios
+	// 		.post(`/api/v1/document/send-pdf`, {
+	// 			user,
+	// 			doc,
+	// 			status,
+	// 			totalAmountReceived,
+	// 		})
+	// 		.then(() => setSendEmail(false))
+	// 		.catch((error) => {
+	// 			console.log(error)
+	// 		})
+	// }
 
 	return (
 		<Container
@@ -397,24 +403,7 @@ const ProjectCreateEditForm: React.FC <ProjectCreateEditFormProps> = (id) => {
 									03. Address Details
 								</Button>
 								<Box>
-									{sendEmail ? (
-										<Box
-											sx={{
-												display: 'flex',
-												flexDirection: 'row',
-												justifyContent: 'center',
-											}}>
-											<CircularProgress />
-										</Box>
-									) : (
-										<Tooltip title='Email'>
-											<Button
-												style={{ padding: '15px 0px 15px 10px', color: '#a6aeb3' }}
-												variant='text'
-												startIcon={<SendSharpIcon />}
-												onClick={sendPdfEmail}></Button>
-										</Tooltip>
-									)}
+									
 									<Tooltip title='Close'>
 										<Button
 											style={{ padding: '15px 0px 15px 10px', color: '#a6aeb3' }}
@@ -982,9 +971,6 @@ const ProjectCreateEditForm: React.FC <ProjectCreateEditFormProps> = (id) => {
 								</Grid>
 							)}
 						</Grid>
-
-						{/* summary section */}
-						
 					</Grid>
 				</Box>
 			)}

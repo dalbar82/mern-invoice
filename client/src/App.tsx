@@ -167,10 +167,10 @@ const App = () => {
 									path='create-doc'
 									element={<ProjectCreateForm />}
 								/>
-								<Route
+								{/* <Route
 									path='edit-doc/:id'
 									element={<ProjectCreateEditForm />}
-								/>
+								/> */}
 								<Route
 									path='document/:id'
 									element={<SingleProjectPage />}
