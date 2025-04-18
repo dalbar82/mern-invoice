@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Grid, Box, Button, Tooltip, Container, TextField, Typography, CircularProgress } from "@mui/material";
-import GroupAddRoundedIcon from "@mui/icons-material/GroupAddRounded";
 import { useNavigate } from "react-router-dom";
 import { useGetAllDocsQuery } from "../documentsApiSlice";
 import ProjectListItem from "../../../components/ListItems/ProjectListItem";
@@ -12,7 +11,6 @@ import {
 	useUpdateDocMutation,
 } from '../documentsApiSlice';
 import axios from 'axios'
-import SendSharpIcon from '@mui/icons-material/SendSharp'
 import "../../../styles/pageHeader.css";
 import Spinner from "../../../components/Spinner";
 import { JobDocument } from "../../../types/JobDocument";
@@ -21,6 +19,7 @@ import { User } from "../../../types/User";
 import { Customer } from '../../../types/Customers'
 import { BillingItem } from '../../../types/JobDocument'
 import currencies from '../../../world_currencies.json'
+import ProjectHeader from './components/ProjectHeader'
 
 const ProjectManagement: React.FC = () => {
   const navigate = useNavigate();
@@ -55,9 +54,10 @@ const ProjectManagement: React.FC = () => {
 	const [organisation, setOrganisation] = useState()
 	const [customer, setCustomer] = useState<Customer | null>(null)
 	const [salesTax, setSalesTax] = useState(10)
+  const [created, setCreated] = useState<Date | null>(null)
 	const [total, setTotal] = useState(0)
 	const [subTotal, setSubTotal] = useState(0)
-	const [rates, setRates] = useState(0)
+	const [rates, setRates] = useState(10)
 	const [status, setStatus] = useState('Not Paid')
 	const [autoCompleteAddress, setAutoCompleteAddress] = useState('')
 	const [deliveryAddress, setDeliveryAddress] = useState('')
@@ -86,7 +86,6 @@ const ProjectManagement: React.FC = () => {
       setLastCreatedAt(data?.lastCreatedAt || null); // Update lastCreatedAt only if new data is received
     }
   }, [data]);
-  console.log("store",storedUser);
 
 	const doc = singleDoc?.document
 
@@ -100,6 +99,7 @@ const ProjectManagement: React.FC = () => {
 			setSubTotal(doc.subTotal)
 			setSalesTax(doc.salesTax)
 			setTotal(doc.total)
+      setCreated(doc.createdAt)
 			setCurrency(doc.currency)
 			setRates(doc.rates)
 			setCustomer(doc.customer)
@@ -199,13 +199,14 @@ const ProjectManagement: React.FC = () => {
 				}
 			});
 			setSubTotal(subtotal);
+      // setSalesTax((rates /100) * subtotal)
 		};
 		subTotal();
 	}, [docData, items, setSubTotal]);
 
   useEffect(() => {
 		const total = () => {
-			const finalTotal = (rates / 100) * subTotal + subTotal
+			const finalTotal = (rates / 10) * subTotal + subTotal
 			setSalesTax((rates / 100) * subTotal)
 			setTotal(finalTotal)
 		}
@@ -213,57 +214,32 @@ const ProjectManagement: React.FC = () => {
 	}, [items, rates, subTotal])
 
   return (
-    <Grid container maxWidth="xl" sx={{ mt: 14, ml: 15, width: "90%" }}>
+    <Grid container maxWidth="xl" sx={{ mt: 11, ml: 15, width: "92%" }}>
       {/* Header Section */}
-      <Grid item xs={12} xl={12}>
-        <Box className="page-header">
-          <Box>
+      <Grid item xs={12} xl={12} sx={{ marginY: 3 }} className="page-header">
+        <Grid item xs={4} xl={4}>
+          <Box >
             <Typography
-              variant="h6"
+              variant="h4"
               sx={{ fontWeight: 600, marginBottom: "20px", fontFamily: "Poppins" }}>
                 Projects
             </Typography>
           </Box>
-          <Box>
-            <Typography
-              variant="h6"
-              sx={{ fontWeight: 600, marginBottom: "20px", fontFamily: "Poppins" }}>
-                {documentType}
-            </Typography>
-          </Box>
-          <Box>
-            <Tooltip title="Add Job">
-              <Button
-                sx={{ p: "15px 0px 15px 10px", color: "#a6aeb3" }}
-                variant="text"
-                startIcon={<GroupAddRoundedIcon />}
-                onClick={() => navigate("/create-doc")}
-              ></Button>
-            </Tooltip>
-            {sendEmail ? (
-										<Box
-											sx={{
-												display: 'flex',
-												flexDirection: 'row',
-												justifyContent: 'center',
-											}}>
-											<CircularProgress />
-										</Box>
-									) : (
-										<Tooltip title='Email'>
-											<Button
-												style={{ padding: '15px 0px 15px 10px', color: '#a6aeb3' }}
-												variant='text'
-												startIcon={<SendSharpIcon />}
-												onClick={sendPdfEmail}></Button>
-										</Tooltip>
-									)}
-          </Box>
-        </Box>
+        </Grid>
+          <ProjectHeader 
+              documentType={documentType || "No Project Selected"}
+              documentNumber={selectedProjectNumber} 
+              createdAt={created ? new Date(created) : null} 
+              name={name}
+              customer={customer?.name || null} 
+              subTotal={subTotal} 
+              salesTax={salesTax} 
+              total={total} 
+          />
       </Grid>
 
       {/* Project List */}
-      <Grid item sx={{ml: 0, pl: 0}}>
+      <Grid item sx={{ml: 0, pl: 0, mt: "20px"}}>
         <Container sx={{ml: 0, pl: 0}}>
           <TextField
             fullWidth
@@ -312,47 +288,50 @@ const ProjectManagement: React.FC = () => {
 
       <Grid >
         {selectedProjectId ? <ProjectCreateEditForm
-			id={selectedProjectId}
-			docData={docData} 
-      setDocData={setDocData}
-			items={items} 
-      setItems={setItems}
-			documentType={documentType} 
-      setDocumentType={setDocumentType}
-			currency={currency} 
-      setCurrency={setCurrency}
-			name={name} 
-      setName={setName}
-			organisation={organisation}
-			customer={customer} 
-      setCustomer={setCustomer}
-			salesTax={salesTax} 
-      setSalesTax={setSalesTax}
-			total={total} 
-      setTotal={setTotal}
-			subTotal={subTotal} 
-      setSubTotal={setSubTotal}
-			rates={rates} 
-      setRates={setRates}
-			status={status} 
-      setStatus={setStatus}
-			autoCompleteAddress={autoCompleteAddress} 
-      setAutoCompleteAddress={setAutoCompleteAddress}
-			deliveryAddress={deliveryAddress} 
-      setDeliveryAddress={setDeliveryAddress}
-			deliveryCity={deliveryCity} 
-      setDeliveryCity={setDeliveryCity}
-			deliveryState={deliveryState} 
-      setDeliveryState={setDeliveryState}
-			deliveryPostcode={deliveryPostcode} 
-      setDeliveryPostcode={setDeliveryPostcode}
-			deliveryCountry={deliveryCountry} 
-      setDeliveryCountry={setDeliveryCountry}
-			deliveryNotes={deliveryNotes} 
-      setDeliveryNotes={setDeliveryNotes}
-			totalAmountReceived={totalAmountReceived} 
-      setTotalAmountReceived={setTotalAmountReceived}
-		/>: 
+          id={selectedProjectId}
+          docData={docData} 
+          setDocData={setDocData}
+          items={items} 
+          setItems={setItems}
+          documentType={documentType} 
+          setDocumentType={setDocumentType}
+          currency={currency} 
+          setCurrency={setCurrency}
+          name={name} 
+          setName={setName}
+          organisation={organisation}
+          customer={customer} 
+          setCustomer={setCustomer}
+          salesTax={salesTax} 
+          setSalesTax={setSalesTax}
+          total={total} 
+          setTotal={setTotal}
+          subTotal={subTotal} 
+          setSubTotal={setSubTotal}
+          rates={rates} 
+          setRates={setRates}
+          status={status} 
+          setStatus={setStatus}
+          autoCompleteAddress={autoCompleteAddress} 
+          setAutoCompleteAddress={setAutoCompleteAddress}
+          deliveryAddress={deliveryAddress} 
+          setDeliveryAddress={setDeliveryAddress}
+          deliveryCity={deliveryCity} 
+          setDeliveryCity={setDeliveryCity}
+          deliveryState={deliveryState} 
+          setDeliveryState={setDeliveryState}
+          deliveryPostcode={deliveryPostcode} 
+          setDeliveryPostcode={setDeliveryPostcode}
+          deliveryCountry={deliveryCountry} 
+          setDeliveryCountry={setDeliveryCountry}
+          deliveryNotes={deliveryNotes} 
+          setDeliveryNotes={setDeliveryNotes}
+          totalAmountReceived={totalAmountReceived} 
+          setTotalAmountReceived={setTotalAmountReceived}
+          sendPdfEmail={sendPdfEmail}
+          sendEmail={sendEmail}
+          
+        />: 
         <div style={{
           marginLeft: "16px",
           width: "69vw",

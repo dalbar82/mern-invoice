@@ -170,7 +170,7 @@ const OrganisationEditForm = () => {
 							</Button>
 						</Box>
 					</div>
-					<Grid container sx={{ height: '77vh', paddingBottom: '20px', backgroundColor: 'white' }}>
+					<Grid container sx={{ height: '72vh', paddingBottom: '20px', backgroundColor: 'white' }}>
 						<Grid item md={12} sm={12} pl={3}>
 							<Box sx={{ marginTop: '30px', marginBottom: '20px', width: '90%', display: 'flex', justifyContent: 'space-evenly' }}>
 								<Button onClick={() => switchPageView('details')} sx={{ width: '250px', fontWeight: '400', borderBottom: '1px solid #e1e1e1', paddingBottom: '20px' }}>

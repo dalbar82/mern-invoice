@@ -217,8 +217,8 @@ const ProjectCreateForm = () => {
 		navigate('/create-customer', { state: { prevPath: location.pathname } })
 	}
 	const autoCompleteStyle = {
-		width: '100%',
-		height: '57px',
+		width: '-webkit-fill-available',
+		height: '32px',
 		padding: '12px',
 		color: 'rgba(0, 0, 0, 0.87)',
 		border: '1px solid #c4c4c4',
@@ -380,7 +380,7 @@ const ProjectCreateForm = () => {
 						container
 						style={{ overflowY: 'auto' }}
 						sx={{
-							height: '77vh',
+							height: '72vh',
 
 							paddingBottom: '20px',
 							backgroundColor: 'white',

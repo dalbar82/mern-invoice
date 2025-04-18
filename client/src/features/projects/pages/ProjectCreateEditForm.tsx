@@ -7,6 +7,8 @@ import ClearIcon from '@mui/icons-material/Clear'
 import { produce } from 'immer'
 import { splitAddress } from '../../../utils/googleAddressSplit'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
+import SendSharpIcon from '@mui/icons-material/SendSharp'
+import GroupAddRoundedIcon from "@mui/icons-material/GroupAddRounded";
 import {
 	Box,
 	Container,
@@ -23,7 +25,8 @@ import {
 	TextareaAutosize,
 	TextField,
 	MenuItem,
-	Button
+	Button,
+	CircularProgress
 } from '@mui/material'
 import Typography from '../../../components/Typography/Typography'
 import Autocomplete from '@mui/material/Autocomplete'
@@ -36,7 +39,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { Customer } from '../../../types/Customers'
 import { BillingItem } from '../../../types/JobDocument'
-
+import ProjectListItem from '../../../components/ListItems/ProjectListItem'
 import Spinner from '../../../components/Spinner'
 import StyledTableCell from '../../../components/StyledTableCell'
 import StyledTableRow from '../../../components/StyledTableRow'
@@ -92,6 +95,8 @@ interface ProjectCreateEditFormProps {
 	setDeliveryNotes: React.Dispatch<React.SetStateAction<string>>
 	totalAmountReceived: number
 	setTotalAmountReceived: React.Dispatch<React.SetStateAction<number>>
+	sendPdfEmail: () => void
+	sendEmail: boolean
 }
 
 const ProjectCreateEditForm: React.FC <ProjectCreateEditFormProps> = ({
@@ -133,6 +138,8 @@ const ProjectCreateEditForm: React.FC <ProjectCreateEditFormProps> = ({
 	setDeliveryCountry,
 	deliveryNotes,
 	setDeliveryNotes,
+	sendPdfEmail,
+	sendEmail
 }) => {
 	const navigate = useNavigate()
 
@@ -221,8 +228,8 @@ const ProjectCreateEditForm: React.FC <ProjectCreateEditFormProps> = ({
 		navigate('/create-customer', { state: { prevPath: location.pathname } })
 	}
 	const autoCompleteStyle = {
-		width: '100%',
-		height: '57px',
+		width: '-webkit-fill-available',
+		height: '32px',
 		padding: '12px',
 		color: 'rgba(0, 0, 0, 0.87)',
 		border: '1px solid #c4c4c4',
@@ -314,21 +321,6 @@ const ProjectCreateEditForm: React.FC <ProjectCreateEditFormProps> = ({
 		}
 	}
 
-	// const sendPdfEmail = () => {
-	// 	setSendEmail(true)
-	// 	axios
-	// 		.post(`/api/v1/document/send-pdf`, {
-	// 			user,
-	// 			doc,
-	// 			status,
-	// 			totalAmountReceived,
-	// 		})
-	// 		.then(() => setSendEmail(false))
-	// 		.catch((error) => {
-	// 			console.log(error)
-	// 		})
-	// }
-
 	return (
 		<Container
 			component='main'
@@ -350,7 +342,7 @@ const ProjectCreateEditForm: React.FC <ProjectCreateEditFormProps> = ({
 						container
 						style={{ overflowY: 'auto' }}
 						sx={{
-							height: '77vh',
+							height: '72vh',
 
 							paddingBottom: '20px',
 							backgroundColor: 'white',
@@ -402,6 +394,34 @@ const ProjectCreateEditForm: React.FC <ProjectCreateEditFormProps> = ({
 									}}>
 									03. Address Details
 								</Button>
+								<Box>
+            <Tooltip title="Add Job">
+              <Button
+                sx={{ p: "15px 0px 15px 10px", color: "#a6aeb3" }}
+                variant="text"
+                startIcon={<GroupAddRoundedIcon />}
+                onClick={() => navigate("/create-doc")}
+              ></Button>
+            </Tooltip>
+            {sendEmail ? (
+										<Box
+											sx={{
+												display: 'flex',
+												flexDirection: 'row',
+												justifyContent: 'center',
+											}}>
+											<CircularProgress />
+										</Box>
+									) : (
+										<Tooltip title='Email'>
+											<Button
+												style={{ padding: '15px 0px 15px 10px', color: '#a6aeb3' }}
+												variant='text'
+												startIcon={<SendSharpIcon />}
+												onClick={sendPdfEmail}></Button>
+										</Tooltip>
+									)}
+          </Box>
 								<Box>
 									
 									<Tooltip title='Close'>
