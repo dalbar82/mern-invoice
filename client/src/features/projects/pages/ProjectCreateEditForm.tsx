@@ -1,10 +1,7 @@
 import styled from '@emotion/styled'
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle'
 import DoneIcon from '@mui/icons-material/Done'
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
-import BuildCircleOutlinedIcon from '@mui/icons-material/BuildCircleOutlined'
 import ClearIcon from '@mui/icons-material/Clear'
-import { produce } from 'immer'
 import { splitAddress } from '../../../utils/googleAddressSplit'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 import SendSharpIcon from '@mui/icons-material/SendSharp'
@@ -14,14 +11,6 @@ import {
 	Container,
 	Tooltip,
 	Grid,
-	IconButton,
-	InputBase,
-	Paper,
-	Table,
-	TableBody,
-	TableContainer,
-	TableHead,
-	TableRow,
 	TextareaAutosize,
 	TextField,
 	MenuItem,
@@ -39,10 +28,8 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { Customer } from '../../../types/Customers'
 import { BillingItem } from '../../../types/JobDocument'
-import ProjectListItem from '../../../components/ListItems/ProjectListItem'
+import ProjectItemsTable from "../pages/components/ProjectItemsTable"
 import Spinner from '../../../components/Spinner'
-import StyledTableCell from '../../../components/StyledTableCell'
-import StyledTableRow from '../../../components/StyledTableRow'
 import {
 	useCreateDocMutation,
 	useUpdateDocMutation,
@@ -183,22 +170,22 @@ const ProjectCreateEditForm: React.FC <ProjectCreateEditFormProps> = ({
 		}
 	}, [navigate, isSuccess, updateDocSuccess, updateDocData])
 
-	const handleAddBillingItemsRow = (e: React.MouseEvent<HTMLButtonElement>) => {
-		e.preventDefault()
-		const insertAt = 0
-		const nextItems: BillingItem[] = [
-			...items.slice(0, insertAt),
-			{
-				name: '',
-				unitPrice: 0,
-				quantity: 0,
-				discount: 0,
-				productionStatus: 'Pre Production',
-			},
-			...items.slice(insertAt),
-		]
-		setItems(nextItems)
-	}
+	// const handleAddBillingItemsRow = (e: React.MouseEvent<HTMLButtonElement>) => {
+	// 	e.preventDefault()
+	// 	const insertAt = 0
+	// 	const nextItems: BillingItem[] = [
+	// 		...items.slice(0, insertAt),
+	// 		{
+	// 			name: '',
+	// 			unitPrice: 0,
+	// 			quantity: 0,
+	// 			discount: 0,
+	// 			productionStatus: 'Pre Production',
+	// 		},
+	// 		...items.slice(insertAt),
+	// 	]
+	// 	setItems(nextItems)
+	// }
 
 	// const handleRates = (e) => {
 	// 	setRates(e.target.value)
@@ -354,7 +341,7 @@ const ProjectCreateEditForm: React.FC <ProjectCreateEditFormProps> = ({
 								sx={{
 									marginTop: '30px',
 									marginBottom: '20px',
-									width: '90%',
+									width: '100%',
 									display: 'flex',
 									justifyContent: 'space-evenly',
 								}}>
@@ -688,180 +675,8 @@ const ProjectCreateEditForm: React.FC <ProjectCreateEditFormProps> = ({
 
 							{/* items */}
 							{viewItemDetails && (
-								<div>
-									<TableContainer
-										component={Paper}
-										sx={{ marginBottom: '30px', marginTop: '15px' }}>
-										<Table
-											sx={{ minWidth: 650 }}
-											aria-label='simple-table'>
-											<TableHead
-												style={{
-													background:
-														'linear-gradient(94deg, rgba(0,117,180,1) 0%, rgba(65,162,215,1) 100%)',
-												}}>
-												<TableRow>
-													<StyledTableCell width={'1%'}>#</StyledTableCell>
-													<StyledTableCell width={'35%'}>Description</StyledTableCell>
-													<StyledTableCell width={'12%'}>Qty</StyledTableCell>
-													<StyledTableCell width={'9%'}>Unit Price</StyledTableCell>
-													<StyledTableCell width={'7%'}>Markup(%)</StyledTableCell>
-													<StyledTableCell width={'12%'}>Line Total</StyledTableCell>
-													<StyledTableCell></StyledTableCell>
-													{documentType === 'Order' && <StyledTableCell></StyledTableCell>}
-												</TableRow>
-											</TableHead>
-											<TableBody>
-												{items.map((item, index) => (
-													<StyledTableRow
-														key={index}
-														sx={{
-															'&:last-child td, &:last-child th': {
-																border: 0,
-															},
-															cursor: 'pointer',
-														}}>
-														<StyledTableCell
-															component='th'
-															scope='row'>
-															{index + 1}
-														</StyledTableCell>
-														<StyledTableCell>
-															<InputBase
-																multiline
-																style={{
-																	width: '100%',
-																}}
-																sx={{ ml: 1, flex: 1 }}
-																type='text'
-																onChange={(e) => {
-																	const itemName = e.target.value
-																	setItems((currentItem) =>
-																		produce(currentItem, (v) => {
-																			v[index].name = itemName
-																		})
-																	)
-																}}
-																value={item.name}
-																placeholder='Name/Description'
-															/>
-														</StyledTableCell>
-														{/* quantity */}
-														<StyledTableCell align='right'>
-															<InputBase
-																sx={{ ml: 1, flex: 1 }}
-																type='number'
-																onChange={(e) => {
-																	const quantity: number = +e.target.value;
-																	setItems((currentItem) =>
-																		produce(currentItem, (v) => {
-																			v[index].quantity = quantity
-																		})
-																	)
-																}}
-																value={item.quantity}
-																placeholder='0'
-															/>
-														</StyledTableCell>
-														{/* unit price */}
-														<StyledTableCell align='right'>
-															<InputBase
-																sx={{ ml: 1, flex: 1 }}
-																type='number'
-																onChange={(e) => {
-																	const unitPrice: number = +e.target.value
-																	setItems((currentItem) =>
-																		produce(currentItem, (v) => {
-																			v[index].unitPrice = unitPrice
-																		})
-																	)
-																}}
-																value={item.unitPrice}
-																placeholder='0'
-															/>
-														</StyledTableCell>
-
-														{/* discount */}
-														<StyledTableCell align='right'>
-															<InputBase
-																sx={{ ml: 1, flex: 1 }}
-																type='number'
-																onChange={(e) => {
-																	const discount = +e.target.value
-																	setItems((currentItem) =>
-																		produce(currentItem, (v) => {
-																			v[index].discount = discount
-																		})
-																	)
-																}}
-																value={item.discount}
-																placeholder='0'
-															/>
-														</StyledTableCell>
-
-														{/* line total */}
-														<StyledTableCell align='right'>
-															<InputBase
-																sx={{ ml: 1, flex: 1 }}
-																disabled
-																type='number'
-																name='amount'
-																value={(
-																	item?.quantity * item.unitPrice -
-																	(item.quantity * item.unitPrice * (item.discount ?? 0)) / 100
-																)?.toFixed(2)}
-															/>
-														</StyledTableCell>
-
-														<StyledTableCell align='right'>
-															<IconButton
-																onClick={() => {
-																	setItems(items.filter((i) => i.name !== item.name))
-																	setSubTotal(0)
-																	setTotal(0)
-																	setSalesTax(0)
-																}}>
-																<DeleteForeverIcon
-																	style={{
-																		width: '20px',
-																		height: '20px',
-																	}}
-																	color='error'
-																/>
-															</IconButton>
-														</StyledTableCell>
-														{documentType === 'Order' && (
-															<StyledTableCell align='right'>
-																<IconButton
-																	onClick={() => {
-																		setItems(items.filter((i) => i.name !== item.name))
-																		setSubTotal(0)
-																		setTotal(0)
-																		setSalesTax(0)
-																	}}>
-																	<BuildCircleOutlinedIcon
-																		style={{
-																			width: '20px',
-																			height: '20px',
-																		}}
-																		color='success'
-																	/>
-																</IconButton>
-															</StyledTableCell>
-														)}
-													</StyledTableRow>
-												))}
-											</TableBody>
-										</Table>
-									</TableContainer>
-									<StyledItemButton
-										// className='new-customer-btn'
-										variant='contained'
-										color='success'
-										startIcon={<AddCircleOutlineIcon />}
-										onClick={handleAddBillingItemsRow}>
-										Add Item
-									</StyledItemButton>
+								<div style={{height: "100%"}}>
+									<ProjectItemsTable items={items} setItems={setItems} documentType={documentType} />
 								</div>
 							)}
 							{/* delivery details*/}

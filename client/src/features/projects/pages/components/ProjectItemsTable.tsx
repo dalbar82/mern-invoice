@@ -19,6 +19,13 @@ import EnhancedTableHead from "../../../../components/Table/EnhancedTableHead";
 import StyledTableCell from "../../../../components/StyledTableCell";
 import StyledTableRow from "../../../../components/StyledTableRow";
 import {produce} from 'immer';
+import {BillingItem} from "../../../../types/JobDocument"
+
+interface BillingItemsTableProps {
+  items: BillingItem[];
+  setItems: React.Dispatch<React.SetStateAction<BillingItem[]>>;
+  documentType: string;
+}
 
 const billingItemHeaders = [
   { id: 'index', label: '#', numeric: false, disablePadding: true },
@@ -54,20 +61,20 @@ const stableSort = <T,>(array: T[], comparator: (a: T, b: T) => number): T[] =>
     })
     .map((el) => el[0]);
 
-const ProjectItemsTable = ({ items, setItems, documentType }) => {
+const ProjectItemsTable: React.FC<BillingItemsTableProps> = ({ items, setItems, documentType }) => {
   const [order, setOrder] = useState<'asc' | 'desc'>('asc');
   const [orderBy, setOrderBy] = useState<string>('name');
   const [page, setPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState<number>(5);
 
-  const handleRequestSort = (_event, property: string) => {
+  const handleRequestSort = (_event: any, property: string) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
 
   const handleAddBillingItemsRow = () => {
-    setItems([...items, { name: '', unitPrice: 0, quantity: 0, discount: 0, productionStatus: 'Open' }]);
+    setItems([...items, { name: '', unitPrice: 0, quantity: 0, discount: 0, productionStatus: 'Pre Production' }]);
   };
 
   const visibleRows = useMemo(
